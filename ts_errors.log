@@ -1,0 +1,4 @@
+src/app/(auth)/register/page.tsx(47,20): error TS2345: Argument of type '{ email: string; password: string; full_name: string; }' is not assignable to parameter of type '{ full_name: string; email: string; password: string; confirm_password: string; }'.
+  Property 'confirm_password' is missing in type '{ email: string; password: string; full_name: string; }' but required in type '{ full_name: string; email: string; password: string; confirm_password: string; }'.
+src/app/(dashboard)/page.tsx(35,88): error TS2339: Property 'user_metadata' does not exist on type 'Profile'.
+src/app/(dashboard)/page.tsx(40,82): error TS2339: Property 'user_metadata' does not exist on type 'Profile'.

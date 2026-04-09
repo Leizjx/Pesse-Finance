@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="256" fill="#CEED28"/>
+  
+  <!-- Text -->
+  <text 
+    x="256" 
+    y="280" 
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+    font-weight="800" 
+    font-size="140" 
+    text-anchor="middle" 
+    dominant-baseline="middle" 
+    fill="#111827"
+    letter-spacing="-2"
+  >
+    Pesse
+  </text>
+</svg>

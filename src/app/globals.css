@@ -1,26 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════
+   PESSE FINANCE — DESIGN SYSTEM
+   Merged with pesse-finance-UI
+═══════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors from AI Studio UI */
+  --color-background: #F5F5F5;
+  --color-primary: #D4EF3F;
+  --color-surface: #F5F5F5;
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #6b7280;
+  --color-error: #ef4444;
+  --color-success: #22c55e;
+
+  /* Neumorphic Shadows from AI Studio UI */
+  --shadow-neumorphic: -12px -12px 24px rgba(255, 255, 255, 0.9), 12px 12px 24px rgba(0, 0, 0, 0.06);
+  --shadow-neumorphic-pressed: inset -6px -6px 12px rgba(255, 255, 255, 0.9), inset 6px 6px 12px rgba(0, 0, 0, 0.06);
+
+  /* Radii */
+  --radius-standard: 20px;
+  --radius-large: 32px;
+
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Fallbacks for older components if any */
+  --accent: #D4EF3F;
+  --neu-bg: #F5F5F5;
+  --text-primary: #1a1c1c;
+  --transition-slow: 400ms ease;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-background: var(--color-background);
+  --color-primary: var(--color-primary);
+  --color-surface: var(--color-surface);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --shadow-neumorphic: var(--shadow-neumorphic);
+  --shadow-neumorphic-pressed: var(--shadow-neumorphic-pressed);
+
+  --radius-standard: var(--radius-standard);
+  --radius-large: var(--radius-large);
+
+  --font-sans: var(--font-sans);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* AI Studio CSS Classes */
+.neumorphic {
+  box-shadow: var(--shadow-neumorphic);
+  background-color: var(--color-surface);
+}
+
+.neumorphic-pressed {
+  box-shadow: var(--shadow-neumorphic-pressed);
+  background-color: var(--color-surface);
+}
+
+/* React Day Picker Overrides */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: var(--color-primary);
+  --rdp-background-color: var(--color-surface);
+  --rdp-accent-color-dark: #b8d420;
+  --rdp-background-color-dark: #e5e5e5;
+  --rdp-outline: 2px solid var(--color-primary);
+  --rdp-outline-selected: 2px solid var(--color-primary);
+  margin: 0;
+}
+
+.rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
+  color: var(--color-on-surface);
+  background-color: var(--color-primary);
+  font-weight: bold;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8cdd8;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-on-surface-variant);
 }
