@@ -5,14 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Filter, Download, 
   Coffee, ShoppingBag, Zap, ArrowDownLeft, Utensils, CarFront, Smartphone,
-  TrendingUp, TrendingDown, X, Banknote, Landmark, HelpCircle, HeartPulse, Home, GraduationCap
+  TrendingUp, TrendingDown, X, Banknote, Landmark, HelpCircle, HeartPulse, Home, GraduationCap,
+  Trash2
 } from 'lucide-react';
 import Image from 'next/image';
 import { NotificationBell } from '@/components/ai/NotificationBell';
+import { ConfirmDeleteModal } from '@/components/ai/ConfirmDeleteModal';
 import { useAuth } from '@/hooks/useAuth';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions, useDeleteTransaction } from '@/hooks/useTransactions';
 import { formatCurrency } from '@/lib/utils';
-import { format, parseISO, isToday, isYesterday } from 'date-fns';
+import { format, parseISO, isToday, isYesterday, isThisWeek, isThisMonth } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 const CATEGORY_META: Record<string, { label: string; icon: any }> = {
@@ -42,21 +44,47 @@ function formatDateLabel(dateString: string) {
 export default function TransactionsPage() {
   const { user } = useAuth();
   const { data: transactions = { all: [], totalIncome: 0, totalExpenses: 0 }, isLoading } = useTransactions();
+  const deleteMutation = useDeleteTransaction();
   
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [timeFilter, setTimeFilter] = useState('Tuần này');
-  const [categoryFilter, setCategoryFilter] = useState('Khác');
-  const [sourceFilter, setSourceFilter] = useState('Ngân hàng');
+  const [timeFilter, setTimeFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [sourceFilter, setSourceFilter] = useState('');
+  
+  const [deleteTarget, setDeleteTarget] = useState<{id: string, amount: number, type: "income" | "expense"} | null>(null);
 
   const timeOptions = ['Hôm nay', 'Tuần này', 'Tháng này'];
-  const categoryOptions = ['Ăn uống', 'Di chuyển', 'Shopping', 'Hóa đơn', 'Khác'];
+  const categoryOptions = Array.from(new Set(Object.values(CATEGORY_META).map(m => m.label)));
 
   // Group transactions by date
   const groupedTransactions = useMemo(() => {
     if (!transactions.all) return [];
     
+    let filtered = [...transactions.all];
+
+    // Apply Time filter
+    if (timeFilter) {
+      filtered = filtered.filter(tx => {
+        try {
+          const d = parseISO(tx.date);
+          if (timeFilter === 'Hôm nay') return isToday(d);
+          if (timeFilter === 'Tuần này') return isThisWeek(d, { weekStartsOn: 1 });
+          if (timeFilter === 'Tháng này') return isThisMonth(d);
+        } catch(e) {}
+        return true;
+      });
+    }
+
+    // Apply Category filter
+    if (categoryFilter) {
+      filtered = filtered.filter(tx => {
+         const meta = CATEGORY_META[tx.category] || { label: 'Khác' };
+         return meta.label === categoryFilter;
+      });
+    }
+    
     // Sort by date descending globally
-    const sorted = [...transactions.all].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const sorted = filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
     const groups: { dateKey: string; displayDate: string; items: any[] }[] = [];
     sorted.forEach((tx) => {
@@ -70,7 +98,7 @@ export default function TransactionsPage() {
       group.items.push(tx);
     });
     return groups;
-  }, [transactions.all]);
+  }, [transactions.all, timeFilter, categoryFilter, sourceFilter]);
 
   return (
     <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-24 lg:pb-10 relative">
@@ -165,28 +193,39 @@ export default function TransactionsPage() {
                   const isIncome = tx.type === 'income';
 
                   return (
-                    <motion.div 
-                      key={tx.id}
-                      whileHover={{ scale: 1.01 }}
-                      className="flex items-center justify-between p-4 rounded-standard hover:bg-[var(--color-surface)]/50 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full neumorphic-pressed flex items-center justify-center text-[var(--color-on-surface-variant)] shrink-0">
-                          <Icon size={20} />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-[var(--color-on-surface)] text-base mb-1">{tx.note || meta.label}</h4>
-                          <div className="flex items-center gap-2 text-xs font-medium text-[var(--color-on-surface-variant)]">
-                            <span className="bg-[var(--color-surface)] px-2 py-1 rounded-md shadow-sm">{meta.label}</span>
-                            {/* Assuming transactions don't have distinct times stored currently, omitting time string */}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className={`font-bold text-lg whitespace-nowrap ${isIncome ? 'text-[#22c55e]' : 'text-[var(--color-on-surface)]'}`}>
-                        {isIncome ? '+' : '-'}{formatCurrency(tx.amount)}
-                      </div>
-                    </motion.div>
+                    <div key={tx.id} className="relative rounded-standard overflow-hidden mb-2">
+                       <div className="absolute inset-y-0 right-0 w-full bg-[var(--color-error)] rounded-standard flex items-center justify-end px-6 text-white h-full z-0">
+                          <Trash2 size={24} />
+                       </div>
+                       <motion.div 
+                         drag="x"
+                         dragConstraints={{ left: 0, right: 0 }}
+                         dragElastic={{ left: 0.3, right: 0 }}
+                         onDragEnd={(e, info) => {
+                           if (info.offset.x < -80) {
+                             setDeleteTarget({ id: tx.id, amount: tx.amount, type: tx.type });
+                           }
+                         }}
+                         whileHover={{ scale: 1.01 }}
+                         className="flex items-center justify-between p-4 rounded-standard bg-[var(--color-background)] hover:bg-[var(--color-surface)]/80 transition-colors cursor-grab active:cursor-grabbing relative z-10"
+                       >
+                         <div className="flex items-center gap-4 pointer-events-none">
+                           <div className="w-12 h-12 rounded-full neumorphic-pressed flex items-center justify-center text-[var(--color-on-surface-variant)] shrink-0">
+                             <Icon size={20} />
+                           </div>
+                           <div>
+                             <h4 className="font-bold text-[var(--color-on-surface)] text-base mb-1">{tx.note || meta.label}</h4>
+                             <div className="flex items-center gap-2 text-xs font-medium text-[var(--color-on-surface-variant)]">
+                               <span className="bg-[var(--color-surface)] px-2 py-1 rounded-md shadow-sm">{meta.label}</span>
+                             </div>
+                           </div>
+                         </div>
+                         
+                         <div className={`font-bold text-lg whitespace-nowrap pointer-events-none ${isIncome ? 'text-[#22c55e]' : 'text-[var(--color-on-surface)]'}`}>
+                           {isIncome ? '+' : '-'}{formatCurrency(tx.amount)}
+                         </div>
+                       </motion.div>
+                    </div>
                   )
                 })}
               </div>
@@ -323,6 +362,19 @@ export default function TransactionsPage() {
           </>
         )}
       </AnimatePresence>
+
+      <ConfirmDeleteModal 
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (deleteTarget) {
+            deleteMutation.mutate(deleteTarget, {
+              onSettled: () => setDeleteTarget(null)
+            });
+          }
+        }}
+        isPending={deleteMutation.isPending}
+      />
     </div>
   );
 }

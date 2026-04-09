@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Coffee, ShoppingBag, Zap,
   Home, HeartPulse, GraduationCap, CarFront, Briefcase, TrendingUp, HelpCircle,
-  MoreHorizontal,
+  MoreHorizontal
 } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
-import { format } from 'date-fns';
+import { format, parseISO, isToday, isThisWeek, isThisMonth } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 interface TransactionListProps {
@@ -48,11 +48,26 @@ const getCategoryName = (category: string) => {
 
 export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [timeFilter, setTimeFilter] = useState<'Tất cả' | 'Hôm nay' | 'Theo ngày' | 'Theo tháng'>('Tất cả');
   const filterRef = useRef<HTMLDivElement>(null);
   
   const { data, isLoading } = useTransactions();
-  // Get all transactions sorted by date descending (already done by backend via transactionService)
-  const transactions = data?.all || [];
+  const transactionsRaw = data?.all || [];
+
+  const transactions = React.useMemo(() => {
+    if (timeFilter === 'Tất cả') return transactionsRaw;
+    return transactionsRaw.filter(tx => {
+      try {
+        const d = parseISO(tx.date);
+        if (timeFilter === 'Hôm nay') return isToday(d);
+        if (timeFilter === 'Theo ngày') return isThisWeek(d, { weekStartsOn: 1 });
+        if (timeFilter === 'Theo tháng') return isThisMonth(d);
+      } catch (e) {
+        return true;
+      }
+      return true;
+    });
+  }, [transactionsRaw, timeFilter]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,13 +82,15 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col relative">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-bold text-lg text-on-surface">Giao dịch gần đây</h2>
+        <h2 className="font-bold text-lg text-[var(--color-on-surface)]">
+          Giao dịch {timeFilter !== 'Tất cả' ? `(${timeFilter})` : 'gần đây'}
+        </h2>
         <div className="relative" ref={filterRef}>
           <button 
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="p-2 rounded-full hover:bg-surface/50 transition-colors cursor-pointer"
+            className="p-2 rounded-full hover:bg-[var(--color-surface)]/50 transition-colors cursor-pointer"
           >
-            <MoreHorizontal size={20} className="text-on-surface-variant" />
+            <MoreHorizontal size={20} className="text-[var(--color-on-surface-variant)]" />
           </button>
           
           <AnimatePresence>
@@ -85,9 +102,19 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
                 className="absolute top-full right-0 mt-2 w-40 bg-[var(--color-surface)] neumorphic p-2 rounded-2xl z-50 shadow-xl"
               >
                 <div className="flex flex-col gap-1">
-                  <button className="text-left px-4 py-2 text-sm font-medium text-[var(--color-on-surface)] hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] rounded-xl transition-colors cursor-pointer">Hôm nay</button>
-                  <button className="text-left px-4 py-2 text-sm font-medium text-[var(--color-on-surface)] hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] rounded-xl transition-colors cursor-pointer">Theo ngày</button>
-                  <button className="text-left px-4 py-2 text-sm font-medium text-[var(--color-on-surface)] hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] rounded-xl transition-colors cursor-pointer">Theo tháng</button>
+                  {(['Tất cả', 'Hôm nay', 'Theo ngày', 'Theo tháng'] as const).map(option => (
+                    <button 
+                      key={option}
+                      onClick={() => { setTimeFilter(option); setIsFilterOpen(false); }}
+                      className={`text-left px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
+                        timeFilter === option 
+                          ? 'bg-[var(--color-primary)]/20 text-[var(--color-primary)]' 
+                          : 'text-[var(--color-on-surface)] hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)]'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
                 </div>
               </motion.div>
             )}

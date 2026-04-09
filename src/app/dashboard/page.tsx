@@ -34,6 +34,7 @@ const CATEGORY_META: Record<string, { label: string; icon: LucideIcon }> = {
 
 export default function DashboardPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [greeting, setGreeting] = useState('Chào buổi sáng');
   const router = useRouter();
   const { user, isAuthenticated, isLoading: isLoadingUser } = useAuth();
   const { data: budgets = [], isLoading: budgetsLoading } = useBudgets();
@@ -45,6 +46,14 @@ export default function DashboardPage() {
     if (tab === 'dashboard') router.push('/dashboard');
     else router.push(`/dashboard/${tab}`);
   };
+
+  React.useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour >= 3 && hour < 11) setGreeting('Chào buổi sáng');
+    else if (hour >= 11 && hour < 13) setGreeting('Chào buổi trưa');
+    else if (hour >= 13 && hour < 19) setGreeting('Chào buổi chiều');
+    else setGreeting('Chào buổi tối');
+  }, []);
 
   // If user profile is not ready or missing, do not render mock data or generic UI
   if (isLoadingUser || !user) {
@@ -66,19 +75,23 @@ export default function DashboardPage() {
   return (
     <div className="flex h-full w-full gap-6">
       {/* Center Column: Main Content */}
-      <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-24 lg:pb-0 relative">
+      <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-32 lg:pb-32 relative">
 
         {/* Header */}
         <header className="flex items-center justify-between neumorphic px-4 md:px-6 py-4 rounded-full shrink-0">
           <div className="flex items-center gap-2 overflow-hidden mr-2">
-            <span className="text-[var(--color-on-surface-variant)] hidden sm:inline whitespace-nowrap">Chào buổi sáng,</span>
+            <span className="text-[var(--color-on-surface-variant)] hidden sm:inline whitespace-nowrap">{greeting},</span>
             <span className="font-bold text-[var(--color-on-surface)] truncate">{user?.full_name || 'Người dùng'}</span>
           </div>
           <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <NotificationBell />
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
+            <button 
+              onClick={() => setActiveTab('account')}
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0 cursor-pointer hover:border-[var(--color-primary)] transition-colors"
+              title="Cài đặt tài khoản"
+            >
               <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={48} height={48} className="w-full h-full object-cover" unoptimized />
-            </div>
+            </button>
           </div>
         </header>
 
@@ -121,6 +134,7 @@ export default function DashboardPage() {
                   spent={budget.spent_amount}
                   total={budget.limit_amount}
                   icon={meta.icon}
+                  onClick={() => setActiveTab('budgets')}
                 />
               );
             })}
@@ -134,15 +148,16 @@ export default function DashboardPage() {
         </div>
 
         {/* FAB — Desktop */}
-        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 hidden lg:block">
+        <div className="absolute bottom-8 right-8 z-10 hidden lg:block">
           <motion.button 
             onClick={() => setIsAddModalOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-14 h-14 bg-[var(--color-primary)] text-[var(--color-on-surface)] rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-6 py-4 bg-[var(--color-primary)] text-[var(--color-on-surface)] rounded-full shadow-lg flex items-center gap-2 hover:shadow-xl transition-shadow cursor-pointer font-bold"
             title="Thêm chi tiêu thủ công"
           >
-            <Plus size={28} />
+            <Plus size={24} />
+            <span>Thêm Chi Tiêu</span>
           </motion.button>
         </div>
 
@@ -152,10 +167,11 @@ export default function DashboardPage() {
             onClick={() => setIsAddModalOpen(true)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-14 h-14 bg-[var(--color-primary)] text-[var(--color-on-surface)] rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow cursor-pointer"
+            className="px-5 py-3 bg-[var(--color-primary)] text-[var(--color-on-surface)] rounded-full shadow-lg flex items-center gap-2 hover:shadow-xl transition-shadow cursor-pointer font-bold text-sm"
             title="Thêm chi tiêu thủ công"
           >
-            <Plus size={28} />
+            <Plus size={20} />
+            <span>Thêm Chi Tiêu</span>
           </motion.button>
         </div>
       </div>

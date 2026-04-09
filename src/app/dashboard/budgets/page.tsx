@@ -67,18 +67,19 @@ export default function BudgetPage() {
   const openEditModal = (budget: any) => {
     setModalMode('edit');
     setCategory(budget.category);
-    setBudgetLimit(budget.limit_amount.toString());
+    setBudgetLimit(budget.limit_amount.toLocaleString('vi-VN'));
     setSelectedBudget(budget);
     setIsModalOpen(true);
   };
 
   const handleSave = () => {
-    if (!budgetLimit || isNaN(Number(budgetLimit))) return;
+    const rawLimit = Number(budgetLimit.replace(/\D/g, ''));
+    if (!rawLimit || rawLimit <= 0) return;
 
     if (modalMode === 'create') {
       createBudgetInfo.mutate({
         category,
-        limit_amount: Number(budgetLimit),
+        limit_amount: rawLimit,
         period: 'monthly'
       }, {
         onSuccess: () => setIsModalOpen(false)
@@ -302,9 +303,17 @@ export default function BudgetPage() {
                   <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block">Hạn mức</label>
                   <div className="neumorphic-pressed rounded-standard px-4 py-3 flex items-center">
                     <input 
-                      type="number" 
+                      type="text" 
+                      inputMode="numeric"
                       value={budgetLimit}
-                      onChange={(e) => setBudgetLimit(e.target.value)}
+                      onChange={(e) => {
+                        const rawValue = e.target.value.replace(/\D/g, '');
+                        if (!rawValue) {
+                          setBudgetLimit('');
+                        } else {
+                          setBudgetLimit(Number(rawValue).toLocaleString('vi-VN'));
+                        }
+                      }}
                       placeholder="0"
                       className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium"
                     />

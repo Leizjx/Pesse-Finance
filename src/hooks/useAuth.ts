@@ -51,14 +51,11 @@ export function useAuth() {
 
     const ensureProfile = async (authUser: { id: string; email?: string; user_metadata?: Record<string, string> }) => {
       try {
-        console.log("[QA LOG] ensureProfile: Trying to fetch profile directly for", authUser.id);
         const profile = await fetchProfile(authUser.id);
-        console.log("[QA LOG] ensureProfile: Fetched profile successfully:", profile);
         return profile;
       } catch (err) {
-        console.error("[QA LOG] ensureProfile: fetchProfile failed:", err);
         // Profile not found — upsert one for legacy accounts
-        console.log("[QA LOG] ensureProfile: Upserting fallback profile...");
+
         const { error: upsertError } = await supabase
           .from("profiles")
           .upsert({

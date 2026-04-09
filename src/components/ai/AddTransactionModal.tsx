@@ -59,8 +59,8 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
     e.preventDefault();
     setError(null);
 
-    const parsed = Number(amount);
-    if (!amount || isNaN(parsed) || parsed <= 0) {
+    const parsed = Number(amount.replace(/\D/g, ''));
+    if (!parsed || parsed <= 0) {
       setError('Vui lòng nhập số tiền hợp lệ (> 0).');
       return;
     }
@@ -99,7 +99,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[var(--color-background)] rounded-[40px] p-6 md:p-8 z-50 shadow-2xl max-h-[90vh] overflow-y-auto"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] sm:w-full max-w-md bg-[var(--color-background)] rounded-[32px] sm:rounded-[40px] p-5 sm:p-8 z-50 shadow-2xl max-h-[90vh] md:max-h-[95vh] overflow-y-auto"
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
@@ -146,13 +146,21 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                 <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
                   Số tiền (VND)
                 </label>
-                <div className="neumorphic-pressed rounded-full px-6 py-4">
+                <div className="neumorphic-pressed rounded-full px-5 sm:px-6 py-3 sm:py-4">
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     value={amount}
-                    onChange={(e) => { setAmount(e.target.value); setError(null); }}
+                    onChange={(e) => { 
+                      const rawValue = e.target.value.replace(/\D/g, '');
+                      if (!rawValue) {
+                        setAmount('');
+                      } else {
+                        setAmount(Number(rawValue).toLocaleString('vi-VN'));
+                      }
+                      setError(null); 
+                    }}
                     placeholder="0"
-                    min={1}
                     required
                     className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold text-2xl placeholder:text-[var(--color-on-surface-variant)]/50"
                   />
@@ -164,7 +172,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                 <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
                   Danh mục
                 </label>
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                   {TRANSACTION_CATEGORIES.map((cat) => {
                     const meta = CATEGORY_META[cat];
                     const Icon = meta.icon;
@@ -192,7 +200,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                 <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
                   Ngày
                 </label>
-                <div className="neumorphic-pressed rounded-full px-6 py-4">
+                <div className="neumorphic-pressed rounded-full px-5 sm:px-6 py-3 sm:py-4">
                   <input
                     type="date"
                     value={date}
@@ -208,7 +216,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                 <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
                   Ghi chú (tùy chọn)
                 </label>
-                <div className="neumorphic-pressed rounded-3xl px-6 py-4">
+                <div className="neumorphic-pressed rounded-3xl px-5 sm:px-6 py-3 sm:py-4">
                   <textarea
                     value={note}
                     onChange={(e) => setNote(e.target.value)}

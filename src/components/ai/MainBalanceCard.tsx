@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plus, FileText } from 'lucide-react';
+import { PieChart, FileText } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { useTransactions } from '@/hooks/useTransactions';
 
@@ -81,13 +81,13 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab, 
       
       <div className="flex flex-col sm:flex-row gap-4 mt-8">
         <motion.button 
-          onClick={onAddClick}
+          onClick={() => setActiveTab('reports')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="bg-[var(--color-primary)] text-[var(--color-on-surface)] px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-sm flex-1 cursor-pointer"
         >
-          <Plus size={20} />
-          Thêm chi tiêu
+          <PieChart size={20} />
+          Xem báo cáo
         </motion.button>
         
         <motion.button 

@@ -7,16 +7,19 @@ interface BudgetCardProps {
   spent: number;
   total: number;
   icon: LucideIcon;
+  onClick?: () => void;
 }
 
-export const BudgetCard: React.FC<BudgetCardProps> = ({ title, spent, total, icon: Icon }) => {
+export const BudgetCard: React.FC<BudgetCardProps> = ({ title, spent, total, icon: Icon, onClick }) => {
   const percentage = Math.min((spent / total) * 100, 100);
   const isOverBudget = spent > total;
 
   return (
     <motion.div 
+      onClick={onClick}
       whileHover={{ scale: 1.02 }}
-      className="neumorphic p-5 rounded-standard flex flex-col gap-3"
+      whileTap={onClick ? { scale: 0.98 } : undefined}
+      className={`neumorphic p-5 rounded-standard flex flex-col gap-3 ${onClick ? 'cursor-pointer' : ''}`}
     >
       <div className="flex items-center gap-3">
         <div className="p-2 rounded-full neumorphic text-on-surface">

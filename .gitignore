@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs and errors
+*.log
+*.txt
+ts_errors.log
+tsc_errors.txt
+tsc_output.txt
+
+# local data
+.vercel
+/pesse-finance-UI
