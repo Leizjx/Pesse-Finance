@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 
-export default function SyncProfilePage() {
+function SyncProfileContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextRoute = searchParams.get("next") ?? "/dashboard";
@@ -60,7 +60,7 @@ export default function SyncProfilePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--color-background)] font-sans relative overflow-hidden">
+    <>
       {/* Decorative Blob */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-[var(--color-primary)] opacity-10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -113,6 +113,16 @@ export default function SyncProfilePage() {
           </div>
         )}
       </div>
+    </>
+  );
+}
+
+export default function SyncProfilePage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[var(--color-background)] font-sans relative overflow-hidden">
+      <Suspense fallback={<div className="text-sm font-medium text-[var(--color-on-surface-variant)] text-center p-10">Đang tải biểu mẫu...</div>}>
+        <SyncProfileContent />
+      </Suspense>
     </div>
   );
 }
