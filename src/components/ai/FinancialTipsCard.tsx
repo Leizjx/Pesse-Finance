@@ -1,12 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lightbulb, ArrowRight, Loader2, MessageSquareText } from 'lucide-react';
+import { Lightbulb, ArrowRight, Loader2, MessageSquareText, RefreshCcw } from 'lucide-react';
 import { useAIInsight } from '@/hooks/useAI';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const FinancialTipsCard = () => {
-  const { data, isLoading } = useAIInsight();
+  const { data, isLoading, isFetching } = useAIInsight();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const handleRefresh = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    queryClient.invalidateQueries({ queryKey: ['ai-insight'] });
+  };
 
   return (
     <motion.div 
@@ -18,8 +25,17 @@ export const FinancialTipsCard = () => {
       
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center backdrop-blur-sm shadow-sm">
-            <Lightbulb size={24} className="text-[var(--color-on-surface)]" />
+          <div className="flex items-center gap-3">
+             <button 
+               onClick={handleRefresh}
+               className={`w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm shadow-sm cursor-pointer hover:bg-white/40 transition-all ${isFetching ? 'animate-spin' : ''}`}
+               title="Làm mới lời khuyên"
+             >
+               <RefreshCcw size={18} className="text-[var(--color-on-surface)]" />
+             </button>
+             <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center backdrop-blur-sm shadow-sm">
+               <Lightbulb size={24} className="text-[var(--color-on-surface)]" />
+             </div>
           </div>
           <span className="text-xs font-bold bg-white/40 px-3 py-1 rounded-full text-[var(--color-on-surface)]">AI Advisor</span>
         </div>

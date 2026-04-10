@@ -6,6 +6,7 @@ import { MainBalanceCard } from '@/components/ai/MainBalanceCard';
 import { BudgetCard } from '@/components/ai/BudgetCard';
 import { ExpenseAnalysisCard } from '@/components/ai/ExpenseAnalysisCard';
 import { FinancialTipsCard } from '@/components/ai/FinancialTipsCard';
+import { UpcomingBillsCard } from '@/components/dashboard/UpcomingBillsCard';
 import { TransactionList } from '@/components/ai/TransactionList';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { AddTransactionModal } from '@/components/ai/AddTransactionModal';
@@ -142,8 +143,9 @@ export default function DashboardPage() {
         )}
 
         {/* Bottom Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-[250px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1 min-h-[250px]">
           <ExpenseAnalysisCard />
+          <UpcomingBillsCard />
           <FinancialTipsCard />
         </div>
 
