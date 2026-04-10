@@ -115,7 +115,7 @@ export default function VerifyOtpContent() {
                 className="flex-1 aspect-square neumorphic-pressed rounded-2xl flex items-center justify-center border border-transparent focus-within:border-[var(--color-primary)]/50 transition-all"
               >
                 <input
-                  ref={(el) => (inputRefs.current[index] = el)}
+                  ref={(el) => { inputRefs.current[index] = el; }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}

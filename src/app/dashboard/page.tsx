@@ -5,6 +5,10 @@ import DashboardClient from './DashboardClient';
 export const metadata: Metadata = {
   title: "Tổng quan Dashboard",
   description: "Trình điều khiển tài chính cá nhân của bạn. Xem số dư, phân tích chi tiêu và quản lý ngân sách thông minh.",
+  robots: {
+    index: false,
+    follow: false,
+  }
 };
 
 export default function DashboardPage() {

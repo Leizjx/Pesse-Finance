@@ -9,13 +9,15 @@ export default function LandingClient() {
   return (
     <div className="min-h-screen flex flex-col p-6 relative z-10 bg-[var(--color-background)]">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto mb-8">
-        <h1 className="text-2xl font-extrabold tracking-tight text-on-surface">Pesse</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight text-on-surface flex items-center gap-2">
+          Pesse <span className="text-[var(--color-primary)] hidden md:inline">- Quản lý tài chính cá nhân tự động bằng AI</span>
+        </h1>
         <Link href="/login" className="text-[var(--color-on-surface-variant)] font-medium hover:text-[var(--color-on-surface)] transition-colors">
           Bỏ qua
         </Link>
       </header>
 
-      <div className="flex-1 flex items-center justify-center">
+      <main className="flex-1 flex items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,7 +72,7 @@ export default function LandingClient() {
             Bảo mật & Cá nhân hóa
           </span>
         </motion.div>
-      </div>
+      </main>
     </div>
   );
 }
