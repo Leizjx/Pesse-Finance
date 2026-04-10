@@ -20,7 +20,7 @@ function getAIModel() {
   if (!genAI) {
     genAI = new GoogleGenerativeAI(apiKey);
   }
-  return genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+  return genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 }
 
 export async function generateFinancialInsight(data: FinancialData): Promise<string> {

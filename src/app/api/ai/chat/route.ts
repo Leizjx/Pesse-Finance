@@ -15,7 +15,7 @@ function getAIModel() {
   }
   
   // Using gemini-1.5-flash-latest for better stability and lower latency
-  return genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+  return genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 }
 
 export async function POST(req: Request) {
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Thiếu API Key cấu hình cho AI' }, { status: 500 });
   }
 
-  const modelName = "gemini-1.5-flash-latest";
+  const modelName = "gemini-flash-latest";
   const modelInstance = (genAI as GoogleGenerativeAI).getGenerativeModel({ 
     model: modelName 
   });
