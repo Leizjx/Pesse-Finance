@@ -119,7 +119,13 @@ export async function signInWithSocial(provider: 'google' | 'facebook') {
   // Use current origin to dynamically build the redirect URL
   const redirectTo = `${window.location.origin}/auth/callback`;
   
-  let options: any = { redirectTo };
+  interface OAuthOptions {
+    redirectTo: string;
+    queryParams?: Record<string, string>;
+    scopes?: string;
+  }
+
+  let options: OAuthOptions = { redirectTo };
 
   if (provider === 'google') {
     options = {

@@ -51,6 +51,7 @@ export const TRANSACTION_CATEGORIES = [
   "rent",
   "salary",
   "investment",
+  "insurance",
   "other",
 ] as const;
 
@@ -210,6 +211,35 @@ export const SubscriptionSchema = z.object({
   gmail_msg_id: z.string().nullable(),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
+});
+
+
+// ─────────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────────
+
+export type NotificationType = 'budget_alert' | 'subscription_reminder' | 'ai_insight' | 'system';
+
+export interface Notification {
+  id: string; // UUID
+  user_id: string; // FK -> profiles.id
+  type: NotificationType;
+  title: string;
+  content: string;
+  is_read: boolean;
+  metadata: Record<string, unknown>;
+  created_at: string; // ISO 8601
+}
+
+export const NotificationSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  type: z.enum(['budget_alert', 'subscription_reminder', 'ai_insight', 'system'] as const),
+  title: z.string().min(1),
+  content: z.string().min(1),
+  is_read: z.boolean().default(false),
+  metadata: z.record(z.string(), z.unknown()).default({}),
+  created_at: z.string().datetime(),
 });
 
 export type SyncSubscriptionsResponse = {

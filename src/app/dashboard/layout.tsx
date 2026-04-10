@@ -50,7 +50,7 @@ export default async function DashboardLayout({
         </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 h-full pb-24 lg:pb-0 relative" id="main-content">
+        <main className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-20 lg:pb-24 relative" id="main-content">
           {children}
         </main>
       </div>

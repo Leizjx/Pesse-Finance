@@ -5,6 +5,7 @@ import { useNotifications } from '@/hooks/useAI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import type { Notification } from '@/types/database.types';
 
 export const NotificationBell = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,7 @@ export const NotificationBell = () => {
     }
   };
 
-  const handleNotificationClick = (notif: any) => {
+  const handleNotificationClick = (notif: Notification) => {
     if (!notif.is_read) {
       markReadMutation.mutate(notif.id);
     }
@@ -57,13 +58,20 @@ export const NotificationBell = () => {
     <div className="relative" ref={dropdownRef}>
       <motion.button 
         onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
+        aria-label={`Thông báo, ${unreadCount} tin nhắn chưa đọc`}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
         className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] relative cursor-pointer"
       >
         <Bell size={20} />
         {unreadCount > 0 && (
-          <span className="absolute top-2 right-2 md:top-3 md:right-3 w-2.5 h-2.5 bg-[var(--color-error)] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+          <motion.span 
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="absolute top-2 right-2 md:top-3 md:right-3 w-2.5 h-2.5 bg-[var(--color-error)] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+          />
         )}
       </motion.button>
 

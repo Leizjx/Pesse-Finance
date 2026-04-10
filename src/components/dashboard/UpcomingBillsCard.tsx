@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { CalendarClock, CreditCard, ChevronRight, CheckCircle2, Lock, Crown } from 'lucide-react';
 import { useSubscriptions } from '@/hooks/useSubscriptions';
 import { useAuth } from '@/hooks/useAuth';
@@ -53,7 +53,7 @@ export const UpcomingBillsCard = () => {
             <div className="w-8 h-8 rounded-lg bg-[var(--color-surface)] neumorphic flex items-center justify-center">
               <CalendarClock size={16} className="text-[var(--color-on-surface-variant)]" />
             </div>
-            <h3 className="font-bold text-base text-[var(--color-on-surface)]">Hóa đơn</h3>
+            <h3 className="font-bold text-base text-[var(--color-on-surface)]">Hóa đơn tài chính</h3>
           </div>
           <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-600 px-2 py-1 rounded-full flex items-center gap-1 border border-yellow-500/20">
             <Crown size={10} className="fill-yellow-600" /> Premium

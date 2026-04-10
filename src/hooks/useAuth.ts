@@ -23,7 +23,6 @@ import {
   signIn as authSignIn,
   signUp as authSignUp,
   signOut as authSignOut,
-  getUser,
 } from "@/services/authService";
 import { fetchProfile } from "@/services/transactionService";
 import type { LoginInput, RegisterInput } from "@/types/database.types";
@@ -32,7 +31,7 @@ import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 export function useAuth() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoadingUser, isInitialized, setUser, setLoadingUser, setInitialized, reset } =
+  const { user, isAuthenticated, isLoadingUser, setUser, setLoadingUser, reset } =
     useAppStore();
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,7 +52,7 @@ export function useAuth() {
       try {
         const profile = await fetchProfile(authUser.id);
         return profile;
-      } catch (err) {
+      } catch {
         // Profile not found — upsert one for legacy accounts
 
         const { error: upsertError } = await supabase

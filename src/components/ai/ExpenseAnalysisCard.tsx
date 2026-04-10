@@ -14,6 +14,9 @@ const CATEGORY_META: Record<string, { label: string; color: string }> = {
   education:     { label: 'Học tập',   color: '#f1c40f' },
   utilities:     { label: 'Tiện ích',  color: '#1abc9c' },
   entertainment: { label: 'Giải trí',  color: '#e67e22' },
+  salary:        { label: 'Lương',     color: '#2ecc71' },
+  investment:    { label: 'Đầu tư',    color: '#f39c12' },
+  insurance:     { label: 'Bảo hiểm',  color: '#e74c3c' },
   other:         { label: 'Khác',      color: '#95a5a6' },
 };
 
@@ -83,7 +86,7 @@ export const ExpenseAnalysisCard = () => {
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px]">
       <h3 className="font-bold text-lg mb-4 text-on-surface">Phân tích Chi tiêu</h3>
-      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center neumorphic-pressed rounded-standard p-4 gap-6">
+      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-6 mt-4">
         {chartData.length === 0 ? (
           <div className="text-center text-sm font-medium text-[var(--color-on-surface-variant)] py-10 w-full">
             Chưa có dữ liệu chi tiêu để phân tích.
@@ -113,14 +116,14 @@ export const ExpenseAnalysisCard = () => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex flex-col gap-3 w-full justify-center">
+            <div className="flex flex-col gap-3 flex-1 w-full justify-center">
               {chartData.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full shadow-sm shrink-0" style={{ backgroundColor: item.color }}></div>
-                    <span className="text-sm font-medium text-[var(--color-on-surface-variant)] truncate max-w-[100px]">{item.name}</span>
+                    <span className="text-sm font-medium text-[var(--color-on-surface-variant)] truncate max-w-[120px]">{item.name}</span>
                   </div>
-                  <span className="text-sm font-bold text-[var(--color-on-surface)]">{item.value}%</span>
+                  <span className="text-sm font-bold text-[var(--color-on-surface)] ml-4">{item.value}%</span>
                 </div>
               ))}
             </div>

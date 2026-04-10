@@ -9,7 +9,7 @@ function getAIModel() {
   if (!genAI) {
     genAI = new GoogleGenerativeAI(apiKey);
   }
-  return genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+  return genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 }
 
 export async function POST(req: Request) {
@@ -72,6 +72,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Thiếu API Key cấu hình cho AI' }, { status: 500 });
   }
 
+  const modelName = "gemini-2.0-flash";
+  const modelInstance = (genAI as GoogleGenerativeAI).getGenerativeModel({ 
+    model: modelName 
+  });
+
   // Filter messages specifically for the AI chat.
   let historyRaw = messages.slice(0, -1);
   
@@ -87,14 +92,15 @@ export async function POST(req: Request) {
   const lastMessage = messages[messages.length - 1].content;
 
   try {
-    const contents = [
-      { role: 'user', parts: [{ text: systemPrompt }] },
-      { role: 'model', parts: [{ text: "Đã hiểu, mình đã ghi nhớ. Bạn cần giúp gì nào?" }] },
-      ...history,
-      { role: 'user', parts: [{ text: lastMessage }] }
-    ];
+    const chat = modelInstance.startChat({
+      history: [
+        { role: 'user', parts: [{ text: systemPrompt }] },
+        { role: 'model', parts: [{ text: "Đã hiểu, mình là Pesse AI. Mình đã sẵn sàng hỗ trợ bạn quản lý tài chính." }] },
+        ...history
+      ]
+    });
 
-    const result = await model.generateContent({ contents });
+    const result = await chat.sendMessage(lastMessage);
     const responseText = result.response.text();
 
     return NextResponse.json({ content: responseText });
@@ -103,13 +109,12 @@ export async function POST(req: Request) {
     
     let errorMessage = 'AI đang gặp sự cố kết nối, vui lòng thử lại sau.';
     
-    // Check for 429 Quota errors specifically
-    if (error.message?.includes('429') || error.message?.includes('quota')) {
-      errorMessage = 'Lỗi Quota: API Key của bạn đã hết lượt sử dụng miễn phí hoặc bị giới hạn (limit: 0) do khu vực đăng ký tài khoản. Vui lòng thiết lập Billing (thanh toán) trên Google AI Studio hoặc sử dụng API Key khác để tiếp tục.';
+    if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('limit')) {
+      errorMessage = 'Lỗi Quota/Limit: API Key của bạn bị giới hạn lượt sử dụng hoặc chưa kích hoạt thanh toán trên Google AI Studio.';
     } else if (error.message?.includes('404')) {
-       errorMessage = 'Lỗi 404: Mô hình AI không khả dụng với API Key này. Vui lòng kiểm tra lại quyền truy cập thẻ Google Cloud của bạn.';
+       errorMessage = `Lỗi 404: Mô hình ${modelName} không khả dụng. Vui lòng kiểm tra quyền truy cập API.`;
     } else {
-       errorMessage = `Lỗi mạng: ${error.message}`;
+       errorMessage = `Lỗi hệ thống (${modelName}): ${error.message}`;
     }
 
     return NextResponse.json({ error: errorMessage }, { status: 500 });

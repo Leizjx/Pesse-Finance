@@ -6,10 +6,9 @@ import { useTransactions } from '@/hooks/useTransactions';
 
 interface MainBalanceCardProps {
   setActiveTab: (tab: string) => void;
-  onAddClick?: () => void;
 }
 
-export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab, onAddClick }) => {
+export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }) => {
   const { totalBalance, isLoadingUser } = useAppStore();
   const { data: transactionsData } = useTransactions();
 

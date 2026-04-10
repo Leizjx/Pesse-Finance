@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from '@tanstack/react-query';
+import type { Notification } from '@/types/database.types';
 
 export function useAIInsight() {
   return useQuery({
@@ -20,7 +21,8 @@ export function useNotifications() {
     queryFn: async () => {
       const res = await fetch('/api/notifications');
       if (!res.ok) throw new Error('Failed to fetch notifications');
-      return res.json() as Promise<any[]>;
+      const data = await res.json();
+      return data as Notification[];
     },
     refetchInterval: 1000 * 60 * 5, // Every 5 mins
   });

@@ -24,7 +24,7 @@ interface DataConnectionModalProps {
 }
 
 // === TÁCH RIÊNG PHẦN LOGIC (CUSTOM HOOK) ===
-function useDataConnectionLogic({ onClose, initialProvider, initialName, initialSelectedBanks }: DataConnectionModalProps) {
+function useDataConnectionLogic({ initialProvider, initialName, initialSelectedBanks }: DataConnectionModalProps) {
   const [nickname, setNickname] = useState(initialName || '');
   const [selectedProvider, setSelectedProvider] = useState(initialProvider || 'gmail');
   const [selectedBanks, setSelectedBanks] = useState<string[]>(initialSelectedBanks || []);

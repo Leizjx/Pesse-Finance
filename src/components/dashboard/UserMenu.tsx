@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LogOut, User, Settings, Crown, ChevronDown, 
-  ExternalLink, Sparkles, CreditCard 
+  Sparkles, CreditCard 
 } from 'lucide-react';
 import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
@@ -143,7 +143,7 @@ export const UserMenu = () => {
   );
 };
 
-const ChevronRight = ({ size, className }: { size: number, className: string }) => (
+const ChevronRight = ({ size, className }: { size: number, className?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="m9 18 6-6-6-6"/>
   </svg>

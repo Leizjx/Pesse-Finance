@@ -12,7 +12,7 @@ const menuItems = [
   { id: 'transactions', path: '/dashboard/transactions', icon: ReceiptText, label: 'Giao dịch' },
   { id: 'reports', path: '/dashboard/reports', icon: BarChart2, label: 'Báo cáo' },
   { id: 'budget', path: '/dashboard/budgets', icon: Wallet, label: 'Ngân sách' },
-  { id: 'subscriptions', path: '/dashboard/subscriptions', icon: Calendar, label: 'Hóa đơn' },
+  { id: 'subscriptions', path: '/dashboard/subscriptions', icon: Calendar, label: 'Hóa đơn tài chính' },
   { id: 'chat', path: '/dashboard/chat', icon: BotMessageSquare, label: 'Chat AI' },
   { id: 'data-connection', path: '/dashboard/data-connection', icon: Database, label: 'Kết nối dữ liệu' },
   { id: 'account', path: '/dashboard/account', icon: Settings, label: 'Cài đặt' },

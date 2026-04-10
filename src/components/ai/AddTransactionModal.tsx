@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Coffee, ShoppingBag, Zap, Car, Utensils, HeartPulse,
-  Home, GraduationCap, Briefcase, TrendingUp, HelpCircle,
+  Home, GraduationCap, Briefcase, TrendingUp, ShieldCheck, HelpCircle,
   Loader2,
 } from 'lucide-react';
 import { useCreateTransaction } from '@/hooks/useTransactions';
@@ -28,6 +28,7 @@ const CATEGORY_META: Record<TransactionCategory, { label: string; icon: React.El
   rent:          { label: 'Nhà ở',     icon: Home },
   salary:        { label: 'Lương',     icon: Briefcase },
   investment:    { label: 'Đầu tư',    icon: TrendingUp },
+  insurance:     { label: 'Bảo hiểm',  icon: ShieldCheck },
   other:         { label: 'Khác',      icon: HelpCircle },
 };
 
@@ -180,7 +181,15 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                       <button
                         key={cat}
                         type="button"
-                        onClick={() => setSelectedCategory(cat)}
+                        onClick={() => {
+                          setSelectedCategory(cat);
+                          // Auto-switch type based on category
+                          if (cat === 'salary' || cat === 'investment') {
+                            setType('income');
+                          } else {
+                            setType('expense');
+                          }
+                        }}
                         className={`flex flex-col items-center justify-center p-3 rounded-2xl gap-2 transition-all ${
                           selectedCategory === cat
                             ? 'bg-[var(--color-primary)] text-[var(--color-on-surface)] shadow-md'

@@ -62,7 +62,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
         if (timeFilter === 'Hôm nay') return isToday(d);
         if (timeFilter === 'Theo ngày') return isThisWeek(d, { weekStartsOn: 1 });
         if (timeFilter === 'Theo tháng') return isThisMonth(d);
-      } catch (e) {
+      } catch {
         return true;
       }
       return true;
@@ -122,7 +122,19 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
         </div>
       </div>
       
-      <div className="flex flex-col gap-4 overflow-y-auto flex-1 pr-2">
+      <motion.div 
+        layout
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.05
+            }
+          }
+        }}
+        className="flex flex-col gap-4 overflow-y-auto flex-1 pr-2"
+      >
         {isLoading && (
           <div className="text-sm text-[var(--color-on-surface-variant)] text-center mt-4 animate-pulse">
             Đang tải dữ liệu...
@@ -130,20 +142,28 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
         )}
         
         {!isLoading && transactions.length === 0 && (
-          <div className="text-sm text-[var(--color-on-surface-variant)] text-center mt-4">
-            Chưa có giao dịch nào
+          <div className="flex flex-col items-center justify-center py-10 text-center gap-3">
+            <div className="w-16 h-16 rounded-full bg-[var(--color-surface)] neumorphic flex items-center justify-center text-[var(--color-on-surface-variant)] opacity-40">
+              <HelpCircle size={32} />
+            </div>
+            <p className="text-sm text-[var(--color-on-surface-variant)] max-w-[200px]">
+              Chưa có giao dịch nào trong khoảng thời gian này
+            </p>
           </div>
         )}
 
         {!isLoading && transactions.map((tx) => {
           const IconComponent = getCategoryIcon(tx.category);
           const displayTitle = tx.note || getCategoryName(tx.category);
-          // Format date directly handling ISO strings
           const formattedDate = format(new Date(tx.date), 'dd/MM/yyyy', { locale: vi });
           
           return (
             <motion.div 
               key={tx.id}
+              variants={{
+                hidden: { opacity: 0, x: -10 },
+                visible: { opacity: 1, x: 0 }
+              }}
               whileHover={{ scale: 1.02 }}
               className="flex items-center justify-between p-3 rounded-standard neumorphic-pressed gap-2"
             >
@@ -162,7 +182,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
             </motion.div>
           );
         })}
-      </div>
+      </motion.div>
       
       <button 
         onClick={() => setActiveTab && setActiveTab('transactions')}

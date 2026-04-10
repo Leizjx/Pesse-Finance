@@ -83,6 +83,7 @@ const CATEGORY_LABELS: Record<TransactionCategory, string> = {
   rent: "Nhà ở",
   salary: "Lương",
   investment: "Đầu tư",
+  insurance: "Bảo hiểm",
   other: "Khác",
 };
 
@@ -92,9 +93,10 @@ interface CategoryBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export function CategoryBadge({ category, size = "md", ...props }: CategoryBadgeProps) {
+  const catKey = (category as string || '').toLowerCase() as TransactionCategory;
   return (
     <Badge variant="neutral" size={size} {...props}>
-      {CATEGORY_LABELS[category]}
+      {CATEGORY_LABELS[catKey] || category}
     </Badge>
   );
 }

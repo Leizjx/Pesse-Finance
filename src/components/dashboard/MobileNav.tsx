@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { LayoutGrid, ReceiptText, BarChart2, Wallet, Database, BotMessageSquare } from 'lucide-react';
+import { LayoutGrid, ReceiptText, Wallet, Database, BotMessageSquare } from 'lucide-react';
 
 const mobileMenuItems = [
   { id: 'dashboard',    path: '/dashboard',                icon: LayoutGrid,  label: 'Tổng quan' },

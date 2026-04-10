@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Info, CalendarX } from 'lucide-react';
+import { X, CalendarX } from 'lucide-react';
 
 interface SyncResultModalProps {
   isOpen: boolean;

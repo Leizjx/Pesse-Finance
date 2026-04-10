@@ -11,14 +11,48 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pesse Finance",
+    default: "Pesse Finance - Quản lý tài chính cá nhân thông minh",
     template: "%s | Pesse Finance",
   },
   description:
-    "Quản lý tài chính cá nhân thông minh — theo dõi thu chi, ngân sách và mục tiêu tiết kiệm.",
-  keywords: ["quản lý tài chính", "thu chi", "ngân sách", "tiết kiệm", "finance"],
-  authors: [{ name: "Pesse Finance" }],
-  robots: "noindex, nofollow", // Private app — no public indexing
+    "Pesse Finance giúp bạn tự động theo dõi thu chi, quản lý ngân sách và đạt được mục tiêu tiết kiệm với sự hỗ trợ của AI.",
+  keywords: ["quản lý tài chính", "thu chi", "ngân sách", "tiết kiệm", "tài chính cá nhân", "Pesse Finance", "AI finance"],
+  authors: [{ name: "Pesse Finance Team" }],
+  creator: "Pesse Finance",
+  publisher: "Pesse Finance",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://pesse.finance'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "Pesse Finance - Quản lý tài chính cá nhân thông minh",
+    description: "Tự động hóa việc quản lý tài chính của bạn với Pesse. Theo dõi thu chi, ngân sách và mục tiêu tiết kiệm một cách dễ dàng.",
+    url: 'https://pesse.finance',
+    siteName: 'Pesse Finance',
+    locale: 'vi_VN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Pesse Finance - Quản lý tài chính cá nhân thông minh",
+    description: "Tự động hóa việc quản lý tài chính của bạn với Pesse Finance.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

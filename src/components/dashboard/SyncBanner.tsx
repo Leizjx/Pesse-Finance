@@ -15,11 +15,13 @@ export function SyncBanner() {
       {/* Banner hiển thị khi đang đồng bộ */}
       <AnimatePresence>
         {isSyncing && (
-          <motion.div
-            initial={{ y: -60, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -60, opacity: 0 }}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
+            role="status"
+            aria-live="polite"
             className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-full flex items-center gap-3 border whitespace-nowrap"
             style={{
               backgroundColor: "#FEFEFE",

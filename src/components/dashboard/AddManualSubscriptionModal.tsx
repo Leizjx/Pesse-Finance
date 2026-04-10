@@ -10,12 +10,20 @@ interface AddManualSubscriptionModalProps {
   onClose: () => void;
 }
 
+interface SubscriptionData {
+  service_name: string;
+  amount: string;
+  currency: string;
+  billing_cycle: string;
+  next_billing_date: string;
+}
+
 export const AddManualSubscriptionModal: React.FC<AddManualSubscriptionModalProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SubscriptionData>({
     service_name: '',
     amount: '',
     currency: 'VND',
@@ -24,7 +32,7 @@ export const AddManualSubscriptionModal: React.FC<AddManualSubscriptionModalProp
   });
 
   const mutation = useMutation({
-    mutationFn: async (newData: any) => {
+    mutationFn: async (newData: SubscriptionData) => {
       const res = await fetch('/api/subscriptions/manual', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -79,7 +87,7 @@ export const AddManualSubscriptionModal: React.FC<AddManualSubscriptionModalProp
             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-md bg-[var(--color-background)] rounded-[32px] p-8 z-[101] shadow-2xl border border-white/10"
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-[var(--color-on-surface)]">Thêm hóa đơn</h2>
+              <h2 className="text-2xl font-bold text-[var(--color-on-surface)]">Thêm hóa đơn tài chính</h2>
               <button onClick={onClose} className="w-10 h-10 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] cursor-pointer">
                 <X size={20} />
               </button>
@@ -169,7 +177,7 @@ export const AddManualSubscriptionModal: React.FC<AddManualSubscriptionModalProp
                 className="w-full bg-[var(--color-primary)] text-black font-bold py-4 rounded-full shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
               >
                 {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
-                Lưu hóa đơn
+                Lưu hóa đơn tài chính
               </motion.button>
             </form>
           </motion.div>

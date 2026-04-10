@@ -67,13 +67,11 @@ function parseVCB(emailBody: string): Partial<ParsedTransaction> | null {
 // =========================================================================
 // TCB thường dùng số tiền +/- liền mạch hoặc format riêng.
 const TCB_REGEX = {
-  amountAndType: /(?:\+|-)[\d,.]+\s*VND/i, 
-  // Ví dụ trích xuất tương tự, viết Regex bám sát format email của TCB.
+  amountAndType: /([+-])([\d,.]+)\s*VND/i, 
 };
 
 function parseTCB(emailBody: string): Partial<ParsedTransaction> | null {
-  // Demo mock logic (cần regex thực tế của TCB để hoàn thiện)
-  const amountMatch = emailBody.match(/([+-])([\d,.]+)\s*VND/i);
+  const amountMatch = emailBody.match(TCB_REGEX.amountAndType);
   if (!amountMatch) return null;
 
   const sign = amountMatch[1];
