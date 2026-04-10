@@ -167,7 +167,7 @@ export default function ChatbotPage() {
               <div className={`p-4 rounded-3xl ${msg.role === 'user' ? 'bg-[var(--color-surface)] border border-white/5 text-[var(--color-on-surface)] rounded-tr-sm' : 'bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 text-[var(--color-on-surface)] rounded-tl-sm'}`}>
                 <p className="text-[15px] leading-relaxed whitespace-pre-wrap font-medium">
                   {/* Basic markdown bold parser hack for simplicity */}
-                  {msg.content.split('**').map((part, i) => i % 2 !== 0 ? <strong key={i} className="text-[var(--color-primary)]">{part}</strong> : part)}
+                  {msg.content.split('**').map((part, i) => i % 2 !== 0 ? <strong key={i} className="text-green-600">{part}</strong> : part)}
                 </p>
               </div>
             </motion.div>

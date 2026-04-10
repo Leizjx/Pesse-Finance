@@ -1,14 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lightbulb, ArrowRight, Loader2 } from 'lucide-react';
+import { Lightbulb, ArrowRight, Loader2, MessageSquareText } from 'lucide-react';
 import { useAIInsight } from '@/hooks/useAI';
+import { useRouter } from 'next/navigation';
 
 export const FinancialTipsCard = () => {
   const { data, isLoading } = useAIInsight();
+  const router = useRouter();
 
   return (
     <motion.div 
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.01 }}
       className="bg-[var(--color-primary)] p-6 rounded-large h-full flex flex-col justify-between relative overflow-hidden shadow-sm"
     >
       {/* Decorative background circle */}
@@ -35,8 +37,11 @@ export const FinancialTipsCard = () => {
         )}
       </div>
       
-      <button className="mt-6 flex items-center gap-2 text-sm font-bold text-[var(--color-on-surface)] hover:gap-3 transition-all relative z-10 w-fit cursor-pointer">
-        Xem phân tích sâu <ArrowRight size={16} />
+      <button 
+        onClick={() => router.push('/dashboard/chat')}
+        className="mt-6 flex items-center gap-2 text-[15px] font-bold text-[var(--color-on-surface)] hover:translate-x-1 transition-all relative z-10 w-fit cursor-pointer group"
+      >
+        Trò chuyện với AI <MessageSquareText size={18} className="group-hover:scale-110 transition-transform" />
       </button>
     </motion.div>
   );
