@@ -24,7 +24,9 @@ Dự án nhấn mạnh vào một kiến trúc (Architecture) chặt chẽ, tố
 ## ✨ Tính năng nổi bật chuyên sâu (Key Features)
 
 - **Gmail API Bank Synchronization**: Luồng xác thực Google OAuth (Offline Access Type) siêu bảo mật, cấp *refresh_token* độc quyền để giao tiếp ngầm. Hỗ trợ hệ thống Regex linh hoạt có khả năng parse chính xác hóa đơn/biến động số dư từ Vietcombank, Techcombank, TPBank, MB Bank, và ACB.
-- **Serverless Automation Architecture**: Các luồng trích xuất dữ liệu hoàn toàn tự hoạt động ngầm thông qua Vercel Cron Jobs, vượt rào bảo mật RLS bằng `Service_Role` token một cách khắt khe.
+- **Pesse AI Advisor (Gemini Integration)**: Tích hợp trí tuệ nhân tạo (Google Gemini API) để phân tích hành vi chi tiêu theo thời gian thực. AI không chỉ tóm tắt con số mà còn đưa ra những lời khuyên tài chính cá nhân hóa, giúp người dùng đạt được mục tiêu tiết kiệm nhanh hơn.
+- **Serverless Automation Architecture**: Các luồng trích xuất dữ liệu hoàn toàn tự hoạt động ngầm thông qua Vercel Cron Jobs, vượt rào bảo mật RLS bằng `Service_Role` token một cách khát khe. Đảm bảo dữ liệu luôn được "làm tươi" mà không cần người dùng can thiệp.
+- **Optimized Server/Client Architecture**: Áp dụng mô hình tách biệt **Server Components** (phục vụ SEO, Metadata chuẩn hóa) và **Client Components** (xử lý logic tương tác phức tạp). Điều này giúp ứng dụng có tốc độ load trang cực nhanh đồng thời duy trì khả năng tương tác mượt mà.
 - **Global State Optimization**: Thiết kế chuẩn mực với `Zustand` phục vụ Client-side UI Interactions và mô hình `TanStack (React) Query` thao túng bộ nhớ đệm (caching), invalidation cho API layer - giải quyết triệt để tình trạng Waterfall Fetching.
 - **Premium Neumorphic Data Visualization**: Kế thừa những phong cách UX/UI thời thượng với `Framer Motion` animations & `Recharts`. Biểu đồ logic động xử lý mượt mà toán học: So sánh thu nhập giữa các tháng, đo lường tỷ trọng danh mục chi tiêu, và xử lý Edge Cases thông minh (ví dụ: nhóm thiểu số dữ liệu rác thành category 'Khác').
 - **Supabase PostgreSQL & Auth**: Quản lý dữ liệu phân tán chuẩn Relational Database. Tích hợp Social Authentication đa chiều (Google, Facebook).
