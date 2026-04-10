@@ -9,7 +9,7 @@ function getAIModel() {
   if (!genAI) {
     genAI = new GoogleGenerativeAI(apiKey);
   }
-  return genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  return genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 }
 
 export async function POST(req: Request) {
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Thiếu API Key cấu hình cho AI' }, { status: 500 });
   }
 
-  const modelName = "gemini-2.0-flash";
+  const modelName = "gemini-flash-latest";
   const modelInstance = (genAI as GoogleGenerativeAI).getGenerativeModel({ 
     model: modelName 
   });
@@ -109,12 +109,14 @@ export async function POST(req: Request) {
     
     let errorMessage = 'AI đang gặp sự cố kết nối, vui lòng thử lại sau.';
     
-    if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('limit')) {
+    const errText = error.message?.toLowerCase() || '';
+    
+    if (errText.includes('429') || errText.includes('quota') || errText.includes('limit')) {
       errorMessage = 'Lỗi Quota/Limit: API Key của bạn bị giới hạn lượt sử dụng hoặc chưa kích hoạt thanh toán trên Google AI Studio.';
-    } else if (error.message?.includes('404')) {
-       errorMessage = `Lỗi 404: Mô hình ${modelName} không khả dụng. Vui lòng kiểm tra quyền truy cập API.`;
+    } else if (errText.includes('403') || errText.includes('404') || errText.includes('permission') || errText.includes('not found')) {
+      errorMessage = 'Lỗi 403/404: API chưa được kích hoạt cho Key này. Vui lòng vào Google AI Studio kích hoạt "Generative Language API" rồi thử lại.';
     } else {
-       errorMessage = `Lỗi hệ thống (${modelName}): ${error.message}`;
+      errorMessage = `Lỗi hệ thống (${modelName}): ${error.message}`;
     }
 
     return NextResponse.json({ error: errorMessage }, { status: 500 });
