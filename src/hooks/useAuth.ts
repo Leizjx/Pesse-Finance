@@ -25,6 +25,7 @@ import {
   signOut as authSignOut,
   resetPasswordForEmail as authSignInReset,
   updateUserPassword as authUpdatePassword,
+  verifyOtp as authVerifyOtp,
 } from "@/services/authService";
 import { fetchProfile } from "@/services/transactionService";
 import type { LoginInput, RegisterInput } from "@/types/database.types";
@@ -173,7 +174,7 @@ export function useAuth() {
         await authSignOut();
       }
 
-      router.push("/login?registered=true");
+      router.push(`/verify-otp?email=${encodeURIComponent(input.email)}`);
       return { success: true };
     },
     [router]
@@ -211,6 +212,23 @@ export function useAuth() {
     return { success: true };
   }, []);
 
+  // ── OTP Verification ────────────────────────────────────────────────────
+  const verifyEmailOtp = useCallback(async (email: string, token: string) => {
+    setError(null);
+    setIsSubmitting(true);
+    const { error: authError } = await authVerifyOtp(email, token, 'signup');
+    setIsSubmitting(false);
+    if (authError) {
+      setError(authError.message);
+      return { success: false };
+    }
+    
+    // Automatically refresh and push to dashboard upon success
+    router.refresh();
+    router.push("/dashboard");
+    return { success: true };
+  }, [router]);
+
   return {
     user,
     isAuthenticated,
@@ -223,5 +241,6 @@ export function useAuth() {
     signOut,
     sendPasswordResetEmail,
     updatePassword,
+    verifyEmailOtp,
   };
 }

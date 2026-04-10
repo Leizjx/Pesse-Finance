@@ -144,6 +144,21 @@ export async function updateUserPassword(password: string) {
   return { data, error };
 }
 
+/**
+ * Verifies an OTP (One-Time Password) for signup or recovery.
+ */
+export async function verifyOtp(email: string, token: string, type: 'signup' | 'recovery' | 'magiclink' | 'invite' | 'email_change' | 'email') {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type,
+  });
+
+  return { data, error };
+}
+
 // ─────────────────────────────────────────────
 // SOCIAL AUTH LOGINS
 // ─────────────────────────────────────────────
