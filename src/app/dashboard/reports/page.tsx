@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { NotificationBell } from '@/components/ai/NotificationBell';
+import { UserMenu } from '@/components/dashboard/UserMenu';
 import { useAuth } from '@/hooks/useAuth';
 import { useTransactions } from '@/hooks/useTransactions';
 import { formatCurrency } from '@/lib/utils';
@@ -69,9 +70,7 @@ export default function ReportsPage() {
           <h1 className="text-2xl font-bold text-[var(--color-on-surface)]">Báo cáo chi tiết</h1>
           <div className="flex xl:hidden items-center gap-4">
             <NotificationBell />
-            <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
-              <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" unoptimized />
-            </div>
+            <UserMenu />
           </div>
         </div>
         
@@ -92,9 +91,7 @@ export default function ReportsPage() {
           
           <div className="hidden xl:flex items-center gap-4 ml-2">
             <NotificationBell />
-            <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
-              <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" unoptimized />
-            </div>
+            <UserMenu />
           </div>
         </div>
       </header>

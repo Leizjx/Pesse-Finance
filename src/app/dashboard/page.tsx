@@ -9,6 +9,7 @@ import { FinancialTipsCard } from '@/components/ai/FinancialTipsCard';
 import { UpcomingBillsCard } from '@/components/dashboard/UpcomingBillsCard';
 import { TransactionList } from '@/components/ai/TransactionList';
 import { NotificationBell } from '@/components/ai/NotificationBell';
+import { UserMenu } from '@/components/dashboard/UserMenu';
 import { AddTransactionModal } from '@/components/ai/AddTransactionModal';
 import { 
   Coffee, CarFront, HeartPulse, ShoppingBag, Home, 
@@ -76,7 +77,7 @@ export default function DashboardPage() {
   return (
     <div className="flex h-full w-full gap-6">
       {/* Center Column: Main Content */}
-      <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-32 lg:pb-32 relative">
+      <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-48 lg:pb-32 relative">
 
         {/* Header */}
         <header className="flex items-center justify-between neumorphic px-4 md:px-6 py-4 rounded-full shrink-0">
@@ -84,15 +85,9 @@ export default function DashboardPage() {
             <span className="text-[var(--color-on-surface-variant)] hidden sm:inline whitespace-nowrap">{greeting},</span>
             <span className="font-bold text-[var(--color-on-surface)] truncate">{user?.full_name || 'Người dùng'}</span>
           </div>
-          <div className="flex items-center gap-2 md:gap-4 shrink-0">
+          <div className="flex items-center gap-3 md:gap-4 shrink-0">
             <NotificationBell />
-            <button 
-              onClick={() => setActiveTab('account')}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0 cursor-pointer hover:border-[var(--color-primary)] transition-colors"
-              title="Cài đặt tài khoản"
-            >
-              <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={48} height={48} className="w-full h-full object-cover" unoptimized />
-            </button>
+            <UserMenu />
           </div>
         </header>
 
@@ -143,7 +138,7 @@ export default function DashboardPage() {
         )}
 
         {/* Bottom Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1 min-h-[250px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 shrink-0 min-h-[250px]">
           <ExpenseAnalysisCard />
           <UpcomingBillsCard />
           <FinancialTipsCard />
