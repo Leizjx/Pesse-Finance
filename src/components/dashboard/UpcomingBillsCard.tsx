@@ -2,14 +2,18 @@
 
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CalendarClock, CreditCard, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { CalendarClock, CreditCard, ChevronRight, CheckCircle2, Lock, Crown } from 'lucide-react';
 import { useSubscriptions } from '@/hooks/useSubscriptions';
+import { useAuth } from '@/hooks/useAuth';
 import { formatCurrency } from '@/lib/utils';
-import { format, differenceInDays, parseISO, isAfter, isBefore, addDays, startOfDay } from 'date-fns';
+import { format, differenceInDays, parseISO, addDays, startOfDay } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { useRouter } from 'next/navigation';
 
 export const UpcomingBillsCard = () => {
+  const { user } = useAuth();
   const { data: subscriptions = [], isLoading } = useSubscriptions();
+  const router = useRouter();
 
   const upcomingBills = useMemo(() => {
     const today = startOfDay(new Date());
@@ -35,6 +39,37 @@ export const UpcomingBillsCard = () => {
         <div className="space-y-4">
           <div className="h-16 bg-black/10 rounded-standard w-full"></div>
           <div className="h-16 bg-black/10 rounded-standard w-full"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Premium Guard
+  if (user?.plan_type !== 'premium') {
+    return (
+      <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px] relative overflow-hidden">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="font-bold text-lg text-[var(--color-on-surface)] flex items-center gap-2">
+            <CalendarClock size={20} className="text-[var(--color-on-surface-variant)]" />
+            Hóa đơn <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full flex items-center gap-1 mx-1"><Crown size={10} /> Premium</span>
+          </h3>
+        </div>
+        
+        <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
+          <div className="w-16 h-16 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mb-4 text-[var(--color-primary)]">
+            <Lock size={32} />
+          </div>
+          <p className="text-sm font-bold text-[var(--color-on-surface)]">Tính năng giới hạn</p>
+          <p className="text-[10px] text-[var(--color-on-surface-variant)] mt-1 max-w-[200px]">
+            Tự động quét và nhắc nhở hóa đơn từ Email dành riêng cho thành viên <strong>Premium</strong>.
+          </p>
+          <button 
+            onClick={() => router.push('/dashboard/premium')}
+            className="mt-4 px-6 py-2 bg-[var(--color-primary)] text-black font-bold text-xs rounded-full hover:scale-105 transition-transform flex items-center gap-2 shadow-lg cursor-pointer"
+          >
+            <Crown size={14} className="fill-black" />
+            Nâng cấp ngay
+          </button>
         </div>
       </div>
     );
