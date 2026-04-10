@@ -47,30 +47,43 @@ export const UpcomingBillsCard = () => {
   // Premium Guard
   if (user?.plan_type !== 'premium') {
     return (
-      <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px] relative overflow-hidden">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="font-bold text-lg text-[var(--color-on-surface)] flex items-center gap-2">
-            <CalendarClock size={20} className="text-[var(--color-on-surface-variant)]" />
-            Hóa đơn <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full flex items-center gap-1 mx-1"><Crown size={10} /> Premium</span>
-          </h3>
+      <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px] relative overflow-hidden group">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-surface)] neumorphic flex items-center justify-center">
+              <CalendarClock size={16} className="text-[var(--color-on-surface-variant)]" />
+            </div>
+            <h3 className="font-bold text-base text-[var(--color-on-surface)]">Hóa đơn</h3>
+          </div>
+          <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-600 px-2 py-1 rounded-full flex items-center gap-1 border border-yellow-500/20">
+            <Crown size={10} className="fill-yellow-600" /> Premium
+          </span>
         </div>
         
-        <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-          <div className="w-16 h-16 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mb-4 text-[var(--color-primary)]">
-            <Lock size={32} />
-          </div>
-          <p className="text-sm font-bold text-[var(--color-on-surface)]">Tính năng giới hạn</p>
-          <p className="text-[10px] text-[var(--color-on-surface-variant)] mt-1 max-w-[200px]">
-            Tự động quét và nhắc nhở hóa đơn từ Email dành riêng cho thành viên <strong>Premium</strong>.
-          </p>
-          <button 
-            onClick={() => router.push('/dashboard/premium')}
-            className="mt-4 px-6 py-2 bg-[var(--color-primary)] text-black font-bold text-xs rounded-full hover:scale-105 transition-transform flex items-center gap-2 shadow-lg cursor-pointer"
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
+          <motion.div 
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-primary)]/5 flex items-center justify-center mb-4 text-[var(--color-primary)] shadow-inner"
           >
-            <Crown size={14} className="fill-black" />
-            Nâng cấp ngay
-          </button>
+            <Lock size={28} />
+          </motion.div>
+          
+          <h4 className="text-sm font-extrabold text-[var(--color-on-surface)] mb-1">Tính năng giới hạn</h4>
+          <p className="text-[11px] text-[var(--color-on-surface-variant)] font-medium max-w-[180px] leading-relaxed">
+            Tự động quét và nhắc nhở hóa đơn từ Email dành riêng cho thành viên Premium.
+          </p>
         </div>
+
+        <motion.button 
+          whileHover={{ scale: 1.02, backgroundColor: 'var(--color-primary)' }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => router.push('/dashboard/premium')}
+          className="w-full py-3 bg-[var(--color-primary)]/90 text-black font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm cursor-pointer mt-auto transition-colors"
+        >
+          <Crown size={14} className="fill-black" />
+          <span>Nâng cấp ngay</span>
+        </motion.button>
       </div>
     );
   }
