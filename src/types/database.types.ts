@@ -18,6 +18,8 @@ export interface Profile {
   full_name: string;
   total_balance: number;
   avatar_url: string | null;
+  /** 'basic' (free) | 'premium' (49.000 VND/month) */
+  plan_type: 'basic' | 'premium';
   created_at: string; // ISO 8601
   updated_at: string;
 }
@@ -170,3 +172,50 @@ export const RegisterSchema = z
   });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
+
+// ─────────────────────────────────────────────
+// SUBSCRIPTIONS
+// ─────────────────────────────────────────────
+
+export type BillingCycle = 'monthly' | 'yearly';
+export type SubscriptionStatus = 'active' | 'cancelled' | 'trial' | 'paused';
+
+export interface Subscription {
+  id: string;                    // UUID
+  user_id: string;               // FK → profiles.id
+  service_name: string;          // e.g. 'Netflix', 'Spotify'
+  logo_url: string | null;       // CDN URL for service logo
+  amount: number;                // Always positive (charge amount)
+  currency: string;              // 'VND' | 'USD' etc.
+  billing_cycle: BillingCycle;
+  last_billing_date: string | null; // ISO date YYYY-MM-DD
+  next_billing_date: string;        // ISO date YYYY-MM-DD
+  status: SubscriptionStatus;
+  gmail_msg_id: string | null;   // Gmail message ID (deduplication)
+  created_at: string;
+  updated_at: string;
+}
+
+export const SubscriptionSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  service_name: z.string().min(1, 'Tên dịch vụ không được để trống'),
+  logo_url: z.string().url().nullable(),
+  amount: z.number().positive('Số tiền phải lớn hơn 0'),
+  currency: z.string().default('VND'),
+  billing_cycle: z.enum(['monthly', 'yearly'] as const),
+  last_billing_date: z.string().date().nullable(),
+  next_billing_date: z.string().date('Ngày gia hạn không hợp lệ'),
+  status: z.enum(['active', 'cancelled', 'trial', 'paused'] as const).default('active'),
+  gmail_msg_id: z.string().nullable(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+
+export type SyncSubscriptionsResponse = {
+  success: boolean;
+  synced: number;       // number of new subscriptions upserted
+  subscriptions: Subscription[];
+  error?: string;
+};
+

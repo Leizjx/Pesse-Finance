@@ -4,12 +4,12 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { LayoutGrid, ReceiptText, BarChart2, Wallet, Database } from 'lucide-react';
+import { LayoutGrid, ReceiptText, BarChart2, Wallet, Database, BotMessageSquare } from 'lucide-react';
 
 const mobileMenuItems = [
   { id: 'dashboard',    path: '/dashboard',                icon: LayoutGrid,  label: 'Tổng quan' },
   { id: 'transactions', path: '/dashboard/transactions',   icon: ReceiptText, label: 'Giao dịch' },
-  { id: 'reports',      path: '/dashboard/reports',        icon: BarChart2,   label: 'Báo cáo'   },
+  { id: 'chat',         path: '/dashboard/chat',           icon: BotMessageSquare, label: 'Chat AI' },
   { id: 'budget',       path: '/dashboard/budgets',        icon: Wallet,      label: 'Ngân sách' },
   { id: 'account',      path: '/dashboard/account',        icon: Database,    label: 'Cài đặt'   },
 ];

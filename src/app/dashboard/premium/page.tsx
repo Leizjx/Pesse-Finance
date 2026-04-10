@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, Star, Zap, Shield, Crown, ArrowRight } from 'lucide-react';
+import { Check, Star, Zap, Shield, Crown, ArrowRight, Sparkles, BellRing } from 'lucide-react';
 import Image from 'next/image';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { useAuth } from '@/hooks/useAuth';
@@ -22,25 +22,25 @@ const plans = [
     ],
     buttonText: 'Đang sử dụng',
     isPopular: false,
-    color: 'bg-[var(--color-surface)] neumorphic',
+    className: 'bg-[var(--color-surface)]/40 backdrop-blur-xl border border-white/10',
   },
   {
     id: 'premium',
     name: 'Premium',
     price: '49.000',
     period: '/tháng',
-    description: 'Trải nghiệm toàn bộ tính năng cao cấp, không giới hạn.',
+    description: 'Trải nghiệm toàn bộ tính năng thông minh cao cấp.',
     features: [
       'Mọi tính năng của gói Cơ bản',
-      'Báo cáo chi tiết & Phân tích sâu',
-      'Không giới hạn số lượng ngân sách',
-      'Đồng bộ đa thiết bị',
-      'Xuất dữ liệu ra Excel/PDF',
-      'Không quảng cáo'
+      'Cố vấn tài chính AI (Gemini)',
+      'Thông báo đẩy & Nhắc lịch thông minh',
+      'Quét hoá đơn Gmail tự động',
+      'Không giới hạn ngân sách & hoá đơn',
+      'Xuất dữ liệu Excel/PDF chuyên nghiệp'
     ],
-    buttonText: 'Nâng cấp ngay',
+    buttonText: 'Nâng cấp Premium ngay',
     isPopular: true,
-    color: 'bg-[var(--color-primary)] text-[var(--color-on-surface)] shadow-lg',
+    className: 'bg-[var(--color-primary)] text-black shadow-[0_40px_100px_rgba(var(--color-primary-rgb),0.3)]',
   }
 ];
 
@@ -49,78 +49,92 @@ export default function PremiumPage() {
   
   return (
     <div className="flex-1 flex flex-col h-full overflow-y-auto pr-2 pb-24 lg:pb-10 relative">
+      {/* Decorative Gradients */}
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[var(--color-primary)]/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-[-10%] w-[30%] h-[30%] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+
       {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-start justify-between shrink-0 mb-10 mt-2 gap-4">
+      <header className="flex flex-col md:flex-row md:items-start justify-between shrink-0 mb-12 mt-4 gap-6 relative z-10 px-4">
         <div className="flex items-center justify-between md:hidden w-full">
           <h1 className="text-3xl font-extrabold text-[var(--color-on-surface)] tracking-tight">
-            Gói <span className="text-[var(--color-primary)]">thành viên</span>
+            Nâng cấp <span className="text-[var(--color-primary)]">Trải nghiệm</span>
           </h1>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-3">
             <NotificationBell />
-            <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
+            <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-white/10">
               <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" unoptimized />
             </div>
           </div>
         </div>
 
         <div className="hidden md:block">
-          <h1 className="text-4xl font-extrabold text-[var(--color-on-surface)] tracking-tight mb-2">
-            Gói <span className="text-[var(--color-primary)]">thành viên</span>
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2 mb-3"
+          >
+            <span className="px-3 py-1 bg-[var(--color-primary)]/20 text-[var(--color-primary)] rounded-full text-xs font-bold uppercase tracking-wider border border-[var(--color-primary)]/30">Mở khoá sức mạnh AI</span>
+          </motion.div>
+          <h1 className="text-5xl font-extrabold text-[var(--color-on-surface)] tracking-tight mb-3">
+             Pesse <span className="text-[var(--color-primary)]">Premium</span>
           </h1>
-          <p className="text-base text-[var(--color-on-surface-variant)] font-medium">
-            Nâng cấp để mở khóa toàn bộ sức mạnh quản lý tài chính của Pesse.
+          <p className="text-lg text-[var(--color-on-surface-variant)] font-medium max-w-xl leading-relaxed">
+            Hệ sinh thái tài chính thông minh giúp bạn kiểm soát dòng tiền và nhận lời khuyên từ trí tuệ nhân tạo.
           </p>
         </div>
         
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-5">
           <NotificationBell />
-          <div className="w-12 h-12 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
-            <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={48} height={48} className="w-full h-full object-cover" unoptimized />
+          <div className="w-14 h-14 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-white/10 shrink-0">
+            <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={56} height={56} className="w-full h-full object-cover" unoptimized />
           </div>
         </div>
 
-        <p className="md:hidden text-sm text-[var(--color-on-surface-variant)] font-medium">
+        <p className="md:hidden text-lg text-[var(--color-on-surface-variant)] font-medium">
           Nâng cấp để mở khóa toàn bộ sức mạnh quản lý tài chính của Pesse.
         </p>
       </header>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto w-full mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto w-full mt-4 relative z-10 pt-6 px-4">
         {plans.map((plan) => (
           <motion.div
             key={plan.id}
-            whileHover={{ y: -5 }}
-            className={`relative rounded-[32px] p-8 flex flex-col ${plan.color} ${!plan.isPopular ? 'border-2 border-transparent' : ''}`}
+            whileHover={{ y: -8 }}
+            className={`relative rounded-[48px] p-8 md:p-10 flex flex-col ${plan.className} transition-all duration-300`}
           >
             {plan.isPopular && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--color-on-surface)] text-[var(--color-surface)] px-4 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
-                <Crown size={14} className="text-[var(--color-primary)]" />
-                PHỔ BIẾN NHẤT
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-black text-[var(--color-primary)] px-6 py-2 rounded-full text-sm font-black flex items-center gap-2 shadow-2xl">
+                <Crown size={18} fill="currentColor" />
+                KHUYÊN DÙNG
               </div>
             )}
             
             <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-              <p className={`text-sm ${plan.isPopular ? 'text-[var(--color-on-surface)]/80' : 'text-[var(--color-on-surface-variant)]'}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-3xl font-black uppercase tracking-tight">{plan.name}</h3>
+                {plan.isPopular && <Sparkles size={24} className="text-black inline" />}
+              </div>
+              <p className={`text-sm font-semibold opacity-80`}>
                 {plan.description}
               </p>
             </div>
             
-            <div className="mb-8 flex items-end gap-1">
-              <span className="text-4xl font-extrabold">{plan.price}</span>
-              {plan.price !== 'Miễn phí' && <span className="text-sm font-bold mb-1">VND</span>}
-              <span className={`text-sm font-medium mb-1 ${plan.isPopular ? 'text-[var(--color-on-surface)]/80' : 'text-[var(--color-on-surface-variant)]'}`}>
+            <div className="mb-10 flex items-end gap-1">
+              <span className="text-6xl font-black tracking-tighter">{plan.price}</span>
+              {plan.price !== 'Miễn phí' && <span className="text-lg font-bold mb-2">VND</span>}
+              <span className={`text-base font-bold mb-2 opacity-70`}>
                 {plan.period}
               </span>
             </div>
             
-            <div className="flex-1 flex flex-col gap-4 mb-8">
+            <div className="flex-1 flex flex-col gap-5 mb-10">
               {plan.features.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className={`mt-0.5 rounded-full p-1 ${plan.isPopular ? 'bg-[var(--color-on-surface)] text-[var(--color-surface)]' : 'bg-[var(--color-primary)]/20 text-[var(--color-primary)]'}`}>
-                    <Check size={12} strokeWidth={3} />
+                <div key={idx} className="flex items-center gap-4">
+                  <div className={`shrink-0 rounded-full p-1.5 ${plan.isPopular ? 'bg-black/20 text-black' : 'bg-[var(--color-primary)] text-black'}`}>
+                    <Check size={16} strokeWidth={4} />
                   </div>
-                  <span className={`text-sm font-medium ${plan.isPopular ? 'text-[var(--color-on-surface)]' : 'text-[var(--color-on-surface-variant)]'}`}>
+                  <span className={`text-base font-bold ${plan.isPopular ? 'text-black' : 'text-[var(--color-on-surface)]'}`}>
                     {feature}
                   </span>
                 </div>
@@ -130,44 +144,46 @@ export default function PremiumPage() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full py-4 rounded-full font-bold text-base flex items-center justify-center gap-2 transition-colors cursor-pointer ${
+              className={`w-full py-5 rounded-[24px] font-black text-lg flex items-center justify-center gap-3 transition-all cursor-pointer ${
                 plan.isPopular 
-                  ? 'bg-[var(--color-on-surface)] text-[var(--color-surface)] hover:bg-[var(--color-on-surface)]/90 shadow-lg' 
-                  : 'neumorphic-pressed text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)]'
+                  ? 'bg-black text-[var(--color-primary)] hover:bg-zinc-900 shadow-2xl' 
+                  : 'bg-white/10 hover:bg-white/20 text-[var(--color-on-surface)] border border-white/10'
               }`}
             >
               {plan.buttonText}
-              {plan.isPopular && <ArrowRight size={18} />}
+              {plan.isPopular && <ArrowRight size={22} />}
             </motion.button>
           </motion.div>
         ))}
       </div>
       
-      {/* Features Grid */}
-      <div className="mt-16 max-w-5xl mx-auto w-full">
-        <h2 className="text-2xl font-bold text-center mb-10 text-[var(--color-on-surface)]">Tại sao nên chọn Premium?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="neumorphic p-6 rounded-large flex flex-col items-center text-center">
-            <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/20 text-[var(--color-on-surface)] flex items-center justify-center mb-4">
-              <Star size={24} />
+      {/* Features Showcase */}
+      <div className="mt-24 max-w-6xl mx-auto w-full px-4 mb-20">
+        <h2 className="text-4xl font-extrabold text-center mb-16 text-[var(--color-on-surface)] tracking-tight">Công nghệ tài chính vượt trội</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <motion.div whileHover={{ y: -5 }} className="bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-[40px] flex flex-col items-center text-center">
+            <div className="w-16 h-16 rounded-3xl bg-[var(--color-primary)]/20 text-[var(--color-primary)] flex items-center justify-center mb-6">
+              <Sparkles size={32} />
             </div>
-            <h3 className="font-bold text-lg mb-2 text-[var(--color-on-surface)]">Trải nghiệm tối ưu</h3>
-            <p className="text-sm text-[var(--color-on-surface-variant)]">Không quảng cáo, giao diện mượt mà, tập trung hoàn toàn vào tài chính của bạn.</p>
-          </div>
-          <div className="neumorphic p-6 rounded-large flex flex-col items-center text-center">
-            <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/20 text-[var(--color-on-surface)] flex items-center justify-center mb-4">
-              <Zap size={24} />
+            <h3 className="font-bold text-xl mb-3 text-[var(--color-on-surface)]">Cố vấn AI 24/7</h3>
+            <p className="text-[var(--color-on-surface-variant)] font-medium leading-relaxed">Sử dụng công nghệ Gemini AI của Google để phân tích thói quen và đưa ra lời khuyên thực tế nhất.</p>
+          </motion.div>
+
+          <motion.div whileHover={{ y: -5 }} className="bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-[40px] flex flex-col items-center text-center shadow-inner">
+            <div className="w-16 h-16 rounded-3xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6">
+              <BellRing size={32} />
             </div>
-            <h3 className="font-bold text-lg mb-2 text-[var(--color-on-surface)]">Phân tích chuyên sâu</h3>
-            <p className="text-sm text-[var(--color-on-surface-variant)]">Báo cáo chi tiết giúp bạn hiểu rõ thói quen chi tiêu và tìm ra cách tiết kiệm hiệu quả.</p>
-          </div>
-          <div className="neumorphic p-6 rounded-large flex flex-col items-center text-center">
-            <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/20 text-[var(--color-on-surface)] flex items-center justify-center mb-4">
-              <Shield size={24} />
+            <h3 className="font-bold text-xl mb-3 text-[var(--color-on-surface)]">Thông báo thông minh</h3>
+            <p className="text-[var(--color-on-surface-variant)] font-medium leading-relaxed">Cảnh báo vượt ngân sách và nhắc lịch gia hạn dịch vụ tự động, giúp bạn không bao giờ mất tiền oan.</p>
+          </motion.div>
+
+          <motion.div whileHover={{ y: -5 }} className="bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-[40px] flex flex-col items-center text-center">
+            <div className="w-16 h-16 rounded-3xl bg-amber-500/20 text-amber-500 flex items-center justify-center mb-6">
+              <Zap size={32} />
             </div>
-            <h3 className="font-bold text-lg mb-2 text-[var(--color-on-surface)]">Bảo mật tuyệt đối</h3>
-            <p className="text-sm text-[var(--color-on-surface-variant)]">Dữ liệu được mã hóa và đồng bộ an toàn trên tất cả các thiết bị của bạn.</p>
-          </div>
+            <h3 className="font-bold text-xl mb-3 text-[var(--color-on-surface)]">Tình hình tài chính</h3>
+            <p className="text-[var(--color-on-surface-variant)] font-medium leading-relaxed">Xem nhanh báo cáo tổng hợp để biết chính xác tiền của mình đang đi đâu và về đâu.</p>
+          </motion.div>
         </div>
       </div>
     </div>

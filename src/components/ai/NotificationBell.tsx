@@ -1,37 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, Info, AlertTriangle, CheckCircle2 } from 'lucide-react';
-
-const notifications = [
-  {
-    id: 1,
-    type: 'info',
-    title: 'Hệ thống bảo trì',
-    message: 'Hệ thống sẽ bảo trì định kỳ vào lúc 00:00 đêm nay. Vui lòng hoàn tất các giao dịch trước thời gian này.',
-    time: '10 phút trước',
-    read: false,
-  },
-  {
-    id: 2,
-    type: 'warning',
-    title: 'Cảnh báo ngân sách',
-    message: 'Bạn đã sử dụng vượt 80% ngân sách cho hạng mục "Ăn uống".',
-    time: '2 giờ trước',
-    read: false,
-  },
-  {
-    id: 3,
-    type: 'success',
-    title: 'Cập nhật tính năng',
-    message: 'Tính năng báo cáo nâng cao đã được cập nhật. Khám phá ngay!',
-    time: '1 ngày trước',
-    read: true,
-  }
-];
+import { Bell, Info, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
+import { useNotifications } from '@/hooks/useAI';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { formatDistanceToNow } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 export const NotificationBell = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
+  const { data: notifications = [], isLoading } = useNotifications();
+
+  const markReadMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch('/api/notifications', {
+        method: 'PATCH',
+        body: JSON.stringify({ id }),
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    }
+  });
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -44,13 +36,20 @@ export const NotificationBell = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter(n => !n.is_read).length;
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'warning': return <AlertTriangle size={16} className="text-error" />;
-      case 'success': return <CheckCircle2 size={16} className="text-success" />;
-      default: return <Info size={16} className="text-primary" />;
+      case 'budget_alert': return <AlertTriangle size={16} className="text-[var(--color-error)]" />;
+      case 'subscription_reminder': return <CheckCircle2 size={16} className="text-[var(--color-success)]" />;
+      case 'ai_insight': return <Info size={16} className="text-[var(--color-primary)]" />;
+      default: return <Info size={16} className="text-[var(--color-primary)]" />;
+    }
+  };
+
+  const handleNotificationClick = (notif: any) => {
+    if (!notif.is_read) {
+      markReadMutation.mutate(notif.id);
     }
   };
 
@@ -60,11 +59,11 @@ export const NotificationBell = () => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center text-on-surface relative"
+        className="w-10 h-10 md:w-12 md:h-12 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] relative cursor-pointer"
       >
         <Bell size={20} />
         {unreadCount > 0 && (
-          <span className="absolute top-2 right-2 md:top-3 md:right-3 w-2.5 h-2.5 bg-error rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+          <span className="absolute top-2 right-2 md:top-3 md:right-3 w-2.5 h-2.5 bg-[var(--color-error)] rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
         )}
       </motion.button>
 
@@ -75,40 +74,56 @@ export const NotificationBell = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-4 w-[320px] md:w-[380px] bg-surface rounded-[24px] shadow-2xl z-50 overflow-hidden border border-white/20"
+            className="absolute right-0 top-full mt-4 w-[320px] md:w-[380px] bg-[var(--color-surface)] rounded-[24px] shadow-2xl z-50 overflow-hidden border border-white/20"
           >
-            <div className="p-4 md:p-6 border-b border-on-surface-variant/10 flex justify-between items-center bg-surface/50 backdrop-blur-md">
-              <h3 className="font-bold text-lg text-on-surface">Thông báo</h3>
-              <button className="text-xs font-bold text-primary hover:underline">Đánh dấu đã đọc</button>
+            <div className="p-4 md:p-6 border-b border-[var(--color-on-surface-variant)]/10 flex justify-between items-center bg-[var(--color-surface)]/50 backdrop-blur-md">
+              <h3 className="font-bold text-lg text-[var(--color-on-surface)]">Thông báo</h3>
+              {unreadCount > 0 && (
+                <span className="text-xs font-bold text-[var(--color-on-surface-variant)]">{unreadCount} mới</span>
+              )}
             </div>
             
             <div className="max-h-[400px] overflow-y-auto flex flex-col">
-              {notifications.map((notif) => (
-                <div 
-                  key={notif.id} 
-                  className={`p-4 md:p-6 border-b border-on-surface-variant/5 hover:bg-on-surface-variant/5 transition-colors cursor-pointer flex gap-4 ${!notif.read ? 'bg-primary/5' : ''}`}
-                >
-                  <div className="w-10 h-10 rounded-full neumorphic-pressed flex items-center justify-center shrink-0">
-                    {getIcon(notif.type)}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start mb-1">
-                      <h4 className={`text-sm font-bold ${!notif.read ? 'text-on-surface' : 'text-on-surface-variant'}`}>
-                        {notif.title}
-                      </h4>
-                      <span className="text-[10px] font-bold text-on-surface-variant whitespace-nowrap ml-2">{notif.time}</span>
-                    </div>
-                    <p className="text-xs text-on-surface-variant leading-relaxed line-clamp-2">
-                      {notif.message}
-                    </p>
-                  </div>
+              {isLoading ? (
+                <div className="p-10 flex flex-col items-center justify-center gap-2 text-[var(--color-on-surface-variant)]">
+                   <Loader2 size={24} className="animate-spin" />
+                   <span className="text-xs font-medium">Đang tải thông báo...</span>
                 </div>
-              ))}
+              ) : notifications.length === 0 ? (
+                <div className="p-10 text-center text-[var(--color-on-surface-variant)]">
+                   <p className="text-sm font-medium italic">Hiện chưa có thông báo mới.</p>
+                </div>
+              ) : (
+                notifications.map((notif) => (
+                  <div 
+                    key={notif.id} 
+                    onClick={() => handleNotificationClick(notif)}
+                    className={`p-4 md:p-6 border-b border-[var(--color-on-surface-variant)]/5 hover:bg-[var(--color-on-surface-variant)]/5 transition-colors cursor-pointer flex gap-4 ${!notif.is_read ? 'bg-[var(--color-primary)]/5' : ''}`}
+                  >
+                    <div className="w-10 h-10 rounded-full neumorphic-pressed flex items-center justify-center shrink-0">
+                      {getIcon(notif.type)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-1">
+                        <h4 className={`text-sm font-bold ${!notif.is_read ? 'text-[var(--color-on-surface)]' : 'text-[var(--color-on-surface-variant)]'}`}>
+                          {notif.title}
+                        </h4>
+                        <span className="text-[10px] font-bold text-[var(--color-on-surface-variant)] whitespace-nowrap ml-2">
+                          {formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: vi })}
+                        </span>
+                      </div>
+                      <p className={`text-xs leading-relaxed line-clamp-2 ${!notif.is_read ? 'text-[var(--color-on-surface)] font-medium' : 'text-[var(--color-on-surface-variant)]'}`}>
+                        {notif.content}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
             
-            <div className="p-4 text-center bg-surface/50 backdrop-blur-md">
-              <button className="text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors uppercase tracking-wider">
-                Xem tất cả thông báo
+            <div className="p-4 text-center bg-[var(--color-surface)]/50 backdrop-blur-md">
+              <button className="text-xs font-bold text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition-colors uppercase tracking-wider cursor-pointer">
+                Đóng
               </button>
             </div>
           </motion.div>

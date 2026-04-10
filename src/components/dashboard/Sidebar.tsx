@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { LayoutGrid, ReceiptText, BarChart2, Wallet, Settings, LogOut, Database } from 'lucide-react';
+import { LayoutGrid, ReceiptText, BarChart2, Wallet, Settings, LogOut, Database, Calendar, BotMessageSquare } from 'lucide-react';
 import { logoutAction } from '@/app/actions/logout';
 
 const menuItems = [
@@ -12,6 +12,8 @@ const menuItems = [
   { id: 'transactions', path: '/dashboard/transactions', icon: ReceiptText, label: 'Giao dịch' },
   { id: 'reports', path: '/dashboard/reports', icon: BarChart2, label: 'Báo cáo' },
   { id: 'budget', path: '/dashboard/budgets', icon: Wallet, label: 'Ngân sách' },
+  { id: 'subscriptions', path: '/dashboard/subscriptions', icon: Calendar, label: 'Đăng ký' },
+  { id: 'chat', path: '/dashboard/chat', icon: BotMessageSquare, label: 'Chat AI' },
   { id: 'data-connection', path: '/dashboard/data-connection', icon: Database, label: 'Kết nối dữ liệu' },
   { id: 'account', path: '/dashboard/account', icon: Settings, label: 'Cài đặt' },
 ];
