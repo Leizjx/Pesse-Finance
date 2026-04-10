@@ -46,10 +46,10 @@ export default function SubscriptionsPage() {
             <Lock size={40} />
           </div>
           <h2 className="text-3xl font-bold text-[var(--color-on-surface)] flex items-center justify-center gap-3">
-            Tính Năng Giới Hạn <Crown className="text-yellow-500 fill-yellow-500" size={28} />
+            Hóa Đơn Cần Thanh Toán <Crown className="text-yellow-500 fill-yellow-500" size={28} />
           </h2>
           <p className="text-[var(--color-on-surface-variant)] text-lg leading-relaxed">
-            Quản lý Đăng Ký (Subscriptions) tự động quét hóa đơn từ Gmail và quản lý chu kỳ gia hạn, tính năng này chỉ dành riêng cho thành viên <strong>Premium</strong>.
+            Quản lý Hóa đơn tài chính (Subscriptions) tự động quét hóa đơn từ Gmail và quản lý chu kỳ gia hạn, tính năng này chỉ dành riêng cho thành viên <strong>Premium</strong>.
           </p>
           <button
             onClick={() => router.push('/dashboard/premium')}
@@ -94,7 +94,7 @@ export default function SubscriptionsPage() {
             <div className="w-10 h-10 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">
                <Calendar size={24} />
             </div>
-            Quản Lý <span className="text-[var(--color-primary)]">Gói Đăng Ký</span>
+            Quản Lý <span className="text-[var(--color-primary)]">Hóa Đơn Tài Chính</span>
           </h1>
           <p className="text-sm text-[var(--color-on-surface-variant)] font-medium">
             Theo dõi và tự động hoá phân tích các loại hoá đơn dịch vụ (Netflix, Spotify...) từ Gmail.

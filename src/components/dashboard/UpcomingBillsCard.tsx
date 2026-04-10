@@ -123,7 +123,7 @@ export const UpcomingBillsCard = () => {
         onClick={() => window.location.href = '/dashboard/subscriptions'}
         className="mt-4 text-xs font-bold text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] flex items-center gap-1 transition-colors justify-center cursor-pointer"
       >
-        Quản lý đăng ký <ChevronRight size={14} />
+        Quản lý hóa đơn <ChevronRight size={14} />
       </button>
     </div>
   );

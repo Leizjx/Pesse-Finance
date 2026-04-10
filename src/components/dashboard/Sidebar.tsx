@@ -12,7 +12,7 @@ const menuItems = [
   { id: 'transactions', path: '/dashboard/transactions', icon: ReceiptText, label: 'Giao dịch' },
   { id: 'reports', path: '/dashboard/reports', icon: BarChart2, label: 'Báo cáo' },
   { id: 'budget', path: '/dashboard/budgets', icon: Wallet, label: 'Ngân sách' },
-  { id: 'subscriptions', path: '/dashboard/subscriptions', icon: Calendar, label: 'Đăng ký' },
+  { id: 'subscriptions', path: '/dashboard/subscriptions', icon: Calendar, label: 'Hóa đơn' },
   { id: 'chat', path: '/dashboard/chat', icon: BotMessageSquare, label: 'Chat AI' },
   { id: 'data-connection', path: '/dashboard/data-connection', icon: Database, label: 'Kết nối dữ liệu' },
   { id: 'account', path: '/dashboard/account', icon: Settings, label: 'Cài đặt' },
@@ -37,11 +37,10 @@ export function Sidebar() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full flex items-center gap-4 px-4 py-3 rounded-full transition-colors ${
-                    isActive
+                  className={`w-full flex items-center gap-4 px-4 py-3 rounded-full transition-colors ${isActive
                       ? 'bg-[var(--color-primary)] text-[var(--color-on-surface)] shadow-sm font-bold'
                       : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] hover:bg-[var(--color-surface)]/50 font-medium'
-                  }`}
+                    }`}
                 >
                   <item.icon size={20} />
                   <span>{item.label}</span>
@@ -60,11 +59,10 @@ export function Sidebar() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`w-full py-2 rounded-full font-bold text-sm shadow-sm transition-colors ${
-                pathname === '/dashboard/premium'
+              className={`w-full py-2 rounded-full font-bold text-sm shadow-sm transition-colors ${pathname === '/dashboard/premium'
                   ? 'bg-[var(--color-on-surface)] text-[var(--color-surface)]'
                   : 'bg-[var(--color-primary)] text-[var(--color-on-surface)]'
-              }`}
+                }`}
             >
               Nâng cấp Premium
             </motion.button>
