@@ -31,15 +31,34 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid messages array' }, { status: 400 });
   }
 
-  // 1. Fetch user data for context
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString();
+  // 1. Fetch user data context and check limits
+  const now = new Date();
+  const todayDate = now.toISOString().split('T')[0]; // YYYY-MM-DD
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
   const [{ data: profile }, { data: transactions }, { data: subscriptions }] = await Promise.all([
-    supabase.from('profiles').select('full_name, total_balance').eq('id', user.id).single(),
+    supabase.from('profiles').select('full_name, total_balance, daily_chat_count, last_chat_date').eq('id', user.id).single(),
     supabase.from('transactions').select('*').eq('user_id', user.id).gte('date', firstDayOfMonth),
     supabase.from('subscriptions').select('*').eq('user_id', user.id)
   ]);
+
+  // Daily chat limit logic
+  let currentChatCount = profile?.daily_chat_count || 0;
+  const lastChatDate = profile?.last_chat_date;
+
+  if (lastChatDate !== todayDate) {
+    currentChatCount = 0;
+    await supabase.from('profiles').update({
+      daily_chat_count: 0,
+      last_chat_date: todayDate
+    }).eq('id', user.id);
+  }
+
+  if (currentChatCount >= 20) {
+    return NextResponse.json({ 
+      error: 'Bạn đã hết lượt chat hôm nay (tối đa 20 câu/ngày). Hãy quay lại vào ngày mai nhé!' 
+    }, { status: 429 });
+  }
 
   const totalExpenses = transactions?.reduce((sum, t) => sum + (t.type === 'expense' ? t.amount : 0), 0) || 0;
   const income = transactions?.reduce((sum, t) => sum + (t.type === 'income' ? t.amount : 0), 0) || 0;
@@ -108,6 +127,11 @@ export async function POST(req: Request) {
 
     const result = await chat.sendMessage(lastMessage);
     const responseText = result.response.text();
+
+    // 3. Increment chat count after successful response
+    await supabase.from('profiles')
+      .update({ daily_chat_count: currentChatCount + 1 })
+      .eq('id', user.id);
 
     return NextResponse.json({ content: responseText });
   } catch (error: any) {
