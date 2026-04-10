@@ -13,7 +13,7 @@ export default function VerifyOtpContent() {
   const { verifyEmailOtp, isSubmitting, error, clearError } = useAuth();
   
   const email = searchParams.get("email") || "";
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -34,7 +34,7 @@ export default function VerifyOtpContent() {
     setOtp(newOtp);
 
     // Auto-focus next input
-    if (value && index < 5) {
+    if (value && index < 7) {
       inputRefs.current[index + 1]?.focus();
     }
     
@@ -48,7 +48,7 @@ export default function VerifyOtpContent() {
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    const data = e.clipboardData.getData("text").substring(0, 6);
+    const data = e.clipboardData.getData("text").substring(0, 8);
     if (!/^\d+$/.test(data)) return;
 
     const newOtp = [...otp];
@@ -56,20 +56,20 @@ export default function VerifyOtpContent() {
       newOtp[i] = char;
     });
     setOtp(newOtp);
-    inputRefs.current[Math.min(data.length, 5)]?.focus();
+    inputRefs.current[Math.min(data.length, 7)]?.focus();
   };
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     const token = otp.join("");
-    if (token.length !== 6) return;
+    if (token.length !== 8) return;
     
     await verifyEmailOtp(email, token);
   };
 
-  // Submit automatically when all 6 digits are filled
+  // Submit automatically when all 8 digits are filled
   useEffect(() => {
-    if (otp.join("").length === 6) {
+    if (otp.join("").length === 8) {
       handleSubmit();
     }
   }, [otp]);
@@ -97,7 +97,7 @@ export default function VerifyOtpContent() {
 
         <h2 className="text-3xl font-extrabold mb-3 text-center text-[var(--color-on-surface)]">Xác thực tài khoản</h2>
         <p className="text-[var(--color-on-surface-variant)] font-medium mb-10 text-center max-w-xs">
-          Mã OTP gồm 6 chữ số đã được gửi tới <br /> 
+          Mã OTP gồm 8 chữ số đã được gửi tới <br /> 
           <span className="text-[var(--color-on-surface)] font-bold">{email}</span>
         </p>
 
@@ -108,11 +108,11 @@ export default function VerifyOtpContent() {
             </div>
           )}
 
-          <div className="flex justify-between gap-2 md:gap-3 px-2">
+          <div className="grid grid-cols-4 md:flex md:justify-between gap-2 md:gap-3 px-1">
             {otp.map((digit, index) => (
               <div 
                 key={index}
-                className="flex-1 aspect-square neumorphic-pressed rounded-2xl flex items-center justify-center border border-transparent focus-within:border-[var(--color-primary)]/50 transition-all"
+                className="aspect-square neumorphic-pressed rounded-xl md:rounded-2xl flex items-center justify-center border border-transparent focus-within:border-[var(--color-primary)]/50 transition-all"
               >
                 <input
                   ref={(el) => { inputRefs.current[index] = el; }}
@@ -123,7 +123,7 @@ export default function VerifyOtpContent() {
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={index === 0 ? handlePaste : undefined}
-                  className="w-full h-full bg-transparent text-center text-2xl font-black text-[var(--color-on-surface)] outline-none"
+                  className="w-full h-full bg-transparent text-center text-xl md:text-2xl font-black text-[var(--color-on-surface)] outline-none"
                 />
               </div>
             ))}
@@ -132,7 +132,7 @@ export default function VerifyOtpContent() {
           <div className="flex flex-col items-center gap-6">
             <motion.button 
               type="submit"
-              disabled={isSubmitting || otp.join("").length !== 6}
+              disabled={isSubmitting || otp.join("").length !== 8}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-5 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-lg"
