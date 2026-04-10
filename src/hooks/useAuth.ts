@@ -23,6 +23,8 @@ import {
   signIn as authSignIn,
   signUp as authSignUp,
   signOut as authSignOut,
+  resetPasswordForEmail as authSignInReset,
+  updateUserPassword as authUpdatePassword,
 } from "@/services/authService";
 import { fetchProfile } from "@/services/transactionService";
 import type { LoginInput, RegisterInput } from "@/types/database.types";
@@ -184,6 +186,31 @@ export function useAuth() {
     router.push("/login");
   }, [router, reset]);
 
+  // ── Password Reset ───────────────────────────────────────────────────────
+  const sendPasswordResetEmail = useCallback(async (email: string) => {
+    setError(null);
+    setIsSubmitting(true);
+    const { error: authError } = await authSignInReset(email);
+    setIsSubmitting(false);
+    if (authError) {
+      setError(authError.message);
+      return { success: false };
+    }
+    return { success: true };
+  }, []);
+
+  const updatePassword = useCallback(async (password: string) => {
+    setError(null);
+    setIsSubmitting(true);
+    const { error: authError } = await authUpdatePassword(password);
+    setIsSubmitting(false);
+    if (authError) {
+      setError(authError.message);
+      return { success: false };
+    }
+    return { success: true };
+  }, []);
+
   return {
     user,
     isAuthenticated,
@@ -194,5 +221,7 @@ export function useAuth() {
     signIn,
     signUp,
     signOut,
+    sendPasswordResetEmail,
+    updatePassword,
   };
 }

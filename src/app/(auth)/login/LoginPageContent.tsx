@@ -121,9 +121,12 @@ export default function LoginPageContent() {
           </div>
 
           <div className="w-full flex justify-end">
-             <button type="button" className="text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors cursor-pointer">
+             <Link 
+               href="/forgot-password" 
+               className="text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors cursor-pointer"
+             >
                Quên mật khẩu?
-             </button>
+             </Link>
           </div>
 
           <motion.button 

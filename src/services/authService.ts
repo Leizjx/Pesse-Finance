@@ -110,6 +110,41 @@ export function onAuthStateChange(
 }
 
 // ─────────────────────────────────────────────
+// PASSWORD RESET
+// ─────────────────────────────────────────────
+
+/**
+ * Initiates the password reset flow by sending a recovery email.
+ */
+export async function resetPasswordForEmail(email: string) {
+  const supabase = createClient();
+  
+  // Use current origin to build the redirect URL
+  // The user should land on the /update-password page after clicking the link
+  const redirectTo = `${window.location.origin}/update-password`;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo,
+  });
+
+  return { data, error };
+}
+
+/**
+ * Updates the user's password.
+ * This should be called when the user is already signed in (e.g., via a recovery link).
+ */
+export async function updateUserPassword(password: string) {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  return { data, error };
+}
+
+// ─────────────────────────────────────────────
 // SOCIAL AUTH LOGINS
 // ─────────────────────────────────────────────
 
