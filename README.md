@@ -75,15 +75,24 @@ graph TD;
    ```
 
 3. **Cấu hình Môi trường (Environment Variables):**
-   Tạo file `.env.local` ở thư mục gốc và sao chép cấu hình:
+   Tạo file `.env.local` ở thư mục gốc và cấu hình đầy đủ các biến sau (cũng cần thêm các biến này vào Vercel Dashboard khi deploy):
    ```env
+   # Supabase
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
    SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
+   # Google Auth & Gmail API
    NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client
    GOOGLE_CLIENT_SECRET=your_google_secret
    GOOGLE_REDIRECT_URI=http://localhost:3000/auth/callback
+
+   # AI Advisor (Gemini)
+   GEMINI_API_KEY=your_gemini_api_key
+
+   # Deployment & Security
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   CRON_SECRET=your_random_string_for_cron
    ```
 
 4. **Khởi động Development Server:**
