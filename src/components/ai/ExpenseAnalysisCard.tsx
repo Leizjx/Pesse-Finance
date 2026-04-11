@@ -90,20 +90,22 @@ export const ExpenseAnalysisCard = React.memo(() => {
         <LucidePieChart size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
         Phân tích Chi tiêu
       </h3>
-      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-6 mt-4">
+      <div className="flex-1 flex flex-col items-center gap-6 mt-6 lg:mt-4 overflow-hidden">
         {chartData.length === 0 ? (
-          <div className="text-center text-sm font-medium text-[var(--color-on-surface-variant)] py-10 w-full">
+          <div className="text-center text-sm font-medium text-[var(--color-on-surface-variant)] py-10 w-full col-span-full">
             Chưa có dữ liệu chi tiêu để phân tích.
           </div>
         ) : (
           <>
-            <div className="w-40 h-40 shrink-0 min-w-[160px] min-h-[160px]">
-              <ResponsiveContainer width="100%" height="100%" minWidth={160} minHeight={160}>
-                <PieChart>
+            <div className="w-48 h-48 shrink-0 flex items-center justify-center relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                   <Pie
                     data={chartData}
+                    cx="50%"
+                    cy="50%"
                     innerRadius={50}
-                    outerRadius={75}
+                    outerRadius={85}
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
@@ -120,14 +122,14 @@ export const ExpenseAnalysisCard = React.memo(() => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex flex-col gap-3 flex-1 w-full justify-center">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3 w-full mt-2 lg:mt-4 px-2">
               {chartData.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full shadow-inner shrink-0" style={{ backgroundColor: item.color }}></div>
-                    <span className="text-sm lg:text-base font-bold text-[var(--color-on-surface-variant)] truncate max-w-[140px] tracking-tight">{item.name}</span>
+                <div key={index} className="flex items-center justify-between min-w-0">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-3 h-3 rounded-full shadow-inner shrink-0" style={{ backgroundColor: item.color }}></div>
+                    <span className="text-xs lg:text-sm font-bold text-[var(--color-on-surface-variant)] truncate tracking-tight">{item.name}</span>
                   </div>
-                  <span className="text-sm lg:text-base font-black lg:font-extrabold text-[var(--color-on-surface)] ml-4">{item.value}%</span>
+                  <span className="text-xs lg:text-sm font-black text-[var(--color-on-surface)] ml-2 shrink-0">{item.value}%</span>
                 </div>
               ))}
             </div>

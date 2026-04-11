@@ -13,7 +13,6 @@ const mobileMenuItems = [
   { id: 'chat',            path: '/dashboard/chat',           icon: BotMessageSquare, label: 'Chat AI'   },
   { id: 'budget',          path: '/dashboard/budgets',        icon: Wallet,           label: 'Ngân sách' },
   { id: 'data-connection', path: '/dashboard/data-connection',icon: Database,         label: 'Dữ liệu'   },
-  { id: 'account',         path: '/dashboard/account',        icon: Database,         label: 'Cài đặt'   }, // Note: icon will be Database for now or Settings if I add it
 ];
 
 export function MobileNav() {

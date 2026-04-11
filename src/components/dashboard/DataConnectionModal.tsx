@@ -50,6 +50,11 @@ function useDataConnectionLogic({ initialProvider, initialName, initialSelectedB
     const supabase = createClient();
     
     if (selectedProvider === 'gmail') {
+      // ÉP BUỘC SỬ DỤNG LOCALHOST ĐỂ KHÔNG BỊ NHẢY SANG VERCEL
+      const redirectTo = 'http://localhost:3000/auth/callback';
+      
+      console.log('[CRITICAL DEBUG] Forcing Redirect to:', redirectTo);
+
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -58,7 +63,7 @@ function useDataConnectionLogic({ initialProvider, initialName, initialSelectedB
             prompt: 'consent'
           },
           scopes: 'https://www.googleapis.com/auth/gmail.readonly',
-          redirectTo: window.location.origin + '/auth/callback'
+          redirectTo
         }
       });
     } else {

@@ -17,11 +17,11 @@ import { vi } from 'date-fns/locale';
 import type { DataConnection } from '@/types/database.types';
 
 const banks = [
-  { id: 'vcb', name: 'Vietcombank', logo: 'VCB', color: 'text-green-600', bg: 'bg-green-50', active: true },
-  { id: 'tcb', name: 'Techcombank', logo: 'TCB', color: 'text-red-600', bg: 'bg-red-50', active: true },
-  { id: 'mb', name: 'MB Bank', logo: 'MB', color: 'text-blue-600', bg: 'bg-blue-50', active: false },
-  { id: 'tpb', name: 'TPBank', logo: 'TPB', color: 'text-purple-600', bg: 'bg-purple-50', active: false },
-  { id: 'acb', name: 'ACB', logo: 'ACB', color: 'text-blue-500', bg: 'bg-blue-50', active: false },
+  { id: 'vcb', name: 'Vietcombank', logo: 'VCB', color: 'text-green-600', bg: 'bg-green-50', active: true, query: '(from:vietcombank.com.vn ("biến động số dư" OR "Biên lai chuyển tiền" OR "Số dư TK" OR "Giao dịch" OR "VND")) newer_than:1d' },
+  { id: 'tcb', name: 'Techcombank', logo: 'TCB', color: 'text-red-600', bg: 'bg-red-50', active: true, query: '(from:techcombank.com.vn ("biến động số dư" OR "thông báo giao dịch" OR "F@st Mobile" OR "VND")) newer_than:1d' },
+  { id: 'mb', name: 'MB Bank', logo: 'MB', color: 'text-blue-600', bg: 'bg-blue-50', active: false, query: '(from:mbbank.com.vn ("thông báo biến động số dư" OR "VND")) newer_than:1d' },
+  { id: 'tpb', name: 'TPBank', logo: 'TPB', color: 'text-purple-600', bg: 'bg-purple-50', active: false, query: '(from:tpbank.vn ("biến động tài khoản" OR "VND")) newer_than:1d' },
+  { id: 'acb', name: 'ACB', logo: 'ACB', color: 'text-blue-500', bg: 'bg-blue-50', active: false, query: '(from:acb.com.vn ("thông báo giao dịch ACB" OR "VND")) newer_than:1d' },
   { id: 'vib', name: 'VIB', logo: 'VIB', color: 'text-orange-500', bg: 'bg-orange-50', active: false },
   { id: 'ctg', name: 'VietinBank', logo: 'CTG', color: 'text-blue-700', bg: 'bg-blue-50', active: false },
   { id: 'bidv', name: 'BIDV', logo: 'BIDV', color: 'text-teal-600', bg: 'bg-teal-50', active: false },
@@ -178,6 +178,42 @@ export default function DataConnectionClient() {
             <div className="flex items-center gap-3 mb-6">
               <AtSign size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
               <h2 className="text-xl font-black text-[var(--color-on-surface)] uppercase tracking-tight">Email kết nối</h2>
+              <button 
+                onClick={async (e) => {
+                  const btn = e.currentTarget;
+                  const originalText = btn.innerText;
+                  try {
+                    btn.innerText = 'Đang quét...';
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.5';
+                    
+                    console.log('[Sync] Khởi động quét Gmail...');
+                    const res = await fetch('/api/sync/manual', {
+                      method: 'POST',
+                    });
+                    
+                    if (res.ok) {
+                      const data = await res.json();
+                      console.log('[Sync] Kết quả chi tiết:', data);
+                      alert(`Đồng bộ thành công! Tìm thấy ${data.processed} giao dịch mới.`);
+                      router.refresh(); 
+                    } else {
+                      const errText = await res.text();
+                      console.error('[Sync] Lỗi API:', errText);
+                      alert('Lỗi đồng bộ: ' + errText);
+                    }
+                  } catch (err) {
+                    alert('Không thể kết nối với server.');
+                  } finally {
+                    btn.innerText = originalText;
+                    btn.style.pointerEvents = 'auto';
+                    btn.style.opacity = '1';
+                  }
+                }}
+                className="ml-auto text-xs font-black text-[var(--color-primary)] hover:underline uppercase tracking-widest cursor-pointer"
+              >
+                Đồng bộ ngay
+              </button>
             </div>
             <div className="flex flex-col gap-4">
               {isLoading ? (

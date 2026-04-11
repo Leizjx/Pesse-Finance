@@ -1,8 +1,8 @@
 /**
  * src/lib/parsers/bankRegex.ts
  * 
- * Bộ xử lý Regex bóc tách nội dung email biến động số dư cho các ngân hàng lớn.
- * Dùng Regex giúp tiết kiệm chi phí gọi API LLM và rất ổn định với format có sẵn.
+ * Bộ xử lý Regex nâng cao để bóc tách thông tin giao dịch ngân hàng từ email.
+ * Hỗ trợ các ngân hàng: VCB, Techcombank, MB Bank, TPBank, ACB.
  */
 
 import { TransactionCategory, TransactionType } from "@/types/database.types";
@@ -10,91 +10,164 @@ import { TransactionCategory, TransactionType } from "@/types/database.types";
 export interface ParsedTransaction {
   amount: number;
   type: TransactionType;
-  date: string; // ISO String
+  date: string; // YYYY-MM-DD
   note: string;
-  category: TransactionCategory; // Default to 'other' or a guessed category
-  bank_id: string; // The ID of the bank it was parsed from (vcb, tcb, etc.)
+  category: TransactionCategory;
+  bank_id: string;
 }
 
 // =========================================================================
-// 1. VIETCOMBANK (VCB) REGEX RULE
+// HELPERS
 // =========================================================================
-// VD email: "Tài khoản 01234456789 thay đổi +1,500,000 VND vào ngày 09/04/2026. Số dư hiện tại... Nội dung: Chuyen tien hoc phi"
-// Mẫu Regex linh hoạt cho cả 2 loại email của VCB
-const VCB_REGEX = {
-  // Loại 1: Biến động số dư có dấu +/-
-  fluctuation: /([+-])\s*([\d,.]+)\s*VND/i,
-  fluctuationNote: /(?:Nội dung|Chi tiết|ND)[^\w]*?(.+?)(?:<br|\n|\r|$|Cám ơn)/i,
-  
-  // Loại 2: Biên lai chuyển tiền (chỉ có trừ tiền)
-  receiptAmount: /Số tiền\s*(?:Amount)?\s*([\d,.]+)\s*VND/i,
-  receiptNote: /Nội dung chuyển tiền\s*(?:Details of Payment)?\s*(.+?)\s*(?:Cám ơn|Lưu ý|<br|\n|$)/i
-};
 
-function parseVCB(emailBody: string): Partial<ParsedTransaction> | null {
-  // 1. Xử lý email Biến động số dư (Balance Fluctuation)
-  const flucMatch = emailBody.match(VCB_REGEX.fluctuation);
+function normalizeText(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, ' ') // Strip HTML tags
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')     // Normalize spaces
+    .trim();
+}
+
+function extractDate(text: string): string {
+  // Ưu tiên format DD/MM/YYYY hoặc DD/MM/YY
+  const dateMatch = text.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  if (dateMatch) {
+    let day = dateMatch[1].padStart(2, '0');
+    let month = dateMatch[2].padStart(2, '0');
+    let year = dateMatch[3];
+    if (year.length === 2) year = `20${year}`;
+    return `${year}-${month}-${day}`;
+  }
+  return new Date().toISOString().split('T')[0];
+}
+
+// =========================================================================
+// BANK SPECIFIC PARSERS
+// =========================================================================
+
+/**
+ * VIETCOMBANK
+ * Email ví dụ: "thay đổi +1,500,000 VND", "Số tiền: 500,000 VND"
+ */
+function parseVCB(text: string): Partial<ParsedTransaction> | null {
+  // 1. Biến động số dư (+/-) - Thường là từ vcbdigibank@vietcombank.com.vn
+  const flucMatch = text.match(/([+-])\s*([\d,.]+)\s*(?:VND|VNĐ|đ)/i);
   if (flucMatch) {
-    const sign = flucMatch[1]; 
-    const amount = parseFloat(flucMatch[2].replace(/,/g, '')); 
-    const type: TransactionType = sign === '+' ? 'income' : 'expense';
+    const amount = parseFloat(flucMatch[2].replace(/[.,]/g, ''));
+    return {
+      amount,
+      type: flucMatch[1] === '+' ? 'income' : 'expense',
+      note: text.match(/(?:ND|Nội dung|Chi tiết)[:\s]+(.*?)(?:\s[Vv]ào|$)/i)?.[1].trim() || "Giao dịch VCB",
+      date: extractDate(text)
+    };
+  }
 
-    const noteMatch = emailBody.match(VCB_REGEX.fluctuationNote);
-    const note = noteMatch ? noteMatch[1].trim() : "Giao dịch VCB";
+  // 2. Biên lai chuyển tiền (Payment Receipt) - Format dạng bảng
+  // Regex này được thiết kế để "nhìn xuyên" qua các bảng HTML phức tạp
+  const receiptAmountMatch = text.match(/(?:Số tiền|Amount)[\s\r\n]*(?:Amount)?[\s\r\n]*([\d,.]+)\s*(?:VND|VNĐ|đ)/i);
+  
+  if (receiptAmountMatch) {
+    // Tìm nội dung chuyển tiền (Details of Payment)
+    // Hỗ trợ cả Cảm ơn (có dấu hỏi) và Cám ơn (dấu sắc) làm mốc dừng
+    const noteMatch = text.match(/(?:Nội dung chuyển tiền|Details of Payment)[\s\r\n]*(?:Details of Payment)?[\s\r\n]*(.+?)(?:\s*(?:Cảm ơn|Cám ơn|Lưu ý|Trans\. Date)|$)/i);
     
-    return { amount, type, note, bank_id: 'vcb', category: 'other' };
+    return {
+      amount: parseFloat(receiptAmountMatch[1].replace(/[.,]/g, '')),
+      type: 'expense',
+      note: noteMatch ? noteMatch[1].trim() : "Chuyển tiền VCB",
+      date: extractDate(text)
+    };
   }
+  return null;
+}
 
-  // 2. Xử lý email Biên lai chuyển tiền (Payment Receipt)
-  if (emailBody.toLowerCase().includes('biên lai chuyển tiền')) {
-    const receiptMatch = emailBody.match(VCB_REGEX.receiptAmount);
-    if (!receiptMatch) return null;
-
-    const amount = parseFloat(receiptMatch[1].replace(/,/g, ''));
-    const type: TransactionType = 'expense'; // Biên lai chuyển khoản hiển nhiên là tiền ra
-
-    const noteMatch = emailBody.match(VCB_REGEX.receiptNote);
-    const note = noteMatch ? noteMatch[1].trim() : "Chuyển tiền VCB";
-
-    return { amount, type, note, bank_id: 'vcb', category: 'other' };
+/**
+ * TECHCOMBANK
+ */
+function parseTCB(text: string): Partial<ParsedTransaction> | null {
+  const match = text.match(/([+-])\s*([\d,.]+)\s*(?:VND|VNĐ|đ)/i);
+  if (match) {
+    return {
+      amount: parseFloat(match[2].replace(/[.,]/g, '')),
+      type: match[1] === '+' ? 'income' : 'expense',
+      note: "Giao dịch TCB",
+      date: extractDate(text)
+    };
   }
+  return null;
+}
 
-  return null; // Không quét thấy lượng tiền hợp lệ
+/**
+ * MB BANK
+ */
+function parseMB(text: string): Partial<ParsedTransaction> | null {
+  const match = text.match(/(?:Số tiền thay đổi|GD)[:\s]*([+-])\s*([\d,.]+)\s*(?:VND|VNĐ|đ)/i);
+  if (match) {
+    return {
+      amount: parseFloat(match[2].replace(/[.,]/g, '')),
+      type: match[1] === '+' ? 'income' : 'expense',
+      note: text.match(/(?:ND|Nội dung)[:\s]+(.*?)(?:\svào|$)/i)?.[1].trim() || "Giao dịch MB Bank",
+      date: extractDate(text)
+    };
+  }
+  return null;
+}
+
+/**
+ * TPBANK
+ */
+function parseTPB(text: string): Partial<ParsedTransaction> | null {
+  const match = text.match(/([+-])\s*([\d,.]+)\s*(?:VND|VNĐ|đ)/i);
+  if (match) {
+    return {
+      amount: parseFloat(match[2].replace(/[.,]/g, '')),
+      type: match[1] === '+' ? 'income' : 'expense',
+      note: text.match(/(?:ND|Nội dung)[:\s]+(.*?)(?:\svào|$)/i)?.[1].trim() || "Giao dịch TPBank",
+      date: extractDate(text)
+    };
+  }
+  return null;
+}
+
+/**
+ * ACB
+ */
+function parseACB(text: string): Partial<ParsedTransaction> | null {
+  const match = text.match(/(?:Số tiền|giao dịch)[:\s]*([+-])\s*([\d,.]+)/i);
+  if (match) {
+    return {
+      amount: parseFloat(match[2].replace(/[.,]/g, '')),
+      type: match[1] === '+' ? 'income' : 'expense',
+      note: "Giao dịch ACB",
+      date: extractDate(text)
+    };
+  }
+  return null;
 }
 
 // =========================================================================
-// 2. TECHCOMBANK (TCB) REGEX RULE
+// ENTRY POINT
 // =========================================================================
-// TCB thường dùng số tiền +/- liền mạch hoặc format riêng.
-const TCB_REGEX = {
-  amountAndType: /([+-])([\d,.]+)\s*VND/i, 
-};
 
-function parseTCB(emailBody: string): Partial<ParsedTransaction> | null {
-  const amountMatch = emailBody.match(TCB_REGEX.amountAndType);
-  if (!amountMatch) return null;
-
-  const sign = amountMatch[1];
-  const amount = parseFloat(amountMatch[2].replace(/,/g, ''));
-  const type: TransactionType = sign === '+' ? 'income' : 'expense';
-
-  return { amount, type, note: "Giao dịch TCB", bank_id: 'tcb', category: 'other' };
-}
-
-// =========================================================================
-// 3. MAIN PARSER ENTRY PORT
-// =========================================================================
 export function parseBankEmail(emailBody: string, bankId: string): Partial<ParsedTransaction> | null {
-  // Làm phẳng HTML thành Test để Regex dễ hoạt động hơn
-  const plainText = emailBody.replace(/<[^>]+>/g, ' '); 
+  const cleanText = normalizeText(emailBody);
+  
+  let result: Partial<ParsedTransaction> | null = null;
+  const bid = bankId.toLowerCase();
 
-  switch (bankId.toLowerCase()) {
-    case 'vcb':
-      return parseVCB(plainText);
-    case 'tcb':
-      return parseTCB(plainText);
-    default:
-      console.warn(`Chưa hỗ trợ parse Regex cho ngân hàng: ${bankId}`);
-      return null;
+  if (bid === 'vcb') result = parseVCB(cleanText);
+  else if (bid === 'tcb') result = parseTCB(cleanText);
+  else if (bid === 'mb')  result = parseMB(cleanText);
+  else if (bid === 'tpb') result = parseTPB(cleanText);
+  else if (bid === 'acb') result = parseACB(cleanText);
+
+  if (result) {
+    return {
+      ...result,
+      bank_id: bid,
+      category: 'other' // Category is guessed later by AI or manual
+    };
   }
+
+  return null;
 }

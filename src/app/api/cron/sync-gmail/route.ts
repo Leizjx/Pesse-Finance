@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { google } from 'googleapis';
+import { GmailSyncService } from '@/lib/services/gmailSyncService';
+import { AiParserService } from '@/lib/services/aiParserService';
 import { parseBankEmail } from '@/lib/parsers/bankRegex';
 
-// =========================================================================
-// HELPER: Gọi /api/sync-status để cập nhật trạng thái Banner trên UI
-// =========================================================================
-async function updateStatus(
-  action: 'start' | 'progress' | 'finish',
-  payload?: { banks?: string[]; log?: string }
-) {
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+async function updateStatus(action: 'start' | 'progress' | 'finish', payload?: any) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
   try {
     await fetch(`${baseUrl}/api/sync-status`, {
@@ -20,44 +20,17 @@ async function updateStatus(
       },
       body: JSON.stringify({ action, ...payload }),
     });
-  } catch {
-    // Non-blocking – không để lỗi này crash Cron
-  }
+  } catch (e) {}
 }
 
-// =========================================================================
-// KHỞI TẠO CLIENTS
-// =========================================================================
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI
-);
-
-// Map bank ID → tên hiển thị tiếng Việt
-const BANK_DISPLAY_NAME: Record<string, string> = {
-  vcb: 'Vietcombank',
-  tcb: 'Techcombank',
-  mb: 'MB Bank',
-  tpb: 'TPBank',
-  acb: 'ACB',
-};
-
-// Map bank ID → Gmail query
 const BANK_QUERY_MAP: Record<string, string> = {
-  vcb: '(from:vietcombank.com.vn ("biến động số dư" OR "Biên lai chuyển tiền"))',
-  tcb: '(from:techcombank.com.vn ("biến động số dư" OR "thông báo giao dịch"))',
-  mb:  '(from:mbbank.com.vn ("thông báo biến động số dư"))',
-  tpb: '(from:tpbank.vn ("biến động tài khoản"))',
-  acb: '(from:acb.com.vn ("thông báo giao dịch ACB"))',
+  vcb: '(vietcombank VND) newer_than:1d',
+  tcb: '(techcombank VND) newer_than:1d',
+  mb:  '(mbbank VND) newer_than:1d',
+  tpb: '(tpbank VND) newer_than:1d',
+  acb: '(acb.com VND) newer_than:1d',
 };
 
-// Map From header keyword → bank ID (để nhận diện sau khi fetch)
 const FROM_BANK_MAP: Record<string, string> = {
   vietcombank: 'vcb',
   techcombank: 'tcb',
@@ -67,130 +40,100 @@ const FROM_BANK_MAP: Record<string, string> = {
 };
 
 export async function GET(request: Request) {
-  // Bảo mật: Vercel Cron / gọi thủ công cần Authorization header
   const authHeader = request.headers.get('authorization');
   if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  // ── Bước 1: Thông báo UI bắt đầu sync ─────────────────────────────────
-  await updateStatus('start', { banks: [], log: 'Đang chuẩn bị đồng bộ...' });
+  await updateStatus('start', { log: 'Bắt đầu đồng bộ tự động...' });
 
   try {
-    // ── Bước 2: Lấy danh sách kết nối active từ DB ─────────────────────
-    const { data: connections, error } = await supabaseAdmin
+    const { data: connections } = await supabaseAdmin
       .from('data_connections')
-      .select('id, user_id, email_address, selected_banks, provider_refresh_token')
+      .select('*')
       .eq('sync_status', 'active');
 
-    if (error) throw error;
     if (!connections || connections.length === 0) {
       await updateStatus('finish');
-      return NextResponse.json({ message: 'Không có kết nối active nào' });
+      return NextResponse.json({ message: 'No active connections' });
     }
 
-    const allNewTransactions: object[] = [];
+    const gmailService = new GmailSyncService({
+      clientId:     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      redirectUri:  process.env.GOOGLE_REDIRECT_URI!,
+    });
+
+    const aiParser = new AiParserService(process.env.GEMINI_API_KEY!);
+    const VALID_CATEGORIES = ["food", "transport", "entertainment", "health", "education", "shopping", "utilities", "rent", "salary", "investment", "insurance", "other"];
+
+    let totalProcessed = 0;
 
     for (const connection of connections) {
-      const selectedBanks = (connection.selected_banks as string[]) ?? [];
-      if (selectedBanks.length === 0) continue;
+      try {
+        const selectedBanks = (connection.selected_banks as string[]) || [];
+        const query = selectedBanks.map(b => BANK_QUERY_MAP[b]).filter(Boolean).join(' OR ');
+        if (!query) continue;
 
-      // ── Bước 3: Cập nhật Banner với danh sách ngân hàng sẽ quét ───────
-      await updateStatus('start', {
-        banks: selectedBanks,
-        log:   `Đang quét ${(BANK_DISPLAY_NAME[selectedBanks[0]] ?? selectedBanks[0].toUpperCase())}...`,
-      });
+        gmailService.setCredentials(connection.provider_refresh_token);
+        const messages = await gmailService.fetchMessages(query, 10); // Cron fetch ít hơn manual
+        
+        const allParsed: any[] = [];
+        for (const msg of messages) {
+          const aiResult = await aiParser.parseTransaction(msg.body);
+          let tx: any = null;
 
-      // ── Bước 4: Xây dựng Dynamic Gmail Query ──────────────────────────
-      const queryParts = selectedBanks
-        .filter(id => BANK_QUERY_MAP[id])
-        .map(id => BANK_QUERY_MAP[id]);
+          if (aiResult) {
+            let cat = (aiResult.category || 'other').toLowerCase();
+            if (!VALID_CATEGORIES.includes(cat)) cat = 'other';
+            tx = {
+              user_id: connection.user_id,
+              amount: aiResult.amount,
+              type: aiResult.type || 'expense',
+              category: cat,
+              date: aiResult.date || new Date().toISOString().split('T')[0],
+              note: aiResult.description || msg.subject,
+              bank_id: aiResult.bank_name?.toLowerCase() || selectedBanks[0] || 'vcb',
+            };
+          } else {
+            const matchedBankId = Object.entries(FROM_BANK_MAP).find(([kw]) => 
+              msg.from.toLowerCase().includes(kw)
+            )?.[1] || selectedBanks[0] || 'vcb';
+            const parsed = parseBankEmail(msg.body, matchedBankId);
+            if (parsed) {
+              tx = { ...parsed, user_id: connection.user_id };
+            }
+          }
 
-      if (queryParts.length === 0) continue;
-      const gmailQuery = `{ ${queryParts.join(' ')} }`;
-
-      // ── Bước 5: Kết nối Gmail API ──────────────────────────────────────
-      oauth2Client.setCredentials({ refresh_token: connection.provider_refresh_token });
-      const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-
-      const listRes = await gmail.users.messages.list({
-        userId: 'me',
-        q: gmailQuery,
-        maxResults: 50,
-      });
-
-      const messages = listRes.data.messages ?? [];
-      if (messages.length === 0) continue;
-
-      // ── Bước 6: Fetch và Parse từng email ─────────────────────────────
-      for (let i = 0; i < messages.length; i++) {
-        const msg = messages[i];
-        if (!msg.id) continue;
-
-        // Lấy chi tiết email
-        const detail = await gmail.users.messages.get({
-          userId: 'me',
-          id: msg.id,
-          format: 'full',
-        });
-
-        const payload = detail.data.payload;
-        let body = '';
-        if (payload?.parts) {
-          const part = payload.parts.find(
-            p => p.mimeType === 'text/plain' || p.mimeType === 'text/html'
-          );
-          if (part?.body?.data) body = Buffer.from(part.body.data, 'base64').toString('utf8');
-        } else if (payload?.body?.data) {
-          body = Buffer.from(payload.body.data, 'base64').toString('utf8');
+          if (tx) allParsed.push(tx);
         }
 
-        // Xác định ngân hàng từ From header
-        const fromHeader = (payload?.headers ?? []).find(h => h.name === 'From')?.value ?? '';
-        const matchedBankId = Object.entries(FROM_BANK_MAP).find(([keyword]) =>
-          fromHeader.toLowerCase().includes(keyword)
-        )?.[1];
+        if (allParsed.length > 0) {
+          const { data: existing } = await supabaseAdmin
+            .from('transactions')
+            .select('amount, date, note')
+            .eq('user_id', connection.user_id);
 
-        if (!matchedBankId || !selectedBanks.includes(matchedBankId)) continue;
+          const filtered = allParsed.filter(p => !existing?.some(e => 
+            Number(e.amount) === Number(p.amount) && 
+            e.date === p.date && 
+            (e.note || '').includes((p.note || '').substring(0, 10))
+          ));
 
-        // Cập nhật log khi chuyển sang bank khác trong batch
-        if (i > 0 && i % 5 === 0) {
-          const bankName = BANK_DISPLAY_NAME[matchedBankId] ?? matchedBankId.toUpperCase();
-          await updateStatus('progress', { log: `Đang phân tích email ${bankName} (${i + 1}/${messages.length})...` });
+          if (filtered.length > 0) {
+            await supabaseAdmin.from('transactions').insert(filtered);
+            totalProcessed += filtered.length;
+          }
         }
-
-        // Parse bằng Regex
-        const parsed = parseBankEmail(body, matchedBankId);
-        if (parsed && parsed.amount && parsed.type) {
-          allNewTransactions.push({
-            user_id:  connection.user_id,
-            amount:   parsed.amount,
-            type:     parsed.type,
-            category: parsed.category ?? 'other',
-            note:     parsed.note ?? null,
-            date:     new Date().toISOString().split('T')[0], // YYYY-MM-DD
-          });
-        }
+      } catch (err) {
+        console.error(`Error syncing connection ${connection.email_address}:`, err);
       }
     }
 
-    // ── Bước 7: Bulk insert vào Supabase ──────────────────────────────────
-    if (allNewTransactions.length > 0) {
-      const { error: insertError } = await supabaseAdmin
-        .from('transactions')
-        .insert(allNewTransactions);
-      if (insertError) console.error('Insert error:', insertError);
-      // Supabase Realtime sẽ tự động push event xuống Frontend
-    }
-
-    // ── Bước 8: Thông báo UI hoàn tất ────────────────────────────────────
     await updateStatus('finish');
-
-    return NextResponse.json({ success: true, processed: allNewTransactions.length });
-
-  } catch (error) {
-    console.error('Cron sync-gmail error:', error);
-    await updateStatus('finish'); // Luôn tắt Banner dù có lỗi
-    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ success: true, processed: totalProcessed });
+  } catch (error: any) {
+    await updateStatus('finish');
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -3,15 +3,27 @@
 import React, { useState } from 'react';
 import { MainBalanceCard } from '@/components/ai/MainBalanceCard';
 import { BudgetCard } from '@/components/ai/BudgetCard';
-import { ExpenseAnalysisCard } from '@/components/ai/ExpenseAnalysisCard';
-import { FinancialTipsCard } from '@/components/ai/FinancialTipsCard';
-import { UpcomingBillsCard } from '@/components/dashboard/UpcomingBillsCard';
 import { TransactionList } from '@/components/ai/TransactionList';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { UserMenu } from '@/components/dashboard/UserMenu';
 import dynamic from 'next/dynamic';
+import { CardSkeleton, ChartSkeleton } from '@/components/dashboard/Skeletons';
+import { Suspense } from 'react';
+
 const AddTransactionModal = dynamic(() => import('@/components/ai/AddTransactionModal').then(mod => mod.AddTransactionModal), {
   loading: () => null,
+});
+
+const ExpenseAnalysisCard = dynamic(() => import('@/components/ai/ExpenseAnalysisCard').then(mod => mod.ExpenseAnalysisCard), {
+  loading: () => <ChartSkeleton />,
+});
+
+const UpcomingBillsCard = dynamic(() => import('@/components/dashboard/UpcomingBillsCard').then(mod => mod.UpcomingBillsCard), {
+  loading: () => <CardSkeleton />,
+});
+
+const FinancialTipsCard = dynamic(() => import('@/components/ai/FinancialTipsCard').then(mod => mod.FinancialTipsCard), {
+  loading: () => <CardSkeleton />,
 });
 import { 
   GraduationCap, Zap, HelpCircle, Plus, ShieldCheck, Briefcase, Utensils, Car, TrendingUp,
@@ -137,10 +149,18 @@ export default function DashboardClient() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 shrink-0 p-1">
-          <ExpenseAnalysisCard />
-          <UpcomingBillsCard />
+          <Suspense fallback={<ChartSkeleton />}>
+            <ExpenseAnalysisCard />
+          </Suspense>
+          
+          <Suspense fallback={<CardSkeleton />}>
+            <UpcomingBillsCard />
+          </Suspense>
+
           <div className="flex flex-col gap-3">
-            <FinancialTipsCard />
+            <Suspense fallback={<CardSkeleton />}>
+              <FinancialTipsCard />
+            </Suspense>
             <motion.button 
               onClick={() => setIsAddModalOpen(true)}
               whileHover={{ scale: 1.02, translateY: -2 }}

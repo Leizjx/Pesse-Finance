@@ -50,6 +50,9 @@ const SLIDES = [
             src="/images/intro-insights.png" 
             alt="Smart Insights" 
             fill 
+            sizes="(max-width: 768px) 160px, 160px"
+            quality={80}
+            loading="lazy"
             className="object-contain drop-shadow-xl"
           />
         </div>
@@ -80,6 +83,9 @@ const SLIDES = [
             src="/images/intro-security.png" 
             alt="Security & Privacy" 
             fill 
+            sizes="(max-width: 768px) 160px, 160px"
+            quality={80}
+            loading="lazy"
             className="object-contain drop-shadow-xl"
           />
         </div>

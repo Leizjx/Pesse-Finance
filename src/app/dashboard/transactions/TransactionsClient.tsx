@@ -10,8 +10,18 @@ import {
 } from 'lucide-react';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { UserMenu } from '@/components/dashboard/UserMenu';
-import { ConfirmDeleteModal } from '@/components/ai/ConfirmDeleteModal';
-import { AddTransactionModal } from '@/components/ai/AddTransactionModal';
+import dynamic from 'next/dynamic';
+import { ModalSkeleton } from '@/components/dashboard/Skeletons';
+
+const ConfirmDeleteModal = dynamic(() => import('@/components/ai/ConfirmDeleteModal').then(mod => mod.ConfirmDeleteModal), {
+  ssr: false,
+  loading: () => <ModalSkeleton />,
+});
+
+const AddTransactionModal = dynamic(() => import('@/components/ai/AddTransactionModal').then(mod => mod.AddTransactionModal), {
+  ssr: false,
+  loading: () => <ModalSkeleton />,
+});
 import { useAuth } from '@/hooks/useAuth';
 import { useTransactions, useDeleteTransaction } from '@/hooks/useTransactions';
 import { formatCurrency } from '@/lib/utils';

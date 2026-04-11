@@ -13,25 +13,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // 2. Fetch Profile to check premium status
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('plan_type')
-    .eq('id', user.id)
-    .single();
+  // 2 & 3. Fetch Profile and Data Connection in parallel
+  const [profileResult, connectionResult] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('plan_type')
+      .eq('id', user.id)
+      .single(),
+    supabase
+      .from('data_connections')
+      .select('provider_refresh_token')
+      .eq('user_id', user.id)
+      .eq('provider', 'gmail')
+      .eq('sync_status', 'active')
+      .single()
+  ]);
+
+  const profile = profileResult.data;
+  const connection = connectionResult.data;
 
   if (!profile || profile.plan_type !== 'premium') {
     return NextResponse.json({ error: 'Tính năng này yêu cầu tài khoản Premium' }, { status: 403 });
   }
-
-  // 3. Fetch Data Connection for Gmail
-  const { data: connection } = await supabase
-    .from('data_connections')
-    .select('*')
-    .eq('user_id', user.id)
-    .eq('provider', 'gmail')
-    .eq('sync_status', 'active')
-    .single();
 
   if (!connection || !connection.provider_refresh_token) {
     return NextResponse.json({ error: 'Chưa kết nối Gmail hợp lệ' }, { status: 400 });
@@ -68,17 +71,28 @@ export async function POST(req: Request) {
 
     const parsedRecords: (ParsedSubscription & { _msgId: string })[] = [];
 
-    // Process each message
-    for (const msg of messages) {
-      if (!msg.id) continue;
-      
-      const fullMessage = await gmail.users.messages.get({
-        userId: 'me',
-        id: msg.id,
-        format: 'full'
-      });
+    // Process messages in parallel (optimized)
+    const detailedMessages = await Promise.all(
+      messages.map(async (msg) => {
+        if (!msg.id) return null;
+        try {
+          const detail = await gmail.users.messages.get({
+            userId: 'me',
+            id: msg.id,
+            format: 'full'
+          });
+          return { id: msg.id, ...detail.data };
+        } catch (err) {
+          console.error(`Error fetching Gmail message ${msg.id}:`, err);
+          return null;
+        }
+      })
+    );
 
-      const payload = fullMessage.data.payload;
+    for (const fullMessage of detailedMessages) {
+      if (!fullMessage) continue;
+
+      const payload = fullMessage.payload;
       if (!payload) continue;
 
       let subject = '';
@@ -104,7 +118,7 @@ export async function POST(req: Request) {
 
       const parsed = parseSubscriptionEmail(subject, bodyData);
       if (parsed) {
-        parsedRecords.push({ ...parsed, _msgId: msg.id });
+        parsedRecords.push({ ...parsed, _msgId: fullMessage.id });
       }
     }
 
@@ -155,7 +169,7 @@ export async function POST(req: Request) {
     // Return the inserted records back to client
     const { data: latestSubscriptions } = await supabase
       .from('subscriptions')
-      .select('*')
+      .select('id, service_name, logo_url, amount, currency, billing_cycle, last_billing_date, next_billing_date, status')
       .eq('user_id', user.id);
 
     return NextResponse.json({
