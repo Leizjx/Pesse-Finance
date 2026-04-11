@@ -60,14 +60,14 @@ export default function LoginPageContent() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md flex flex-col items-center py-4 sm:py-0"
+        className="w-full max-w-md flex flex-col items-center py-6 sm:py-0"
       >
-        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[var(--color-primary)] rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-sm">
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[var(--color-on-surface)]">Pesse</h1>
+        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[var(--color-primary)] rounded-full flex items-center justify-center mb-8 sm:mb-10 shadow-lg">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tighter text-[var(--color-on-surface)]">Pesse</h1>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-extrabold mb-1 sm:mb-2 text-center text-on-surface">Chào mừng trở lại</h2>
-        <p className="text-sm sm:text-base text-[var(--color-on-surface-variant)] font-medium mb-6 sm:mb-10 text-center px-4">
+        <h2 className="text-3xl sm:text-4xl font-black mb-2 sm:mb-3 text-center text-[var(--color-on-surface)] tracking-tight">Chào mừng trở lại</h2>
+        <p className="text-base sm:text-lg text-[var(--color-on-surface-variant)] font-semibold mb-8 sm:mb-12 text-center px-6 leading-relaxed">
           Đăng nhập để tiếp tục quản lý tài chính
         </p>
 
@@ -83,41 +83,41 @@ export default function LoginPageContent() {
             </div>
           )}
 
-          <div>
-            <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">
               Email
             </label>
-            <div className={`neumorphic-pressed rounded-full px-6 py-4 border border-transparent transition-colors ${formErrors.email ? '!border-[var(--color-error)]' : ''}`}>
+            <div className={`neumorphic-pressed rounded-full px-7 py-5 border border-transparent transition-all duration-300 ${formErrors.email ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : 'focus-within:border-[var(--color-primary)]'}`}>
               <input 
                 name="email"
                 type="email" 
                 placeholder="email@vi-du.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50"
+                className="bg-transparent border-none outline-none w-full text-base text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40"
               />
             </div>
-            {formErrors.email && <p className="text-xs text-[var(--color-error)] mt-2 ml-4 font-medium">{formErrors.email}</p>}
+            {formErrors.email && <p className="text-sm text-[var(--color-error)] mt-2.5 ml-5 font-bold">{formErrors.email}</p>}
           </div>
 
-          <div>
-            <label className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">
               Mật khẩu
             </label>
-            <div className={`neumorphic-pressed rounded-full px-6 py-4 flex items-center border border-transparent transition-colors ${formErrors.password ? '!border-[var(--color-error)]' : ''}`}>
+            <div className={`neumorphic-pressed rounded-full px-7 py-5 flex items-center border border-transparent transition-all duration-300 ${formErrors.password ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : 'focus-within:border-[var(--color-primary)]'}`}>
               <input 
                 name="password"
                 type={showPassword ? "text" : "password"} 
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
-                className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50 tracking-widest"
+                className="bg-transparent border-none outline-none w-full text-base text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40 tracking-[0.2em]"
               />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] ml-2 transition-colors cursor-pointer">
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] ml-3 transition-colors cursor-pointer">
+                {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
               </button>
             </div>
-            {formErrors.password && <p className="text-xs text-[var(--color-error)] mt-2 ml-4 font-medium">{formErrors.password}</p>}
+            {formErrors.password && <p className="text-sm text-[var(--color-error)] mt-2.5 ml-5 font-bold">{formErrors.password}</p>}
           </div>
 
           <div className="w-full flex justify-end">
@@ -134,11 +134,11 @@ export default function LoginPageContent() {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 mb-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-5 rounded-full shadow-xl mt-6 mb-3 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-base"
           >
             {isSubmitting ? (
               <>
-                <Loader2 size={20} className="animate-spin" />
+                <Loader2 size={24} className="animate-spin" />
                 <span>Đang xử lý...</span>
               </>
             ) : (

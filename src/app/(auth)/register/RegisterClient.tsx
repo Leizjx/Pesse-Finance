@@ -76,8 +76,8 @@ export default function RegisterClient() {
             <Wallet size={20} className="text-[var(--color-primary)] sm:w-6 sm:h-6" />
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-extrabold mb-1 sm:mb-2 text-center text-[var(--color-on-surface)]">Bắt đầu hành trình mới</h2>
-          <p className="text-[var(--color-on-surface-variant)] font-medium mb-6 sm:mb-8 text-center text-xs sm:text-sm">
+          <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center text-[var(--color-on-surface)] tracking-tight">Bắt đầu hành trình mới</h2>
+          <p className="text-[var(--color-on-surface-variant)] font-semibold mb-8 sm:mb-10 text-center text-sm sm:text-base px-2">
             Tạo tài khoản Pesse chỉ trong vài giây
           </p>
 
@@ -88,71 +88,71 @@ export default function RegisterClient() {
               </div>
             )}
 
-            <div>
-              <label className="text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">Họ và tên</label>
-              <div className={`neumorphic-pressed rounded-full px-5 py-3 flex items-center gap-3 border border-transparent transition-colors ${formErrors.full_name ? '!border-[var(--color-error)]' : ''}`}>
-                <User size={18} className="text-[var(--color-on-surface-variant)]" />
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">Họ và tên</label>
+              <div className={`neumorphic-pressed rounded-full px-6 py-4 flex items-center gap-4 border border-transparent transition-all duration-300 ${formErrors.full_name ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : ''}`}>
+                <User size={20} className="text-[var(--color-on-surface-variant)]" />
                 <input 
                   type="text" 
                   name="full_name"
                   value={formData.full_name}
                   onChange={handleChange}
                   placeholder="Nguyễn Văn A"
-                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50 text-sm"
+                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40 text-base"
                 />
               </div>
-              {formErrors.full_name && <p className="text-xs text-[var(--color-error)] mt-1.5 ml-4 font-medium">{formErrors.full_name}</p>}
+              {formErrors.full_name && <p className="text-sm text-[var(--color-error)] mt-2 ml-5 font-bold">{formErrors.full_name}</p>}
             </div>
 
-            <div>
-              <label className="text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">Email</label>
-              <div className={`neumorphic-pressed rounded-full px-5 py-3 flex items-center gap-3 border border-transparent transition-colors ${formErrors.email ? '!border-[var(--color-error)]' : ''}`}>
-                <Mail size={18} className="text-[var(--color-on-surface-variant)]" />
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">Email</label>
+              <div className={`neumorphic-pressed rounded-full px-6 py-4 flex items-center gap-4 border border-transparent transition-all duration-300 ${formErrors.email ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : ''}`}>
+                <Mail size={20} className="text-[var(--color-on-surface-variant)]" />
                 <input 
                   type="email" 
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="example@email.com"
-                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50 text-sm"
+                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40 text-base"
                 />
               </div>
-              {formErrors.email && <p className="text-xs text-[var(--color-error)] mt-1.5 ml-4 font-medium">{formErrors.email}</p>}
+              {formErrors.email && <p className="text-sm text-[var(--color-error)] mt-2 ml-5 font-bold">{formErrors.email}</p>}
             </div>
 
-            <div>
-              <label className="text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">Mật khẩu</label>
-              <div className={`neumorphic-pressed rounded-full px-5 py-3 flex items-center gap-3 border border-transparent transition-colors ${formErrors.password ? '!border-[var(--color-error)]' : ''}`}>
-                <Lock size={18} className="text-[var(--color-on-surface-variant)]" />
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">Mật khẩu</label>
+              <div className={`neumorphic-pressed rounded-full px-6 py-4 flex items-center gap-4 border border-transparent transition-all duration-300 ${formErrors.password ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : ''}`}>
+                <Lock size={20} className="text-[var(--color-on-surface-variant)]" />
                 <input 
                   type={showPassword ? "text" : "password"} 
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50 tracking-widest text-sm"
+                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40 tracking-[0.2em] text-base"
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] cursor-pointer">
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] cursor-pointer mr-1">
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              {formErrors.password && <p className="text-xs text-[var(--color-error)] mt-1.5 ml-4 font-medium">{formErrors.password}</p>}
+              {formErrors.password && <p className="text-sm text-[var(--color-error)] mt-2 ml-5 font-bold">{formErrors.password}</p>}
             </div>
 
-            <div>
-              <label className="text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block ml-4">Xác nhận mật khẩu</label>
-              <div className={`neumorphic-pressed rounded-full px-5 py-3 flex items-center gap-3 border border-transparent transition-colors ${formErrors.confirm_password ? '!border-[var(--color-error)]' : ''}`}>
-                <RefreshCw size={18} className="text-[var(--color-on-surface-variant)]" />
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">Xác nhận mật khẩu</label>
+              <div className={`neumorphic-pressed rounded-full px-6 py-4 flex items-center gap-4 border border-transparent transition-all duration-300 ${formErrors.confirm_password ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : ''}`}>
+                <RefreshCw size={20} className="text-[var(--color-on-surface-variant)]" />
                 <input 
                   type={showPassword ? "text" : "password"} 
                   name="confirm_password"
                   value={formData.confirm_password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-medium placeholder:text-[var(--color-on-surface-variant)]/50 tracking-widest text-sm"
+                  className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold placeholder:text-[var(--color-on-surface-variant)]/40 tracking-[0.2em] text-base"
                 />
               </div>
-              {formErrors.confirm_password && <p className="text-xs text-[var(--color-error)] mt-1.5 ml-4 font-medium">{formErrors.confirm_password}</p>}
+              {formErrors.confirm_password && <p className="text-sm text-[var(--color-error)] mt-2 ml-5 font-bold">{formErrors.confirm_password}</p>}
             </div>
 
             <div className="w-full flex items-center gap-3 mt-4 px-2">
@@ -169,11 +169,11 @@ export default function RegisterClient() {
               disabled={isSubmitting}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-5 rounded-full shadow-xl mt-6 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer text-base"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={24} className="animate-spin" />
                   <span>Đang tạo tài khoản...</span>
                 </>
               ) : (
