@@ -76,9 +76,9 @@ export default function DashboardClient() {
   }
 
   return (
-    <div className="flex h-full w-full gap-6">
-      <div className="flex-1 flex flex-col gap-4 h-full overflow-y-auto pr-2 pb-16 lg:pb-12 relative">
-        <header className="flex items-center justify-between neumorphic px-4 md:px-6 py-4 rounded-full shrink-0">
+    <div className="flex flex-col lg:flex-row h-full w-full gap-4 md:gap-6">
+      <div className="flex-1 flex flex-col gap-4 h-full overflow-y-auto pr-1 sm:pr-2 pb-24 sm:pb-12 relative">
+        <header className="flex items-center justify-between neumorphic px-4 sm:px-6 py-3 sm:py-4 rounded-full shrink-0 mx-1">
           <div className="flex items-center gap-2 overflow-hidden mr-2">
             <span className="text-[var(--color-on-surface-variant)] hidden sm:inline whitespace-nowrap">{greeting},</span>
             <span className="font-bold text-[var(--color-on-surface)] truncate">{user?.full_name || 'Người dùng'}</span>
@@ -133,7 +133,7 @@ export default function DashboardClient() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 shrink-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 shrink-0 p-1">
           <ExpenseAnalysisCard />
           <UpcomingBillsCard />
           <div className="flex flex-col gap-3">
@@ -142,7 +142,7 @@ export default function DashboardClient() {
               onClick={() => setIsAddModalOpen(true)}
               whileHover={{ scale: 1.02, translateY: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] py-4 rounded-[2rem] shadow-xl flex items-center justify-center gap-2 hover:shadow-[0_15px_30px_rgba(var(--color-primary-rgb),0.2)] transition-all cursor-pointer font-extrabold text-base"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] py-3.5 sm:py-4 rounded-[2rem] shadow-xl flex items-center justify-center gap-2 hover:shadow-[0_15px_30px_rgba(var(--color-primary-rgb),0.2)] transition-all cursor-pointer font-extrabold text-sm sm:text-base"
             >
               <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
                 <Plus size={16} className="stroke-[3]" />

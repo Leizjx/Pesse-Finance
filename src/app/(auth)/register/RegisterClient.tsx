@@ -56,8 +56,8 @@ export default function RegisterClient() {
 
 
   return (
-    <div className="min-h-dvh flex items-center justify-center p-6 relative z-10 bg-[var(--color-background)] overflow-hidden">
-      <div className="w-full max-w-6xl flex items-center justify-center gap-16">
+    <div className="min-h-dvh flex items-center justify-center p-4 sm:p-6 relative z-10 bg-[var(--color-background)] overflow-y-auto">
+      <div className="w-full max-w-6xl flex items-center justify-center gap-16 py-8 sm:py-0">
         
         {/* Left side text (Hidden on mobile) */}
         <div className="hidden lg:block flex-1">
@@ -70,18 +70,18 @@ export default function RegisterClient() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="neumorphic p-10 rounded-[40px] w-full max-w-md flex flex-col items-center relative z-10"
+          className="neumorphic p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] w-full max-w-md flex flex-col items-center relative z-10"
         >
-          <div className="w-12 h-12 bg-[var(--color-surface)] rounded-2xl shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.8)] flex items-center justify-center mb-6">
-            <Wallet size={24} className="text-[var(--color-primary)]" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--color-surface)] rounded-2xl shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.8)] flex items-center justify-center mb-4 sm:mb-6">
+            <Wallet size={20} className="text-[var(--color-primary)] sm:w-6 sm:h-6" />
           </div>
 
-          <h2 className="text-2xl font-extrabold mb-2 text-center text-[var(--color-on-surface)]">Bắt đầu hành trình mới</h2>
-          <p className="text-[var(--color-on-surface-variant)] font-medium mb-8 text-center text-sm">
+          <h2 className="text-xl sm:text-2xl font-extrabold mb-1 sm:mb-2 text-center text-[var(--color-on-surface)]">Bắt đầu hành trình mới</h2>
+          <p className="text-[var(--color-on-surface-variant)] font-medium mb-6 sm:mb-8 text-center text-xs sm:text-sm">
             Tạo tài khoản Pesse chỉ trong vài giây
           </p>
 
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5 mb-6" noValidate>
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 sm:gap-5 mb-5 sm:mb-6" noValidate>
             {error && (
               <div className="px-5 py-3 rounded-2xl bg-[var(--color-error)]/10 text-[var(--color-error)] text-center font-medium text-sm">
                 {error}
@@ -182,7 +182,7 @@ export default function RegisterClient() {
             </motion.button>
           </form>
 
-          <p className="text-sm font-medium text-[var(--color-on-surface-variant)] mb-6">
+          <p className="text-sm font-medium text-[var(--color-on-surface-variant)] mb-4 sm:mb-6">
             Đã có tài khoản? <Link href="/login" className="text-[var(--color-on-surface)] font-bold hover:text-[var(--color-primary)] transition-colors">Đăng nhập</Link>
           </p>
         </motion.div>

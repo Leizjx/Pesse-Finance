@@ -120,21 +120,21 @@ export default function ReportsClient() {
   }
 
   return (
-    <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-28 lg:pb-10 relative">
-      <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-2 mb-2">
+    <div className="flex-1 flex flex-col gap-4 sm:gap-6 h-full overflow-y-auto pr-1 sm:pr-2 pb-28 lg:pb-10 relative">
+      <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-1 sm:mt-2 mb-2 px-1">
         <div className="flex items-center justify-between w-full xl:w-auto">
-          <h1 className="text-2xl font-bold text-[var(--color-on-surface)]">Báo cáo chi tiết</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-on-surface)]">Báo cáo chi tiết</h1>
           <div className="flex xl:hidden items-center gap-4">
             <NotificationBell />
             <UserMenu />
           </div>
         </div>
         
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <button 
             onClick={() => setIsDatePickerOpen(true)}
             aria-label="Chọn tháng năm báo cáo"
-            className="flex items-center gap-2 px-6 py-3 rounded-full neumorphic text-sm font-bold text-[var(--color-on-surface)] hover:text-[var(--color-primary)] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full neumorphic text-xs sm:text-sm font-bold text-[var(--color-on-surface)] hover:text-[var(--color-primary)] transition-all cursor-pointer"
           >
             <Calendar size={18} />
             {format(selectedDate, "'Tháng' MM, yyyy", { locale: vi })}
@@ -198,59 +198,59 @@ export default function ReportsClient() {
           
           <div className="hidden xl:flex items-center gap-4 ml-2">
             <NotificationBell />
-            <UserMenu />
-          </div>
-        </div>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
-        <div className="neumorphic p-6 rounded-large flex flex-col justify-between h-40">
-          <div className="flex justify-between items-start mb-4">
-            <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng thu nhập</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 shrink-0 px-1">
+        <div className="neumorphic p-5 sm:p-6 rounded-large flex flex-col justify-between h-36 sm:h-40">
+          <div className="flex justify-between items-start mb-2 sm:mb-4">
+            <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng thu nhập</span>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/10 text-green-600 text-[10px] font-bold">
               <TrendingUp size={10} /> 8%
             </div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalIncome > 0 ? formatCurrency(currentMonthStats.totalIncome) : '0 ₫'}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalIncome > 0 ? formatCurrency(currentMonthStats.totalIncome) : '0 ₫'}</h2>
           </div>
         </div>
         
-        <div className="neumorphic p-6 rounded-large flex flex-col justify-between h-40">
-          <div className="flex justify-between items-start mb-4">
-            <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng chi tiêu</span>
+        <div className="neumorphic p-5 sm:p-6 rounded-large flex flex-col justify-between h-36 sm:h-40">
+          <div className="flex justify-between items-start mb-2 sm:mb-4">
+            <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng chi tiêu</span>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 text-[10px] font-bold">
               <TrendingDown size={10} /> 12%
             </div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalExpenses > 0 ? formatCurrency(currentMonthStats.totalExpenses) : '0 ₫'}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalExpenses > 0 ? formatCurrency(currentMonthStats.totalExpenses) : '0 ₫'}</h2>
           </div>
         </div>
-
-        <div className="bg-[var(--color-primary)] p-6 rounded-large flex flex-col justify-between shadow-sm relative overflow-hidden h-40 cursor-pointer">
+ 
+        <div className="bg-[var(--color-primary)] p-5 sm:p-6 rounded-large flex flex-col justify-between shadow-sm relative overflow-hidden h-36 sm:h-40 cursor-pointer">
           <PiggyBank size={80} className="absolute -right-4 -top-4 text-black/10" />
           <div className="relative z-10">
-            <div className="flex justify-between items-start mb-4">
-               <span className="text-xs font-bold text-[var(--color-on-surface)] uppercase tracking-wider block">Tiết kiệm</span>
+            <div className="flex justify-between items-start mb-2 sm:mb-4">
+               <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface)] uppercase tracking-wider block">Tiết kiệm</span>
             </div>
-            <h2 className="text-3xl font-bold text-[var(--color-on-surface)]">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">
               {formatCurrency(Math.max(0, currentMonthStats.totalIncome - currentMonthStats.totalExpenses))}
+            </h2>
+          </div>
+        </div>
+      </div>
+nthStats.totalExpenses))}
             </h2>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 shrink-0">
-        <div className="lg:col-span-2 neumorphic p-8 rounded-large flex flex-col">
-          <div className="flex justify-between items-start mb-8">
+        <div className="lg:col-span-2 neumorphic p-5 sm:p-8 rounded-large flex flex-col mx-1">
+          <div className="flex justify-between items-start mb-6 sm:mb-8">
             <div>
-              <h3 className="font-bold text-lg text-[var(--color-on-surface)]">Phân tích chi tiêu</h3>
-              <p className="text-sm text-[var(--color-on-surface-variant)]">Thống kê theo tuần trong tháng hiện tại</p>
+              <h3 className="font-bold text-base sm:text-lg text-[var(--color-on-surface)]">Phân tích chi tiêu</h3>
+              <p className="text-xs sm:text-sm text-[var(--color-on-surface-variant)]">Thống kê theo tuần trong tháng hiện tại</p>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[var(--color-primary)]"></div>
-              <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase">Chi tiêu thực tế</span>
+              <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase">Chi tiêu thực tế</span>
             </div>
           </div>
           

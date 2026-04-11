@@ -56,18 +56,18 @@ export default function LoginPageContent() {
   };
 
   return (
-    <div className="min-h-dvh flex items-center justify-center p-6 relative z-10 bg-[var(--color-background)]">
+    <div className="min-h-dvh flex items-center justify-center p-4 sm:p-6 relative z-10 bg-[var(--color-background)]">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md flex flex-col items-center"
+        className="w-full max-w-md flex flex-col items-center py-4 sm:py-0"
       >
-        <div className="w-20 h-20 bg-[var(--color-primary)] rounded-full flex items-center justify-center mb-8 shadow-sm">
-          <h1 className="text-2xl font-extrabold tracking-tight text-[var(--color-on-surface)]">Pesse</h1>
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[var(--color-primary)] rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-sm">
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[var(--color-on-surface)]">Pesse</h1>
         </div>
 
-        <h2 className="text-3xl font-extrabold mb-2 text-center text-on-surface">Chào mừng trở lại</h2>
-        <p className="text-[var(--color-on-surface-variant)] font-medium mb-10 text-center">
+        <h2 className="text-2xl sm:text-3xl font-extrabold mb-1 sm:mb-2 text-center text-on-surface">Chào mừng trở lại</h2>
+        <p className="text-sm sm:text-base text-[var(--color-on-surface-variant)] font-medium mb-6 sm:mb-10 text-center px-4">
           Đăng nhập để tiếp tục quản lý tài chính
         </p>
 
@@ -147,25 +147,25 @@ export default function LoginPageContent() {
           </motion.button>
         </form>
 
-        <div className="w-full flex items-center gap-4 my-8">
+        <div className="w-full flex items-center gap-4 my-6 sm:my-8">
           <div className="flex-1 h-px bg-[var(--color-on-surface-variant)]/20"></div>
-          <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Hoặc đăng nhập với</span>
+          <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider whitespace-nowrap">Hoặc đăng nhập với</span>
           <div className="flex-1 h-px bg-[var(--color-on-surface-variant)]/20"></div>
         </div>
 
-        <div className="flex gap-6 mb-8">
+        <div className="flex gap-4 sm:gap-6 mb-6 sm:mb-8">
           <motion.button 
             type="button" 
             disabled={socialLoading !== null}
             whileHover={socialLoading === null ? { scale: 1.05 } : {}}
             whileTap={socialLoading === null ? { scale: 0.95 } : {}}
             onClick={() => handleSocialLogin('google')}
-            className="w-14 h-14 rounded-full neumorphic flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full neumorphic flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
           >
             {socialLoading === 'google' ? (
                <div className="w-5 h-5 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="scale-90 sm:scale-100">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -180,12 +180,12 @@ export default function LoginPageContent() {
              whileHover={socialLoading === null ? { scale: 1.05 } : {}}
              whileTap={socialLoading === null ? { scale: 0.95 } : {}}
              onClick={() => handleSocialLogin('facebook')}
-             className="w-14 h-14 rounded-full neumorphic flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
+             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full neumorphic flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
           >
             {socialLoading === 'facebook' ? (
               <div className="w-5 h-5 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg" className="scale-90 sm:scale-100">
                 <path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/>
               </svg>
             )}

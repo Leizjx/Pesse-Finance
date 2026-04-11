@@ -55,14 +55,14 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }
   }, [transactionsData]);
 
   return (
-    <div className="neumorphic p-8 rounded-large flex flex-col justify-between h-full w-full">
+    <div className="neumorphic p-5 sm:p-8 rounded-[2.5rem] sm:rounded-large flex flex-col justify-between h-full w-full">
       <div>
         <p className="text-[var(--color-on-surface-variant)] font-medium mb-2">Tổng số dư hiện tại</p>
         
         {isLoadingUser ? (
           <div className="h-[48px] w-64 bg-[var(--color-surface)] neumorphic-pressed rounded-xl animate-pulse mb-4"></div>
         ) : (
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-on-surface)] mb-4 truncate">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-on-surface)] mb-4 truncate">
             {totalBalance.toLocaleString('vi-VN')} VND
           </h2>
         )}

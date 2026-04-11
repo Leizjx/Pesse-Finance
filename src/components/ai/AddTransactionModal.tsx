@@ -163,7 +163,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen
                     }}
                     placeholder="0"
                     required
-                    className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold text-2xl placeholder:text-[var(--color-on-surface-variant)]/50"
+                    className="bg-transparent border-none outline-none w-full text-[var(--color-on-surface)] font-bold text-xl sm:text-2xl placeholder:text-[var(--color-on-surface-variant)]/50"
                   />
                 </div>
               </div>
