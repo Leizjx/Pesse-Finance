@@ -14,6 +14,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { getQueryClient } from "@/lib/queryClient";
 import { useState } from "react";
 import { QueryClient } from "@tanstack/react-query";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -25,7 +26,9 @@ export function Providers({ children }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <LazyMotion features={domAnimation}>
+        {children}
+      </LazyMotion>
       {process.env.NODE_ENV === "development" && (
         <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
       )}

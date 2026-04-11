@@ -9,7 +9,10 @@ import { UpcomingBillsCard } from '@/components/dashboard/UpcomingBillsCard';
 import { TransactionList } from '@/components/ai/TransactionList';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { UserMenu } from '@/components/dashboard/UserMenu';
-import { AddTransactionModal } from '@/components/ai/AddTransactionModal';
+import dynamic from 'next/dynamic';
+const AddTransactionModal = dynamic(() => import('@/components/ai/AddTransactionModal').then(mod => mod.AddTransactionModal), {
+  loading: () => null,
+});
 import { 
   GraduationCap, Zap, HelpCircle, Plus, ShieldCheck, Briefcase, Utensils, Car, TrendingUp,
   HeartPulse, ShoppingBag, Home, RefreshCcw

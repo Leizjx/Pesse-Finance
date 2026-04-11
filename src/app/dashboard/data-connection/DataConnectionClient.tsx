@@ -7,7 +7,10 @@ import { AtSign, Landmark, Shield, Lock, Info, Plus, Mail, Loader2, Crown } from
 import Image from 'next/image';
 import { NotificationBell } from '@/components/ai/NotificationBell';
 import { useAuth } from '@/hooks/useAuth';
-import DataConnectionModal from '@/components/dashboard/DataConnectionModal';
+import dynamic from 'next/dynamic';
+const DataConnectionModal = dynamic(() => import('@/components/dashboard/DataConnectionModal'), {
+  loading: () => null,
+});
 import { useDataConnections } from '@/hooks/useDataConnections';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
