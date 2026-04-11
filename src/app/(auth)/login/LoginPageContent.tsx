@@ -66,8 +66,8 @@ export default function LoginPageContent() {
           <h1 className="text-2xl sm:text-3xl font-black tracking-tighter text-[var(--color-on-surface)]">Pesse</h1>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl font-black mb-2 sm:mb-3 text-center text-[var(--color-on-surface)] tracking-tight">Chào mừng trở lại</h2>
-        <p className="text-base sm:text-lg text-[var(--color-on-surface-variant)] font-semibold mb-8 sm:mb-12 text-center px-6 leading-relaxed">
+        <h2 className="text-4xl sm:text-5xl font-black mb-3 text-center text-[var(--color-on-surface)] tracking-tighter leading-none">Chào mừng trở lại</h2>
+        <p className="text-lg sm:text-xl text-[var(--color-on-surface-variant)] font-bold mb-10 sm:mb-14 text-center px-6 leading-relaxed opacity-90">
           Đăng nhập để tiếp tục quản lý tài chính
         </p>
 
@@ -83,8 +83,8 @@ export default function LoginPageContent() {
             </div>
           )}
 
-          <div className="space-y-3">
-            <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">
+          <div className="space-y-4">
+            <label className="text-base font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-6">
               Email
             </label>
             <div className={`neumorphic-pressed rounded-full px-7 py-5 border border-transparent transition-all duration-300 ${formErrors.email ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : 'focus-within:border-[var(--color-primary)]'}`}>
@@ -100,8 +100,8 @@ export default function LoginPageContent() {
             {formErrors.email && <p className="text-sm text-[var(--color-error)] mt-2.5 ml-5 font-bold">{formErrors.email}</p>}
           </div>
 
-          <div className="space-y-3">
-            <label className="text-sm font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-5">
+          <div className="space-y-4">
+            <label className="text-base font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block ml-6">
               Mật khẩu
             </label>
             <div className={`neumorphic-pressed rounded-full px-7 py-5 flex items-center border border-transparent transition-all duration-300 ${formErrors.password ? '!border-[var(--color-error)] ring-2 ring-[var(--color-error)]/10' : 'focus-within:border-[var(--color-primary)]'}`}>
@@ -134,11 +134,11 @@ export default function LoginPageContent() {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-5 rounded-full shadow-xl mt-6 mb-3 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-base"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-6 rounded-[2.5rem] shadow-2xl mt-8 mb-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-4 text-xl"
           >
             {isSubmitting ? (
               <>
-                <Loader2 size={24} className="animate-spin" />
+                <Loader2 size={28} className="animate-spin" />
                 <span>Đang xử lý...</span>
               </>
             ) : (

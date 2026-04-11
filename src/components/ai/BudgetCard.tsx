@@ -21,17 +21,17 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({ title, spent, total, ico
       whileTap={onClick ? { scale: 0.98 } : undefined}
       className={`neumorphic p-5 rounded-standard flex flex-col gap-3 ${onClick ? 'cursor-pointer' : ''}`}
     >
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-full neumorphic text-on-surface">
-          <Icon size={18} />
+      <div className="flex items-center gap-4">
+        <div className="p-3 rounded-full neumorphic text-on-surface">
+          <Icon size={24} className="stroke-[2.5]" />
         </div>
-        <h3 className="font-bold text-on-surface">{title}</h3>
+        <h3 className="font-black text-lg text-on-surface tracking-tight">{title}</h3>
       </div>
       
       <div>
-        <div className="flex justify-between items-end mb-2">
-          <span className="font-bold text-lg">{spent.toLocaleString('vi-VN')} VND</span>
-          <span className="text-xs text-on-surface-variant">/ {total.toLocaleString('vi-VN')} VND</span>
+        <div className="flex justify-between items-end mb-3">
+          <span className="font-black text-2xl text-[var(--color-on-surface)]">{spent.toLocaleString('vi-VN')} <span className="text-sm opacity-50">VND</span></span>
+          <span className="text-sm font-bold text-on-surface-variant opacity-70">/ {total.toLocaleString('vi-VN')}</span>
         </div>
         <div className="h-3 w-full bg-surface rounded-full neumorphic-pressed overflow-hidden">
           <motion.div 

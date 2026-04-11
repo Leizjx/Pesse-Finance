@@ -81,12 +81,12 @@ export default function DashboardClient() {
   return (
     <div className="flex flex-col lg:flex-row h-full w-full gap-4 md:gap-6">
       <div className="flex-1 flex flex-col gap-4 h-full overflow-y-auto pr-1 sm:pr-2 pb-24 sm:pb-12 relative">
-        <header className="flex items-center justify-between neumorphic px-4 sm:px-6 py-3 sm:py-4 rounded-full shrink-0 mx-1">
-          <div className="flex items-center gap-2 overflow-hidden mr-2">
-            <span className="text-[var(--color-on-surface-variant)] hidden sm:inline whitespace-nowrap">{greeting},</span>
-            <span className="font-bold text-[var(--color-on-surface)] truncate">{user?.full_name || 'Người dùng'}</span>
+        <header className="flex items-center justify-between neumorphic px-5 sm:px-8 py-4 sm:py-5 rounded-[2.5rem] shrink-0 mx-1 border border-white/10 shadow-lg">
+          <div className="flex items-center gap-3 overflow-hidden mr-2">
+            <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60 hidden sm:inline whitespace-nowrap">{greeting},</span>
+            <span className="text-lg sm:text-xl font-black text-[var(--color-on-surface)] truncate tracking-tight">{user?.full_name || 'Người dùng'}</span>
           </div>
-          <div className="flex items-center gap-3 md:gap-4 shrink-0">
+          <div className="flex items-center gap-4 md:gap-6 shrink-0">
             <NotificationBell />
             <UserMenu />
           </div>
@@ -145,10 +145,10 @@ export default function DashboardClient() {
               onClick={() => setIsAddModalOpen(true)}
               whileHover={{ scale: 1.02, translateY: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] py-3.5 sm:py-4 rounded-[2rem] shadow-xl flex items-center justify-center gap-2 hover:shadow-[0_15px_30px_rgba(var(--color-primary-rgb),0.2)] transition-all cursor-pointer font-extrabold text-sm sm:text-base"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] py-5 sm:py-6 rounded-[2.5rem] shadow-2xl flex items-center justify-center gap-3 hover:shadow-[0_20px_40px_rgba(var(--color-primary-rgb),0.3)] transition-all cursor-pointer font-black text-base sm:text-xl uppercase tracking-widest"
             >
-              <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
-                <Plus size={16} className="stroke-[3]" />
+              <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center">
+                <Plus size={22} className="stroke-[4]" />
               </div>
               <span>Thêm Chi Tiêu</span>
             </motion.button>

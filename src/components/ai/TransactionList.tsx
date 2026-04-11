@@ -81,16 +81,16 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
 
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col relative">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="font-bold text-lg text-[var(--color-on-surface)]">
+      <div className="flex justify-between items-center mb-10">
+        <h2 className="font-black text-xl text-[var(--color-on-surface)] tracking-tight">
           Giao dịch {timeFilter !== 'Tất cả' ? `(${timeFilter})` : 'gần đây'}
         </h2>
         <div className="relative" ref={filterRef}>
           <button 
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="p-2 rounded-full hover:bg-[var(--color-surface)]/50 transition-colors cursor-pointer"
+            className="p-3 rounded-full hover:bg-[var(--color-surface)]/50 transition-colors cursor-pointer neumorphic shadow-inner"
           >
-            <MoreHorizontal size={20} className="text-[var(--color-on-surface-variant)]" />
+            <MoreHorizontal size={24} className="text-[var(--color-on-surface-variant)]" />
           </button>
           
           <AnimatePresence>
@@ -165,19 +165,19 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
                 visible: { opacity: 1, x: 0 }
               }}
               whileHover={{ scale: 1.02 }}
-              className="flex items-center justify-between p-3 rounded-standard neumorphic-pressed gap-2"
+              className="flex items-center justify-between p-4 rounded-standard neumorphic-pressed gap-4 border border-transparent hover:border-[var(--color-primary)]/10 transition-all"
             >
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0">
-                  <IconComponent size={16} />
+              <div className="flex items-center gap-4 min-w-0 flex-1">
+                <div className="w-12 h-12 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0 shadow-sm">
+                  <IconComponent size={22} className="stroke-[2.5]" />
                 </div>
                 <div className="overflow-hidden min-w-0">
-                  <h4 className="font-medium text-sm text-[var(--color-on-surface)] truncate">{displayTitle}</h4>
-                  <p className="text-xs text-[var(--color-on-surface-variant)] truncate">{formattedDate}</p>
+                  <h4 className="font-black text-base text-[var(--color-on-surface)] truncate tracking-tight mb-0.5">{displayTitle}</h4>
+                  <p className="text-xs font-bold text-[var(--color-on-surface-variant)] opacity-70 uppercase tracking-widest">{formattedDate}</p>
                 </div>
               </div>
-              <span className={`font-bold text-sm whitespace-nowrap shrink-0 ${tx.type === 'income' ? 'text-[var(--color-success)]' : 'text-[var(--color-on-surface)]'}`}>
-                {tx.type === 'income' ? '+' : '-'}{tx.amount.toLocaleString('vi-VN')} VND
+              <span className={`font-black text-base whitespace-nowrap shrink-0 ${tx.type === 'income' ? 'text-[var(--color-success)]' : 'text-[var(--color-on-surface)]'}`}>
+                {tx.type === 'income' ? '+' : '-'}{tx.amount.toLocaleString('vi-VN')} <span className="text-[10px] opacity-50 uppercase">VND</span>
               </span>
             </motion.div>
           );
@@ -186,7 +186,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
       
       <button 
         onClick={() => setActiveTab && setActiveTab('transactions')}
-        className="w-full mt-4 py-3 rounded-full neumorphic text-sm font-bold text-[var(--color-on-surface)] hover:text-[var(--color-primary)] transition-colors shrink-0 cursor-pointer"
+        className="w-full mt-6 py-4 rounded-full neumorphic text-base font-black text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-all shrink-0 cursor-pointer shadow-md uppercase tracking-widest"
       >
         Xem tất cả
       </button>

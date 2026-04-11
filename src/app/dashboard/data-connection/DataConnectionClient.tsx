@@ -147,9 +147,9 @@ export default function DataConnectionClient() {
   return (
     <div className="flex-1 flex flex-col h-full overflow-y-auto pr-1 sm:pr-2 pb-24 lg:pb-10 relative">
       {/* Mobile Header */}
-      <div className="flex xl:hidden items-center justify-between w-full mb-6 mt-1 sm:mt-2 px-1">
-        <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-on-surface)]">Kết nối dữ liệu</h1>
-        <div className="flex items-center gap-4">
+      <div className="flex xl:hidden items-center justify-between w-full mb-8 mt-1 sm:mt-2 px-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">Kết nối dữ liệu</h1>
+        <div className="flex items-center gap-5">
           <NotificationBell />
           <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
             <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.full_name || 'User'}`} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" unoptimized />
@@ -161,23 +161,23 @@ export default function DataConnectionClient() {
         {/* Left Column: Main Content */}
         <div className="flex-1 flex flex-col gap-10">
           <div className="hidden xl:block">
-            <h1 className="text-4xl font-extrabold text-[var(--color-on-surface)] tracking-tight mb-4">
-              Kết nối nguồn dữ liệu
+            <h1 className="text-4xl sm:text-5xl font-black text-[var(--color-on-surface)] tracking-tighter mb-4">
+              Kết nối dữ liệu
             </h1>
             <p className="text-base text-[var(--color-on-surface-variant)] font-medium max-w-2xl">
               Tự động hóa việc theo dõi tài chính bằng cách kết nối an toàn với các tài khoản ngân hàng và email của bạn.
             </p>
           </div>
 
-          <p className="xl:hidden text-sm text-[var(--color-on-surface-variant)] font-medium">
-            Tự động hóa việc theo dõi tài chính bằng cách kết nối an toàn với các tài khoản ngân hàng và email của bạn.
+          <p className="xl:hidden text-base text-[var(--color-on-surface-variant)] font-bold opacity-80 mb-4 px-1">
+            Tự động theo dõi tài chính an toàn qua Email & Ngân hàng.
           </p>
 
           {/* Email List */}
           <section>
-            <div className="flex items-center gap-2 mb-6">
-              <AtSign size={20} className="text-[var(--color-primary)]" />
-              <h2 className="text-lg font-bold text-[var(--color-on-surface)]">Danh sách Email kết nối</h2>
+            <div className="flex items-center gap-3 mb-6">
+              <AtSign size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
+              <h2 className="text-xl font-black text-[var(--color-on-surface)] uppercase tracking-tight">Email kết nối</h2>
             </div>
             <div className="flex flex-col gap-4">
               {isLoading ? (
@@ -196,19 +196,19 @@ export default function DataConnectionClient() {
                           <Mail size={20} />
                         </div>
                         <div>
-                          <h3 className="font-bold text-[var(--color-on-surface)] text-base group-hover:text-[var(--color-primary)] transition-colors">
+                          <h3 className="font-black text-lg text-[var(--color-on-surface)] group-hover:text-[var(--color-primary)] transition-colors leading-tight">
                             {conn.nickname || conn.email_address}
                           </h3>
-                          <p className="text-xs text-[var(--color-on-surface-variant)] mt-1">
+                          <p className="text-sm font-bold text-[var(--color-on-surface-variant)] mt-1 opacity-70">
                             {conn.email_address}
                             {conn.sync_status === 'syncing' ? ' • Đang đồng bộ...' :
-                              conn.last_sync_at ? ` • Đồng bộ ${formatDistanceToNow(new Date(conn.last_sync_at), { addSuffix: true, locale: vi })}` : ''}
+                              conn.last_sync_at ? ` • ${formatDistanceToNow(new Date(conn.last_sync_at), { addSuffix: true, locale: vi })}` : ''}
                           </p>
                         </div>
                       </div>
                       <button
                         onClick={(e) => handleDisconnect(e, conn.id)}
-                        className="text-sm font-medium text-red-500 hover:underline self-start sm:self-auto cursor-pointer"
+                        className="text-sm font-black text-red-500 hover:text-red-600 transition-colors uppercase tracking-widest cursor-pointer mt-2 sm:mt-0"
                       >
                         Ngắt kết nối
                       </button>
@@ -221,17 +221,17 @@ export default function DataConnectionClient() {
 
           {/* Bank Filters */}
           <section>
-            <div className="flex items-center gap-2 mb-6">
-              <Landmark size={20} className="text-[var(--color-primary)]" />
-              <h2 className="text-lg font-bold text-[var(--color-on-surface)]">Lọc Ngân hàng</h2>
+            <div className="flex items-center gap-3 mb-8">
+              <Landmark size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
+              <h2 className="text-xl font-black text-[var(--color-on-surface)] uppercase tracking-tight">Ngân hàng đã lọc</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {bankStates.map((bank) => (
                 <div key={bank.id} className="neumorphic p-6 sm:p-8 rounded-large flex flex-col items-center justify-center gap-6 mx-1">
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${bank.bg} ${bank.color} shadow-inner font-extrabold text-xl`}>
+                  <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center ${bank.bg} ${bank.color} shadow-inner font-black text-2xl border border-[var(--color-on-surface-variant)]/5`}>
                     {bank.logo}
                   </div>
-                  <h3 className="font-bold text-[var(--color-on-surface)] text-lg">{bank.name}</h3>
+                  <h3 className="font-black text-xl text-[var(--color-on-surface)]">{bank.name}</h3>
 
                   {/* Toggle Switch với loading state */}
                   <div className="flex flex-col items-center gap-2">
@@ -250,14 +250,14 @@ export default function DataConnectionClient() {
                     </button>
                     {/* Micro-label: trạng thái đang lưu */}
                     {togglingBankId === bank.id ? (
-                      <span className="flex items-center gap-1 text-xs text-[var(--color-on-surface-variant)] animate-pulse">
-                        <Loader2 size={10} className="animate-spin" />
+                      <span className="flex items-center gap-2 text-sm font-black text-[var(--color-on-surface-variant)] animate-pulse">
+                        <Loader2 size={12} className="animate-spin" />
                         Đang lưu...
                       </span>
                     ) : (
-                      <span className={`text-xs font-semibold ${bank.active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)]'
+                      <span className={`text-sm font-black uppercase tracking-widest ${bank.active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)] opacity-50'
                         }`}>
-                        {bank.active ? 'Đang quét' : 'Tắt'}
+                        {bank.active ? 'Đang QUÉT' : 'Tắt'}
                       </span>
                     )}
                   </div>

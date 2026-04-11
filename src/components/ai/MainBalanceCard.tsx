@@ -56,47 +56,47 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }
 
   return (
     <div className="neumorphic p-5 sm:p-8 rounded-[2.5rem] sm:rounded-large flex flex-col justify-between h-full w-full">
-      <div>
-        <p className="text-[var(--color-on-surface-variant)] font-medium mb-2">Tổng số dư hiện tại</p>
+      <div className="space-y-1 sm:space-y-2">
+        <p className="text-sm sm:text-base font-extrabold text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-80">Tổng số dư hiện tại</p>
         
         {isLoadingUser ? (
           <div className="h-[48px] w-64 bg-[var(--color-surface)] neumorphic-pressed rounded-xl animate-pulse mb-4"></div>
         ) : (
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--color-on-surface)] mb-4 truncate">
-            {totalBalance.toLocaleString('vi-VN')} VND
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[var(--color-on-surface)] mb-4 sm:mb-6 tracking-tighter leading-tight truncate">
+            {totalBalance.toLocaleString('vi-VN')} <span className="text-xl sm:text-2xl font-black opacity-50">VND</span>
           </h2>
         )}
 
-        <div className="flex gap-4 text-sm font-medium h-7 items-center">
+        <div className="flex gap-4 text-base font-black h-8 items-center">
           {comparisonData ? (
-            <span className={`px-3 py-1 rounded-full ${comparisonData.isPositive ? 'text-[var(--color-success)] bg-[var(--color-success)]/10' : 'text-red-500 bg-red-500/10'}`}>
+            <span className={`px-4 py-1.5 rounded-full shadow-sm ${comparisonData.isPositive ? 'text-[var(--color-success)] bg-[var(--color-success)]/15 border border-[var(--color-success)]/20' : 'text-red-500 bg-red-500/15 border border-red-500/20'}`}>
               {comparisonData.text}
             </span>
           ) : (
-             <span className="w-40 h-6 bg-black/5 animate-pulse rounded-full"></span>
+            <span className="w-48 h-8 bg-black/5 animate-pulse rounded-full"></span>
           )}
         </div>
       </div>
       
-      <div className="flex flex-col sm:flex-row gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row gap-5 mt-10 sm:mt-12">
         <motion.button 
           onClick={() => setActiveTab('reports')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-sm flex-1 cursor-pointer"
+          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] px-8 py-4.5 rounded-[2rem] font-black flex items-center justify-center gap-3 shadow-xl flex-1 cursor-pointer text-base sm:text-lg transition-transform"
         >
-          <PieChart size={20} />
-          Xem báo cáo
+          <PieChart size={24} className="stroke-[2.5]" />
+          <span>Xem báo cáo</span>
         </motion.button>
         
         <motion.button 
           onClick={() => setActiveTab('transactions')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="neumorphic text-[var(--color-on-surface)] px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 flex-1 cursor-pointer hover:text-[var(--color-primary)] transition-colors"
+          className="neumorphic text-[var(--color-on-surface)] px-8 py-4.5 rounded-[2rem] font-black flex items-center justify-center gap-3 flex-1 cursor-pointer hover:text-[var(--color-primary)] transition-all text-base sm:text-lg"
         >
-          <FileText size={20} />
-          Xem giao dịch
+          <FileText size={24} className="stroke-[2.5]" />
+          <span>Giao dịch</span>
         </motion.button>
       </div>
     </div>

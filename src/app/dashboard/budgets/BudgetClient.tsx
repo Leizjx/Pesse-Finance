@@ -123,20 +123,20 @@ export default function BudgetClient() {
 
   return (
     <div className="flex-1 flex flex-col gap-8 h-full overflow-y-auto pr-2 pb-24 relative">
-      <header className="flex items-center justify-between shrink-0 mt-2 gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-on-surface)] truncate">Ngân sách</h1>
+      <header className="flex items-center justify-between shrink-0 mt-4 sm:mt-6 mb-2 gap-5 px-1">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tighter">Ngân sách</h1>
           {user.plan_type !== 'premium' && (
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[var(--color-on-surface-variant)]">Sử dụng:</span>
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full neumorphic text-[10px] font-black text-[var(--color-primary)] uppercase tracking-wider">
-                {budgets.length}/3 Ngân sách
+              <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng:</span>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full neumorphic text-xs font-black text-[var(--color-primary)] uppercase tracking-tight shadow-sm">
+                {budgets.length}/3 ĐÃ DÙNG
               </div>
             </div>
           )}
         </div>
         
-        <div className="flex items-center gap-2 md:gap-4 shrink-0">
+        <div className="flex items-center gap-4 sm:gap-6 shrink-0">
           <NotificationBell />
           <UserMenu />
         </div>
@@ -190,20 +190,20 @@ export default function BudgetClient() {
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider mb-2 block">Tháng này</span>
-                    <h2 className="text-2xl font-bold text-[var(--color-on-surface)]">{meta.label}</h2>
+                    <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest mb-3 block opacity-60">Hạng mục tháng này</span>
+                    <h2 className="text-3xl font-black text-[var(--color-on-surface)] tracking-tight">{meta.label}</h2>
                   </div>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm" style={{ backgroundColor: meta.color + '20', color: meta.color }}>
-                    <Icon size={28} />
+                  <div className="w-16 h-16 rounded-3xl flex items-center justify-center shadow-inner border border-white/10" style={{ backgroundColor: meta.color + '25', color: meta.color }}>
+                    <Icon size={32} className="stroke-[2.5]" />
                   </div>
                 </div>
                 
                 <div>
-                  <div className="flex justify-between text-sm font-medium text-[var(--color-on-surface-variant)] mb-4">
-                    <span>Đã chi: {formatCurrency(budget.spent_amount)}</span>
-                    <span>Ngân sách: {formatCurrency(budget.limit_amount)}</span>
+                  <div className="flex justify-between text-base font-black text-[var(--color-on-surface-variant)] mb-5 px-1">
+                    <span className="opacity-80">Đã chi: {formatCurrency(budget.spent_amount)}</span>
+                    <span className="opacity-80">Gói: {formatCurrency(budget.limit_amount)}</span>
                   </div>
-                  <div className="h-4 w-full bg-[var(--color-surface)] rounded-full neumorphic-pressed overflow-hidden">
+                  <div className="h-5 w-full bg-[var(--color-surface)] rounded-full neumorphic-pressed overflow-hidden border border-white/5">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${validPercentage}%` }}
@@ -217,13 +217,13 @@ export default function BudgetClient() {
                 <div className="flex justify-between items-center mt-2">
                   {isOver ? (
                     <div className="flex items-center gap-2 text-[var(--color-error)]">
-                      <AlertTriangle size={18} />
-                      <span className="text-sm font-bold">Vượt mức</span>
+                      <AlertTriangle size={22} />
+                      <span className="text-base font-black uppercase tracking-tighter">Vượt mức</span>
                     </div>
                   ) : (
-                    <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">Còn lại</span>
+                    <span className="text-base font-black text-[var(--color-on-surface-variant)] uppercase tracking-tighter opacity-60">Còn khả dụng</span>
                   )}
-                  <span className={`text-xl font-bold ${isOver ? 'text-[var(--color-error)]' : 'text-[#65a30d]'}`}>
+                  <span className={`text-2xl font-black tracking-tight ${isOver ? 'text-[var(--color-error)]' : 'text-[#65a30d]'}`}>
                     {formatCurrency(Math.abs(budget.limit_amount - budget.spent_amount))}
                   </span>
                 </div>
@@ -233,41 +233,42 @@ export default function BudgetClient() {
         )}
       </motion.div>
 
-      <div className="neumorphic p-10 rounded-large flex flex-col lg:flex-row items-center justify-between gap-10">
-        <div className="flex-1">
-          <h2 className="text-3xl font-bold text-[var(--color-on-surface)] mb-4">Tình hình chi tiêu</h2>
-          <p className="text-[var(--color-on-surface-variant)] leading-relaxed mb-10 max-w-lg text-lg">
-            Bạn đã sử dụng {Math.round(clampedPercentage)}% tổng ngân sách tháng này. Hãy cân nhắc điều chỉnh các khoản chi không cần thiết để duy trì kế hoạch tài chính.
+      <div className="neumorphic p-8 sm:p-12 rounded-[2.5rem] flex flex-col lg:flex-row items-center justify-between gap-12 mb-10 border border-white/10 shadow-xl">
+        <div className="flex-1 w-full">
+          <h2 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] mb-4 tracking-tighter text-center lg:text-left">Tình hình chi tiêu</h2>
+          <p className="text-[var(--color-on-surface-variant)] leading-relaxed mb-10 max-w-lg text-lg sm:text-xl font-medium opacity-80 text-center lg:text-left">
+            Bạn đã sử dụng <span className="font-black text-[var(--color-on-surface)]">{Math.round(clampedPercentage)}%</span> tổng ngân sách tháng này. Hãy cân nhắc điều chỉnh các khoản chi.
           </p>
           
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-center lg:justify-start gap-8 sm:gap-14">
             <div>
-              <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider block mb-2">Tổng ngân sách</span>
-              <span className="text-2xl font-bold text-[var(--color-on-surface)]">{formatCurrency(totalLimit)}</span>
+              <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-3 opacity-60">Tổng ngân sách</span>
+              <span className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tight">{formatCurrency(totalLimit)}</span>
             </div>
-            <div className="hidden sm:block w-px h-12 bg-on-surface-variant/20"></div>
+            <div className="hidden sm:block w-px h-16 bg-on-surface-variant/20"></div>
             <div className="sm:hidden h-px w-full bg-on-surface-variant/20"></div>
             <div>
-              <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider block mb-2">Đang khả dụng</span>
-              <span className="text-2xl font-bold text-[#65a30d]">{formatCurrency(Math.max(0, totalLimit - totalSpent))}</span>
+              <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-3 opacity-60">Đang khả dụng</span>
+              <span className="text-3xl sm:text-4xl font-black text-[#65a30d] tracking-tight">{formatCurrency(Math.max(0, totalLimit - totalSpent))}</span>
             </div>
           </div>
         </div>
         
-        <div className="relative w-64 h-64 shrink-0 flex items-center justify-center">
-          <svg className="w-full h-full transform -rotate-90 drop-shadow-xl" viewBox="0 0 100 100">
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 shrink-0 flex items-center justify-center group">
+          <svg className="w-full h-full transform -rotate-90 drop-shadow-2xl" viewBox="0 0 100 100">
             <circle 
               cx="50" cy="50" r="40" 
               fill="transparent" 
               stroke="var(--color-surface)" 
-              strokeWidth="12" 
+              strokeWidth="14" 
+              className="opacity-50"
             />
             {totalLimit > 0 && (
               <motion.circle 
                 cx="50" cy="50" r="40" 
                 fill="transparent" 
                 stroke="var(--color-primary)" 
-                strokeWidth="12" 
+                strokeWidth="14" 
                 strokeLinecap="round"
                 strokeDasharray="251.2"
                 initial={{ strokeDashoffset: 251.2 }}
@@ -276,25 +277,25 @@ export default function BudgetClient() {
               />
             )}
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-5xl font-bold text-[var(--color-on-surface)] mb-1">{Math.round(clampedPercentage)}%</span>
-            <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Sử dụng</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center group-hover:scale-110 transition-transform">
+            <span className="text-5xl sm:text-6xl font-black text-[var(--color-on-surface)] mb-1 tracking-tighter">{Math.round(clampedPercentage)}%</span>
+            <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng</span>
           </div>
         </div>
       </div>
 
-      <div className="fixed bottom-32 left-0 right-0 flex justify-center pointer-events-none z-40 lg:absolute lg:bottom-4 lg:z-10">
+      <div className="fixed bottom-32 left-0 right-0 flex justify-center pointer-events-none z-40 lg:absolute lg:bottom-10 lg:z-10">
         <motion.button 
           onClick={openCreateModal}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           aria-label="Thiết lập ngân sách mới"
-          className="neumorphic px-8 py-5 rounded-full flex items-center gap-4 pointer-events-auto shadow-lg cursor-pointer bg-[var(--color-surface)]"
+          className="neumorphic px-10 py-6 rounded-full flex items-center gap-5 pointer-events-auto shadow-2xl cursor-pointer bg-[var(--color-primary)] text-black border border-white/20"
         >
-          <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-surface)] shadow-sm">
-            <Plus size={24} />
+          <div className="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center text-black shadow-inner">
+            <Plus size={28} className="stroke-[3]" />
           </div>
-          <span className="font-bold text-lg text-[var(--color-on-surface)]">Thiết lập ngân sách mới</span>
+          <span className="font-black text-xl uppercase tracking-widest">Thiết lập ngân sách mới</span>
         </motion.button>
       </div>
 

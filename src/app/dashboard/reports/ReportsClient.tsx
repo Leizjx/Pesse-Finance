@@ -123,8 +123,8 @@ export default function ReportsClient() {
     <div className="flex-1 flex flex-col gap-4 sm:gap-6 h-full overflow-y-auto pr-1 sm:pr-2 pb-28 lg:pb-10 relative">
       <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-1 sm:mt-2 mb-2 px-1">
         <div className="flex items-center justify-between w-full xl:w-auto">
-          <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-on-surface)]">Báo cáo chi tiết</h1>
-          <div className="flex xl:hidden items-center gap-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">Báo cáo chi tiết</h1>
+          <div className="flex xl:hidden items-center gap-5">
             <NotificationBell />
             <UserMenu />
           </div>
@@ -134,9 +134,9 @@ export default function ReportsClient() {
           <button 
             onClick={() => setIsDatePickerOpen(true)}
             aria-label="Chọn tháng năm báo cáo"
-            className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full neumorphic text-xs sm:text-sm font-bold text-[var(--color-on-surface)] hover:text-[var(--color-primary)] transition-all cursor-pointer"
+            className="flex items-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full neumorphic text-sm sm:text-base font-black text-[var(--color-on-surface)] hover:text-[var(--color-primary)] transition-all cursor-pointer shadow-md"
           >
-            <Calendar size={18} />
+            <Calendar size={22} className="text-[var(--color-primary)]" />
             {format(selectedDate, "'Tháng' MM, yyyy", { locale: vi })}
           </button>
           
@@ -203,37 +203,37 @@ export default function ReportsClient() {
         </div>
       </header>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 shrink-0 px-1">
-        <div className="neumorphic p-5 sm:p-6 rounded-large flex flex-col justify-between h-36 sm:h-40">
-          <div className="flex justify-between items-start mb-2 sm:mb-4">
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng thu nhập</span>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/10 text-green-600 text-[10px] font-bold">
-              <TrendingUp size={10} /> 8%
+        <div className="neumorphic p-6 sm:p-8 rounded-large flex flex-col justify-between h-40 sm:h-44">
+          <div className="flex justify-between items-start mb-3 sm:mb-6">
+            <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-80">Tổng thu nhập</span>
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/15 text-green-600 text-xs font-black border border-green-500/20">
+              <TrendingUp size={12} /> 8%
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalIncome > 0 ? formatCurrency(currentMonthStats.totalIncome) : '0 ₫'}</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tight">{currentMonthStats.totalIncome > 0 ? formatCurrency(currentMonthStats.totalIncome) : '0 ₫'}</h2>
           </div>
         </div>
         
-        <div className="neumorphic p-5 sm:p-6 rounded-large flex flex-col justify-between h-36 sm:h-40">
-          <div className="flex justify-between items-start mb-2 sm:mb-4">
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Tổng chi tiêu</span>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 text-[10px] font-bold">
-              <TrendingDown size={10} /> 12%
+        <div className="neumorphic p-6 sm:p-8 rounded-large flex flex-col justify-between h-40 sm:h-44">
+          <div className="flex justify-between items-start mb-3 sm:mb-6">
+            <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-80">Tổng chi tiết</span>
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/15 text-red-600 text-xs font-black border border-red-500/20">
+              <TrendingDown size={12} /> 12%
             </div>
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">{currentMonthStats.totalExpenses > 0 ? formatCurrency(currentMonthStats.totalExpenses) : '0 ₫'}</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tight">{currentMonthStats.totalExpenses > 0 ? formatCurrency(currentMonthStats.totalExpenses) : '0 ₫'}</h2>
           </div>
         </div>
  
-        <div className="bg-[var(--color-primary)] p-5 sm:p-6 rounded-large flex flex-col justify-between shadow-sm relative overflow-hidden h-36 sm:h-40 cursor-pointer">
-          <PiggyBank size={80} className="absolute -right-4 -top-4 text-black/10" />
-          <div className="relative z-10">
-            <div className="flex justify-between items-start mb-2 sm:mb-4">
-               <span className="text-[10px] sm:text-xs font-bold text-[var(--color-on-surface)] uppercase tracking-wider block">Tiết kiệm</span>
+        <div className="bg-[var(--color-primary)] p-6 sm:p-8 rounded-large flex flex-col justify-between shadow-xl relative overflow-hidden h-40 sm:h-44 cursor-pointer">
+          <PiggyBank size={100} className="absolute -right-6 -top-6 text-black/10" />
+          <div className="relative z-10 w-full">
+            <div className="flex justify-between items-start mb-3 sm:mb-6">
+               <span className="text-sm font-black text-[var(--color-on-surface)] uppercase tracking-widest block opacity-70">Tiết kiệm</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tight">
               {formatCurrency(Math.max(0, currentMonthStats.totalIncome - currentMonthStats.totalExpenses))}
             </h2>
           </div>
@@ -277,17 +277,17 @@ export default function ReportsClient() {
         <div className="flex flex-col gap-6">
           <div className="neumorphic p-6 rounded-large">
             <h3 className="font-bold text-lg text-[var(--color-on-surface)] mb-6">Danh mục chi tiêu</h3>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               {currentMonthStats.categoryData.length > 0 ? currentMonthStats.categoryData.slice(0, 4).map((cat, idx) => (
                 <div key={idx}>
-                  <div className="flex justify-between items-end text-xs font-bold mb-2">
-                    <div className="flex flex-col">
-                      <span className="text-[var(--color-on-surface)] uppercase">{cat.name}</span>
-                      <span className="text-[var(--color-on-surface-variant)] text-[10px] font-medium">{formatCurrency(cat.amount)}</span>
+                  <div className="flex justify-between items-end text-sm font-black mb-3">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[var(--color-on-surface)] uppercase tracking-tight">{cat.name}</span>
+                      <span className="text-[var(--color-on-surface-variant)] text-xs font-bold opacity-60">{formatCurrency(cat.amount)}</span>
                     </div>
-                    <span className="text-[var(--color-on-surface)]">{cat.percentage}%</span>
+                    <span className="text-[var(--color-on-surface)] text-base">{cat.percentage}%</span>
                   </div>
-                  <div className="h-2 w-full neumorphic-pressed rounded-full overflow-hidden">
+                  <div className="h-3 w-full neumorphic-pressed rounded-full overflow-hidden">
                     <motion.div 
                       suppressHydrationWarning
                       initial={{ width: 0 }}

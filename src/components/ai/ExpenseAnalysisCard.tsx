@@ -84,8 +84,11 @@ export const ExpenseAnalysisCard = () => {
   }
 
   return (
-    <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px]">
-      <h3 className="font-bold text-lg mb-4 text-on-surface">Phân tích Chi tiêu</h3>
+    <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[300px]">
+      <h3 className="font-black text-xl mb-6 text-on-surface flex items-center gap-3">
+        <PieChart size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
+        Phân tích Chi tiêu
+      </h3>
       <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-6 mt-4">
         {chartData.length === 0 ? (
           <div className="text-center text-sm font-medium text-[var(--color-on-surface-variant)] py-10 w-full">
@@ -93,13 +96,13 @@ export const ExpenseAnalysisCard = () => {
           </div>
         ) : (
           <>
-            <div className="w-32 h-32 shrink-0 min-w-[128px] min-h-[128px]">
-              <ResponsiveContainer width="100%" height="100%" minWidth={128} minHeight={128}>
+            <div className="w-40 h-40 shrink-0 min-w-[160px] min-h-[160px]">
+              <ResponsiveContainer width="100%" height="100%" minWidth={160} minHeight={160}>
                 <PieChart>
                   <Pie
                     data={chartData}
-                    innerRadius={40}
-                    outerRadius={60}
+                    innerRadius={50}
+                    outerRadius={75}
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
@@ -110,8 +113,8 @@ export const ExpenseAnalysisCard = () => {
                   </Pie>
                   <Tooltip 
                     formatter={(value: any, name: any, props: any) => [`${value}% - ${props.payload.amount.toLocaleString()} ₫`, name]}
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#F5F5F5' }}
-                    itemStyle={{ color: '#1a1c1c', fontWeight: 'bold' }}
+                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', backgroundColor: '#F5F5F5', padding: '12px' }}
+                    itemStyle={{ color: '#1a1c1c', fontWeight: '900', fontSize: '14px' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -119,11 +122,11 @@ export const ExpenseAnalysisCard = () => {
             <div className="flex flex-col gap-3 flex-1 w-full justify-center">
               {chartData.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full shadow-sm shrink-0" style={{ backgroundColor: item.color }}></div>
-                    <span className="text-sm font-medium text-[var(--color-on-surface-variant)] truncate max-w-[120px]">{item.name}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full shadow-inner shrink-0" style={{ backgroundColor: item.color }}></div>
+                    <span className="text-base font-bold text-[var(--color-on-surface-variant)] truncate max-w-[140px] tracking-tight">{item.name}</span>
                   </div>
-                  <span className="text-sm font-bold text-[var(--color-on-surface)] ml-4">{item.value}%</span>
+                  <span className="text-base font-black text-[var(--color-on-surface)] ml-4">{item.value}%</span>
                 </div>
               ))}
             </div>

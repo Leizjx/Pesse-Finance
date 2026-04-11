@@ -48,15 +48,15 @@ export const UpcomingBillsCard = () => {
   if (user?.plan_type !== 'premium') {
     return (
       <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px] relative overflow-hidden group">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-surface)] neumorphic flex items-center justify-center">
-              <CalendarClock size={16} className="text-[var(--color-on-surface-variant)]" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-surface)] neumorphic flex items-center justify-center">
+              <CalendarClock size={20} className="text-[var(--color-on-surface-variant)]" />
             </div>
-            <h3 className="font-bold text-base text-[var(--color-on-surface)]">Hóa đơn tài chính</h3>
+            <h3 className="font-extrabold text-lg text-[var(--color-on-surface)]">Hóa đơn tài chính</h3>
           </div>
-          <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-600 px-2 py-1 rounded-full flex items-center gap-1 border border-yellow-500/20">
-            <Crown size={10} className="fill-yellow-600" /> Premium
+          <span className="text-xs font-black bg-yellow-500/15 text-yellow-600 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-yellow-500/30 shadow-sm">
+            <Crown size={12} className="fill-yellow-600" /> Premium
           </span>
         </div>
         
@@ -79,9 +79,9 @@ export const UpcomingBillsCard = () => {
           whileHover={{ scale: 1.02, backgroundColor: 'var(--color-primary)' }}
           whileTap={{ scale: 0.98 }}
           onClick={() => router.push('/dashboard/premium')}
-          className="w-full py-3 bg-[var(--color-primary)]/90 text-black font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm cursor-pointer mt-auto transition-colors"
+          className="w-full py-4.5 bg-[var(--color-primary)] text-black font-black text-sm rounded-[1.5rem] flex items-center justify-center gap-3 shadow-lg cursor-pointer mt-auto transition-all"
         >
-          <Crown size={14} className="fill-black" />
+          <Crown size={18} className="fill-black" />
           <span>Nâng cấp ngay</span>
         </motion.button>
       </div>
@@ -90,14 +90,14 @@ export const UpcomingBillsCard = () => {
 
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px]">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="font-bold text-lg text-[var(--color-on-surface)] flex items-center gap-2">
-          <CalendarClock size={20} className="text-[var(--color-primary)]" />
+      <div className="flex items-center justify-between mb-8">
+        <h3 className="font-black text-xl text-[var(--color-on-surface)] flex items-center gap-3">
+          <CalendarClock size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
           Hóa đơn sắp tới
         </h3>
         {upcomingBills.length > 0 && (
-          <span className="text-[10px] font-bold bg-[var(--color-primary)]/20 text-[var(--color-primary)] px-2 py-1 rounded-full uppercase tracking-wider">
-            {upcomingBills.length} hóa đơn
+          <span className="text-xs font-black bg-[var(--color-primary)]/20 text-[var(--color-primary)] px-3 py-1.5 rounded-full uppercase tracking-widest border border-[var(--color-primary)]/30">
+            {upcomingBills.length} MỤC
           </span>
         )}
       </div>
@@ -139,24 +139,24 @@ export const UpcomingBillsCard = () => {
                   key={bill.id}
                   className="p-4 rounded-standard neumorphic-pressed flex items-center justify-between group hover:bg-[var(--color-primary)]/5 transition-all"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-surface)] neumorphic flex items-center justify-center shrink-0">
-                      <CreditCard size={18} className="text-[var(--color-on-surface-variant)]" />
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-surface)] neumorphic flex items-center justify-center shrink-0">
+                      <CreditCard size={22} className="text-[var(--color-on-surface-variant)]" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-[var(--color-on-surface)] truncate max-w-[120px]">
+                      <h4 className="text-base font-black text-[var(--color-on-surface)] truncate max-w-[140px] tracking-tight">
                         {bill.service_name}
                       </h4>
-                      <p className="text-[10px] text-[var(--color-on-surface-variant)] font-medium">
+                      <p className="text-xs text-[var(--color-on-surface-variant)] font-bold uppercase opacity-70">
                         {format(parseISO(bill.next_billing_date!), 'dd MMMM', { locale: vi })}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-[var(--color-on-surface)]">
+                    <p className="text-base font-black text-[var(--color-on-surface)]">
                       {formatCurrency(bill.amount)}
                     </p>
-                    <p className={`text-[10px] uppercase tracking-tighter ${statusColor}`}>
+                    <p className={`text-xs uppercase tracking-tighter mt-1 ${statusColor}`}>
                       {statusText}
                     </p>
                   </div>
@@ -169,9 +169,10 @@ export const UpcomingBillsCard = () => {
 
       <button 
         onClick={() => window.location.href = '/dashboard/subscriptions'}
-        className="mt-4 text-xs font-bold text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] flex items-center gap-1 transition-colors justify-center cursor-pointer"
+        className="mt-6 text-sm font-black text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] flex items-center gap-2 transition-colors justify-center cursor-pointer uppercase tracking-widest"
       >
-        Quản lý hóa đơn <ChevronRight size={14} />
+        <span>Quản lý hóa đơn</span>
+        <ChevronRight size={18} className="stroke-[3]" />
       </button>
     </div>
   );

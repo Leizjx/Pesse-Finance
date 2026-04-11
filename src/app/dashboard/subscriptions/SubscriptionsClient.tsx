@@ -78,10 +78,10 @@ export default function SubscriptionsClient() {
 
   return (
     <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-28 lg:pb-10 relative">
-      <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-2 mb-2">
+      <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 shrink-0 mt-4 sm:mt-6 mb-4 px-1">
         <div className="flex items-center justify-between w-full xl:w-auto">
-          <h1 className="text-2xl font-bold text-[var(--color-on-surface)]">Hóa đơn tài chính</h1>
-          <div className="flex xl:hidden items-center gap-4">
+          <h1 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tighter">Hóa đơn tài chính</h1>
+          <div className="flex xl:hidden items-center gap-5">
             <NotificationBell />
             <UserMenu />
           </div>
@@ -92,9 +92,9 @@ export default function SubscriptionsClient() {
             onClick={handleSync}
             disabled={syncMutation.isPending}
             aria-label="Quét hóa đơn từ Email"
-            className="flex items-center gap-2 px-6 py-2 rounded-full bg-[var(--color-primary)] text-[var(--color-on-surface)] text-sm font-bold shadow-sm hover:scale-105 transition-transform cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-3 px-8 py-3.5 sm:py-4 rounded-full bg-[var(--color-primary)] text-black text-sm sm:text-base font-black shadow-xl hover:scale-105 transition-transform cursor-pointer disabled:opacity-50"
           >
-            <RefreshCcw size={16} className={syncMutation.isPending ? 'animate-spin' : ''} />
+            <RefreshCcw size={20} className={`stroke-[3] ${syncMutation.isPending ? 'animate-spin' : ''}`} />
             {syncMutation.isPending ? 'Đang quét...' : 'Quét hóa đơn từ Email'}
           </button>
           
@@ -106,32 +106,32 @@ export default function SubscriptionsClient() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0">
-        <div className="neumorphic p-8 rounded-large flex flex-col justify-between h-40">
+        <div className="neumorphic p-8 sm:p-10 rounded-large flex flex-col justify-between h-44 sm:h-48 border border-white/5">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Chi phí trung bình tháng</span>
-            <CreditCard size={24} className="text-[var(--color-primary)]/40" />
+            <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Chi phí trung bình tháng</span>
+            <CreditCard size={28} className="text-[var(--color-primary)]/40 stroke-[2.5]" />
           </div>
-          <h2 className="text-4xl font-bold text-[var(--color-on-surface)]">{formatCurrency(totalMonthly)}</h2>
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--color-on-surface)] tracking-tighter">{formatCurrency(totalMonthly)}</h2>
         </div>
         
-        <div className="neumorphic p-8 rounded-large flex flex-col justify-between h-40">
+        <div className="neumorphic p-8 sm:p-10 rounded-large flex flex-col justify-between h-44 sm:h-48 border border-white/5">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">Hóa đơn đang theo dõi</span>
-            <Calendar size={24} className="text-[var(--color-primary)]/40" />
+            <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Đang theo dõi</span>
+            <Calendar size={28} className="text-[var(--color-primary)]/40 stroke-[2.5]" />
           </div>
-          <h2 className="text-4xl font-bold text-[var(--color-on-surface)]">{subscriptions.length} <span className="text-lg font-medium text-[var(--color-on-surface-variant)]">dịch vụ</span></h2>
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--color-on-surface)] tracking-tighter">{subscriptions.length} <span className="text-xl font-bold text-[var(--color-on-surface-variant)] opacity-60">DỊCH VỤ</span></h2>
         </div>
       </div>
 
       <div className="neumorphic p-8 rounded-[2rem] flex-1 mb-10 overflow-hidden flex flex-col">
-        <div className="flex justify-between items-center mb-8 shrink-0">
-          <h3 className="font-bold text-xl text-[var(--color-on-surface)]">Danh sách hóa đơn</h3>
+        <div className="flex justify-between items-center mb-10 shrink-0">
+          <h3 className="font-black text-xl sm:text-2xl text-[var(--color-on-surface)] tracking-tight">Danh sách hóa đơn</h3>
           <button 
             onClick={() => setIsManualModalOpen(true)}
             aria-label="Thêm thủ công"
-            className="text-sm font-bold text-[var(--color-primary)] hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-sm sm:text-base font-black text-[var(--color-primary)] hover:scale-105 transition-transform flex items-center gap-2 cursor-pointer uppercase tracking-widest"
           >
-            <Plus size={16} /> Thêm thủ công
+            <Plus size={20} className="stroke-[3]" /> Thêm thủ công
           </button>
         </div>
         
@@ -155,26 +155,26 @@ export default function SubscriptionsClient() {
                   layout
                   className="neumorphic p-6 rounded-3xl flex flex-col gap-4 border border-transparent hover:border-[var(--color-primary)]/20 transition-all group relative overflow-hidden h-fit"
                 >
-                  <div className="flex items-center gap-4">
-                     <div className="w-14 h-14 rounded-2xl bg-[var(--color-surface)] neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0">
+                  <div className="flex items-center gap-5">
+                     <div className="w-16 h-16 rounded-2xl bg-[var(--color-surface)] neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0 font-black text-2xl shadow-inner border border-white/10">
                         {sub.service_name.toLowerCase().includes('netflix') ? 'N' : 
                          sub.service_name.toLowerCase().includes('spotify') ? 'S' : 
                          sub.service_name.toLowerCase().includes('google') ? 'G' : sub.service_name[0]}
                      </div>
                      <div className="overflow-hidden">
-                        <h4 className="font-bold text-lg text-[var(--color-on-surface)] truncate">{sub.service_name}</h4>
-                        <p className="text-xs font-bold text-[var(--color-on-surface-variant)] uppercase tracking-wider">{sub.billing_cycle === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}</p>
+                        <h4 className="font-black text-xl text-[var(--color-on-surface)] truncate tracking-tight mb-1">{sub.service_name}</h4>
+                        <p className="text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-[0.15em] opacity-60 px-2 py-0.5 rounded-md bg-white/5 w-fit">{sub.billing_cycle === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}</p>
                      </div>
                   </div>
 
-                  <div className="mt-2">
-                     <p className="text-2xl font-bold text-[var(--color-on-surface)]">{formatCurrency(sub.amount)}</p>
-                     <p className="text-xs text-[var(--color-on-surface-variant)] font-medium mt-1">Giao dịch gần nhất: 
-                        <span className="font-medium"> {sub.last_billing_date ? formatDate(sub.last_billing_date) : 'N/A'}</span>
+                  <div className="mt-4">
+                     <p className="text-3xl font-black text-[var(--color-on-surface)] tracking-tighter mb-2">{formatCurrency(sub.amount)}</p>
+                     <p className="text-xs text-[var(--color-on-surface-variant)] font-bold mb-4 opacity-50 uppercase tracking-widest">Giao dịch gần nhất: 
+                        <span className="font-black text-[var(--color-on-surface)] ml-1"> {sub.last_billing_date ? formatDate(sub.last_billing_date) : 'N/A'}</span>
                      </p>
-                     <p className="flex justify-between items-center bg-red-500/10 p-2.5 rounded-lg border border-red-500/20 mt-1">
-                        <span className="font-bold text-red-400">Ngày gia hạn tiếp:</span>
-                        <span className="font-bold text-red-400">{formatDate(sub.next_billing_date)}</span>
+                     <p className="flex justify-between items-center bg-red-500/15 p-4 rounded-2xl border border-red-500/20 shadow-inner">
+                        <span className="font-black text-red-500 text-xs uppercase tracking-tight">Hết hạn tiếp:</span>
+                        <span className="font-black text-red-500 text-lg tracking-tight">{formatDate(sub.next_billing_date)}</span>
                      </p>
                   </div>
                 </motion.div>
