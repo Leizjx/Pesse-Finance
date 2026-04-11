@@ -76,10 +76,10 @@ export default function DataConnectionClient() {
           <div className="w-20 h-20 rounded-full bg-[var(--color-primary)] text-black flex items-center justify-center mb-2 shadow-lg">
             <Lock size={40} />
           </div>
-          <h2 className="text-3xl font-bold text-[var(--color-on-surface)] flex items-center justify-center gap-3">
-            Kết Nối Dữ Liệu <Crown className="text-yellow-500 fill-yellow-500" size={28} />
+          <h2 className="text-2xl lg:text-3xl font-bold lg:font-extrabold text-[var(--color-on-surface)] flex items-center justify-center gap-3">
+            Kết Nối Dữ Liệu <Crown className="text-yellow-500 fill-yellow-500" size={24} />
           </h2>
-          <p className="text-[var(--color-on-surface-variant)] text-lg leading-relaxed">
+          <p className="text-[var(--color-on-surface-variant)] text-base lg:text-lg leading-relaxed">
             Tự động đồng bộ giao dịch từ hàng chục ngân hàng và ví điện tử, bảo mật tối đa với công nghệ mã hoá chuẩn quân đội. Tính năng này chỉ dành cho thành viên <strong>Premium</strong>.
           </p>
           <button
@@ -148,7 +148,7 @@ export default function DataConnectionClient() {
     <div className="flex-1 flex flex-col h-full overflow-y-auto pr-1 sm:pr-2 pb-24 lg:pb-10 relative">
       {/* Mobile Header */}
       <div className="flex xl:hidden items-center justify-between w-full mb-8 mt-1 sm:mt-2 px-1">
-        <h1 className="text-2xl sm:text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">Kết nối dữ liệu</h1>
+        <h1 className="text-2xl font-extrabold text-[var(--color-on-surface)] tracking-tighter">Kết nối dữ liệu</h1>
         <div className="flex items-center gap-5">
           <NotificationBell />
           <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">

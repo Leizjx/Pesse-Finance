@@ -35,7 +35,7 @@ export default function AccountClient() {
     <div className="flex-1 flex flex-col h-full overflow-y-auto pr-2 pb-24 lg:pb-10 relative">
       <header className="flex flex-col md:flex-row md:items-start justify-between shrink-0 mb-10 mt-2 gap-4">
         <div className="flex items-center justify-between md:hidden w-full">
-          <h1 className="text-3xl font-extrabold text-[var(--color-on-surface)] tracking-tight">
+          <h1 className="text-2xl font-extrabold text-[var(--color-on-surface)] tracking-tight">
             Cài đặt <span className="text-[var(--color-primary)]">cá nhân</span>
           </h1>
           <div className="flex items-center gap-2 shrink-0">
@@ -45,10 +45,10 @@ export default function AccountClient() {
         </div>
 
         <div className="hidden md:block">
-          <h1 className="text-4xl font-extrabold text-[var(--color-on-surface)] tracking-tight mb-2">
+          <h1 className="text-2xl lg:text-3xl font-extrabold lg:font-bold text-[var(--color-on-surface)] tracking-tight mb-1">
             Cài đặt <span className="text-[var(--color-primary)]">cá nhân</span>
           </h1>
-          <p className="text-base text-[var(--color-on-surface-variant)] font-medium">
+          <p className="text-sm lg:text-base text-[var(--color-on-surface-variant)] font-semibold lg:font-medium opacity-80">
             Quản lý tài khoản và thiết lập bảo mật hệ thống của bạn.
           </p>
         </div>
@@ -220,10 +220,12 @@ export default function AccountClient() {
         </div>
       </div>
 
-      <footer className="mt-12 flex flex-col items-center gap-4 shrink-0">
-        <div className="flex items-center gap-8 text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest">
+      <footer className="mt-12 flex flex-col items-center gap-3 shrink-0 opacity-60">
+        <div className="flex items-center gap-6 lg:gap-8 text-[9px] lg:text-[10px] font-black lg:font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest whitespace-nowrap">
           <span>Hỗ trợ 24/7</span>
+          <span className="hidden sm:inline">•</span>
           <span>Bảo mật AES-256</span>
+          <span className="hidden sm:inline">•</span>
           <span>Pesse V2.4.0</span>
         </div>
         <p className="text-xs text-[var(--color-on-surface-variant)] font-medium">

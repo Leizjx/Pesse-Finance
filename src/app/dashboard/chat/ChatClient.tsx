@@ -64,10 +64,10 @@ export default function ChatClient() {
           <div className="w-20 h-20 rounded-full bg-[var(--color-primary)] text-black flex items-center justify-center mb-2 shadow-lg">
             <Lock size={40} />
           </div>
-          <h2 className="text-3xl font-bold text-[var(--color-on-surface)] flex items-center justify-center gap-3">
-            Tính Năng Giới Hạn <Crown className="text-yellow-500 fill-yellow-500" size={28} />
+          <h2 className="text-2xl lg:text-3xl font-bold lg:font-extrabold text-[var(--color-on-surface)] flex items-center justify-center gap-3">
+            Tính Năng Giới Hạn <Crown className="text-yellow-500 fill-yellow-500" size={24} />
           </h2>
-          <p className="text-[var(--color-on-surface-variant)] text-lg leading-relaxed">
+          <p className="text-[var(--color-on-surface-variant)] text-base lg:text-lg leading-relaxed">
             Pesse AI Advisor là trợ lý thông minh độc quyền, phân tích sâu dữ liệu thu chi để đưa ra lời khuyên cá nhân hoá. Chỉ dành riêng cho thành viên <strong>Premium</strong>.
           </p>
           <button
@@ -133,9 +133,9 @@ export default function ChatClient() {
     <div className="flex-1 flex flex-col h-full overflow-hidden md:pr-2 pb-0">
       {/* Header */}
       <header className="shrink-0 mb-3 md:mb-6 mt-1 md:mt-2 relative z-10 px-4 md:px-0">
-        <h1 className="text-xl md:text-3xl font-extrabold text-[var(--color-on-surface)] tracking-tight mb-0.5 md:mb-2 flex items-center gap-2 md:gap-3">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">
-             <Bot size={20} className="md:w-6 md:h-6" />
+        <h1 className="text-xl lg:text-2xl font-extrabold lg:font-bold text-[var(--color-on-surface)] tracking-tight mb-0.5 md:mb-1 flex items-center gap-2 md:gap-3">
+          <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl lg:rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">
+             <Bot size={20} className="lg:w-5 lg:h-5" />
           </div>
           Pesse <span className="text-[var(--color-primary)]">AI Advisor</span>
         </h1>
@@ -165,7 +165,7 @@ export default function ChatClient() {
                 )}
               </div>
               <div className={`p-3.5 md:p-4 rounded-2xl md:rounded-3xl ${msg.role === 'user' ? 'bg-[var(--color-surface)] border border-white/10 text-[var(--color-on-surface)] rounded-tr-sm' : 'bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 text-[var(--color-on-surface)] rounded-tl-sm'}`}>
-                <p className="text-sm md:text-[15px] leading-relaxed whitespace-pre-wrap font-medium">
+                <p className="text-sm md:text-[14px] leading-relaxed whitespace-pre-wrap font-medium">
                   {/* Basic markdown bold parser hack for simplicity */}
                   {msg.content.split('**').map((part, i) => i % 2 !== 0 ? <strong key={i} className="text-green-600 dark:text-green-400">{part}</strong> : part)}
                 </p>

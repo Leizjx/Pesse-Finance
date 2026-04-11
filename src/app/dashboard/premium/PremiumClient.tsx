@@ -79,12 +79,12 @@ export default function PremiumClient() {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-3 mb-4"
           >
-            <span className="px-5 py-2 bg-[var(--color-primary)]/20 text-[var(--color-primary)] rounded-full text-sm font-black uppercase tracking-widest border border-[var(--color-primary)]/30">Mở khoá sức mạnh AI</span>
+            <span className="px-5 py-2 bg-[var(--color-primary)]/20 text-[var(--color-primary)] rounded-full text-[10px] lg:text-xs font-black lg:font-extrabold uppercase tracking-widest border border-[var(--color-primary)]/30">Mở khoá sức mạnh AI</span>
           </motion.div>
-          <h1 className="text-6xl font-black text-[var(--color-on-surface)] tracking-tighter mb-5">
+          <h1 className="text-4xl lg:text-5xl font-black lg:font-extrabold text-[var(--color-on-surface)] tracking-tighter mb-4">
              Pesse <span className="text-[var(--color-primary)]">Premium</span>
           </h1>
-          <p className="text-xl text-[var(--color-on-surface-variant)] font-black max-w-2xl leading-relaxed opacity-80">
+          <p className="text-base lg:text-lg text-[var(--color-on-surface-variant)] font-black lg:font-bold max-w-2xl leading-relaxed opacity-80">
             Hệ sinh thái tài chính thông minh giúp bạn kiểm soát dòng tiền và nhận lời khuyên từ trí tuệ nhân tạo.
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function PremiumClient() {
           <motion.div
             key={plan.id}
             whileHover={{ y: -8 }}
-            className={`relative rounded-[48px] p-8 md:p-10 flex flex-col ${plan.className} transition-all duration-300`}
+            className={`relative rounded-[32px] lg:rounded-large p-8 lg:p-10 flex flex-col ${plan.className} transition-all duration-300`}
           >
             {plan.isPopular && (
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-black text-[var(--color-primary)] px-6 py-2 rounded-full text-sm font-black flex items-center gap-2 shadow-2xl">
@@ -127,9 +127,9 @@ export default function PremiumClient() {
             </div>
             
             <div className="mb-12 flex items-end gap-2">
-              <span className="text-7xl font-black tracking-tighter">{plan.price}</span>
-              {plan.price !== 'Miễn phí' && <span className="text-xl font-black mb-3">VND</span>}
-              <span className={`text-lg font-black mb-3 opacity-70`}>
+              <span className="text-5xl lg:text-6xl font-black lg:font-extrabold tracking-tighter">{plan.price}</span>
+              {plan.price !== 'Miễn phí' && <span className="text-base lg:text-lg font-black lg:font-extrabold mb-2 underline decoration-4 decoration-[var(--color-on-surface)]/20">VND</span>}
+              <span className={`text-sm lg:text-base font-black lg:font-bold mb-2 opacity-70`}>
                 {plan.period}
               </span>
             </div>
@@ -138,9 +138,9 @@ export default function PremiumClient() {
               {plan.features.map((feature, idx) => (
                 <div key={idx} className="flex items-center gap-5">
                   <div className={`shrink-0 rounded-full p-2 ${plan.isPopular ? 'bg-black/30 text-black shadow-inner' : 'bg-[var(--color-primary)] text-black shadow-sm'}`}>
-                    <Check size={18} strokeWidth={5} />
+                    <Check size={16} strokeWidth={5} />
                   </div>
-                  <span className={`text-lg font-black tracking-tight ${plan.isPopular ? 'text-black' : 'text-[var(--color-on-surface)]'}`}>
+                  <span className={`text-base lg:text-lg font-black lg:font-extrabold tracking-tight ${plan.isPopular ? 'text-black' : 'text-[var(--color-on-surface)]'}`}>
                     {feature}
                   </span>
                 </div>

@@ -125,11 +125,11 @@ export default function BudgetClient() {
     <div className="flex-1 flex flex-col gap-8 h-full overflow-y-auto pr-2 pb-24 relative">
       <header className="flex items-center justify-between shrink-0 mt-4 sm:mt-6 mb-2 gap-5 px-1">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tighter">Ngân sách</h1>
+          <h1 className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[var(--color-on-surface)] tracking-tighter">Ngân sách</h1>
           {user.plan_type !== 'premium' && (
             <div className="flex items-center gap-2">
-              <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng:</span>
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full neumorphic text-xs font-black text-[var(--color-primary)] uppercase tracking-tight shadow-sm">
+              <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng:</span>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full neumorphic text-[10px] font-black text-[var(--color-primary)] uppercase tracking-tight shadow-sm">
                 {budgets.length}/3 ĐÃ DÙNG
               </div>
             </div>
@@ -190,11 +190,11 @@ export default function BudgetClient() {
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest mb-3 block opacity-60">Hạng mục tháng này</span>
-                    <h2 className="text-3xl font-black text-[var(--color-on-surface)] tracking-tight">{meta.label}</h2>
+                    <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest mb-2 block opacity-60">Hạng mục tháng này</span>
+                    <h2 className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[var(--color-on-surface)] tracking-tight">{meta.label}</h2>
                   </div>
-                  <div className="w-16 h-16 rounded-3xl flex items-center justify-center shadow-inner border border-white/10" style={{ backgroundColor: meta.color + '25', color: meta.color }}>
-                    <Icon size={32} className="stroke-[2.5]" />
+                  <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.5rem] lg:rounded-3xl flex items-center justify-center shadow-inner border border-white/10" style={{ backgroundColor: meta.color + '25', color: meta.color }}>
+                    <Icon size={28} className="stroke-[2.5]" />
                   </div>
                 </div>
                 
@@ -233,34 +233,34 @@ export default function BudgetClient() {
         )}
       </motion.div>
 
-      <div className="neumorphic p-8 sm:p-12 rounded-[2.5rem] flex flex-col lg:flex-row items-center justify-between gap-12 mb-10 border border-white/10 shadow-xl">
+      <div className="neumorphic p-7 lg:p-10 rounded-[2rem] lg:rounded-large flex flex-col lg:flex-row items-center justify-between gap-10 mb-10 border border-white/10 shadow-xl">
         <div className="flex-1 w-full">
-          <h2 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] mb-4 tracking-tighter text-center lg:text-left">Tình hình chi tiêu</h2>
-          <p className="text-[var(--color-on-surface-variant)] leading-relaxed mb-10 max-w-lg text-lg sm:text-xl font-medium opacity-80 text-center lg:text-left">
+          <h2 className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[var(--color-on-surface)] mb-3 tracking-tighter text-center lg:text-left">Tình hình chi tiêu</h2>
+          <p className="text-[var(--color-on-surface-variant)] leading-relaxed mb-8 max-w-lg text-base lg:text-lg font-medium opacity-80 text-center lg:text-left">
             Bạn đã sử dụng <span className="font-black text-[var(--color-on-surface)]">{Math.round(clampedPercentage)}%</span> tổng ngân sách tháng này. Hãy cân nhắc điều chỉnh các khoản chi.
           </p>
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-center lg:justify-start gap-8 sm:gap-14">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-center lg:justify-start gap-6 sm:gap-12">
             <div>
-              <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-3 opacity-60">Tổng ngân sách</span>
-              <span className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tight">{formatCurrency(totalLimit)}</span>
+              <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-2 opacity-60">Tổng ngân sách</span>
+              <span className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[var(--color-on-surface)] tracking-tight">{formatCurrency(totalLimit)}</span>
             </div>
-            <div className="hidden sm:block w-px h-16 bg-on-surface-variant/20"></div>
+            <div className="hidden sm:block w-px h-12 bg-on-surface-variant/20"></div>
             <div className="sm:hidden h-px w-full bg-on-surface-variant/20"></div>
             <div>
-              <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-3 opacity-60">Đang khả dụng</span>
-              <span className="text-3xl sm:text-4xl font-black text-[#65a30d] tracking-tight">{formatCurrency(Math.max(0, totalLimit - totalSpent))}</span>
+              <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-1 opacity-60">Đang khả dụng</span>
+              <span className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[#65a30d] tracking-tight">{formatCurrency(Math.max(0, totalLimit - totalSpent))}</span>
             </div>
           </div>
         </div>
         
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80 shrink-0 flex items-center justify-center group">
-          <svg className="w-full h-full transform -rotate-90 drop-shadow-2xl" viewBox="0 0 100 100">
+        <div className="relative w-56 h-56 lg:w-72 lg:h-72 shrink-0 flex items-center justify-center group">
+          <svg className="w-full h-full transform -rotate-90 drop-shadow-xl" viewBox="0 0 100 100">
             <circle 
               cx="50" cy="50" r="40" 
               fill="transparent" 
               stroke="var(--color-surface)" 
-              strokeWidth="14" 
+              strokeWidth="12" 
               className="opacity-50"
             />
             {totalLimit > 0 && (
@@ -268,7 +268,7 @@ export default function BudgetClient() {
                 cx="50" cy="50" r="40" 
                 fill="transparent" 
                 stroke="var(--color-primary)" 
-                strokeWidth="14" 
+                strokeWidth="12" 
                 strokeLinecap="round"
                 strokeDasharray="251.2"
                 initial={{ strokeDashoffset: 251.2 }}
@@ -278,8 +278,8 @@ export default function BudgetClient() {
             )}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center group-hover:scale-110 transition-transform">
-            <span className="text-5xl sm:text-6xl font-black text-[var(--color-on-surface)] mb-1 tracking-tighter">{Math.round(clampedPercentage)}%</span>
-            <span className="text-xs sm:text-sm font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng</span>
+            <span className="text-4xl lg:text-5xl font-black text-[var(--color-on-surface)] mb-1 tracking-tighter">{Math.round(clampedPercentage)}%</span>
+            <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest opacity-60">Sử dụng</span>
           </div>
         </div>
       </div>
