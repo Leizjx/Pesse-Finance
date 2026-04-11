@@ -46,7 +46,7 @@ const getCategoryName = (category: string) => {
   }
 };
 
-export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }) => {
+export const TransactionList: React.FC<TransactionListProps> = React.memo(({ setActiveTab }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [timeFilter, setTimeFilter] = useState<'Tất cả' | 'Hôm nay' | 'Theo ngày' | 'Theo tháng'>('Tất cả');
   const filterRef = useRef<HTMLDivElement>(null);

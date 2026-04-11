@@ -42,17 +42,25 @@ export function useTransactions() {
     queryKey: queryKeys.transactions(userId ?? ""),
     queryFn: () => fetchTransactions(userId!),
     enabled: !!userId,
-    select: (data) => ({
-      all: data,
-      income: data.filter((t) => t.type === "income"),
-      expenses: data.filter((t) => t.type === "expense"),
-      totalIncome: data
-        .filter((t) => t.type === "income")
-        .reduce((sum, t) => sum + t.amount, 0),
-      totalExpenses: data
-        .filter((t) => t.type === "expense")
-        .reduce((sum, t) => sum + t.amount, 0),
-    }),
+    select: (data) => {
+      return data.reduce((acc, t) => {
+        acc.all.push(t);
+        if (t.type === 'income') {
+          acc.income.push(t);
+          acc.totalIncome += t.amount;
+        } else {
+          acc.expenses.push(t);
+          acc.totalExpenses += t.amount;
+        }
+        return acc;
+      }, {
+        all: [] as typeof data,
+        income: [] as typeof data,
+        expenses: [] as typeof data,
+        totalIncome: 0,
+        totalExpenses: 0
+      });
+    },
   });
 }
 

@@ -10,7 +10,7 @@ interface BudgetCardProps {
   onClick?: () => void;
 }
 
-export const BudgetCard: React.FC<BudgetCardProps> = ({ title, spent, total, icon: Icon, onClick }) => {
+export const BudgetCard: React.FC<BudgetCardProps> = React.memo(({ title, spent, total, icon: Icon, onClick }) => {
   const percentage = Math.min((spent / total) * 100, 100);
   const isOverBudget = spent > total;
 

@@ -8,7 +8,7 @@ interface MainBalanceCardProps {
   setActiveTab: (tab: string) => void;
 }
 
-export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }) => {
+export const MainBalanceCard: React.FC<MainBalanceCardProps> = React.memo(({ setActiveTab }) => {
   const { totalBalance, isLoadingUser } = useAppStore();
   const { data: transactionsData } = useTransactions();
 

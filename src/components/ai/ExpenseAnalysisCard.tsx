@@ -23,7 +23,7 @@ const CATEGORY_META: Record<string, { label: string; color: string }> = {
 
 const COLORS = ['#D4EF3F', '#1a1c1c', '#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6'];
 
-export const ExpenseAnalysisCard = () => {
+export const ExpenseAnalysisCard = React.memo(() => {
   const { data: transactionsData, isLoading } = useTransactions();
 
   const chartData = useMemo(() => {

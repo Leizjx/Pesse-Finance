@@ -10,7 +10,7 @@ import { format, differenceInDays, parseISO, addDays, startOfDay } from 'date-fn
 import { vi } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 
-export const UpcomingBillsCard = () => {
+export const UpcomingBillsCard = React.memo(() => {
   const { user } = useAuth();
   const { data: subscriptions = [], isLoading } = useSubscriptions();
   const router = useRouter();
