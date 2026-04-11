@@ -136,4 +136,4 @@ export const ExpenseAnalysisCard = React.memo(() => {
       </div>
     </div>
   );
-};
+});

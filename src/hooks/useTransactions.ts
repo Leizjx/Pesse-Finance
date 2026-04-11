@@ -43,6 +43,7 @@ export function useTransactions() {
     queryFn: () => fetchTransactions(userId!),
     enabled: !!userId,
     select: (data) => {
+      if (!data) return { all: [], income: [], expenses: [], totalIncome: 0, totalExpenses: 0 };
       return data.reduce((acc, t) => {
         acc.all.push(t);
         if (t.type === 'income') {

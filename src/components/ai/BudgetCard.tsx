@@ -44,4 +44,4 @@ export const BudgetCard: React.FC<BudgetCardProps> = React.memo(({ title, spent,
       </div>
     </motion.div>
   );
-};
+});

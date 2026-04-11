@@ -101,4 +101,4 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = React.memo(({ set
       </div>
     </div>
   );
-};
+});

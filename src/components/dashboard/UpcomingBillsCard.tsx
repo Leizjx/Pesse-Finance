@@ -176,4 +176,4 @@ export const UpcomingBillsCard = React.memo(() => {
       </button>
     </div>
   );
-};
+});

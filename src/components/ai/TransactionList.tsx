@@ -192,4 +192,4 @@ export const TransactionList: React.FC<TransactionListProps> = React.memo(({ set
       </button>
     </div>
   );
-};
+});
