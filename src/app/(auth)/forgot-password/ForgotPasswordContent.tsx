@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Mail, CheckCircle2, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function ForgotPasswordContent() {
@@ -117,9 +117,16 @@ export default function ForgotPasswordContent() {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-5 rounded-full shadow-lg disabled:opacity-70 disabled:cursor-not-allowed text-lg"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-5 rounded-full shadow-lg disabled:opacity-70 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
           >
-            {isSubmitting ? "Đang gửi yêu cầu..." : "Gửi link khôi phục"}
+            {isSubmitting ? (
+              <>
+                <Loader2 size={24} className="animate-spin" />
+                <span>Đang gửi yêu cầu...</span>
+              </>
+            ) : (
+              "Gửi link khôi phục"
+            )}
           </motion.button>
         </form>
 

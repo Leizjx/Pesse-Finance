@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ShieldCheck, Mail, RefreshCw } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Mail, RefreshCw, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function VerifyOtpContent() {
@@ -135,9 +135,16 @@ export default function VerifyOtpContent() {
               disabled={isSubmitting || otp.join("").length !== 8}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-5 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-5 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center gap-3"
             >
-              {isSubmitting ? "Đang xác thực..." : "Xác nhận ngay"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={24} className="animate-spin" />
+                  <span>Đang xác thực...</span>
+                </>
+              ) : (
+                "Xác nhận ngay"
+              )}
             </motion.button>
             
             <div className="flex items-center gap-2">

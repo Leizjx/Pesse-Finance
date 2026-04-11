@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { LoginSchema } from "@/types/database.types";
 import { signInWithSocial } from "@/services/authService";
@@ -134,9 +134,16 @@ export default function LoginPageContent() {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 mb-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 mb-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isSubmitting ? "Đang xử lý..." : "Đăng nhập ngay"}
+            {isSubmitting ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                <span>Đang xử lý...</span>
+              </>
+            ) : (
+              "Đăng nhập ngay"
+            )}
           </motion.button>
         </form>
 

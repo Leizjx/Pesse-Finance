@@ -63,13 +63,39 @@ body {
 
 /* AI Studio CSS Classes */
 .neumorphic {
-  box-shadow: var(--shadow-neumorphic);
+  box-shadow: -8px -8px 16px rgba(255, 255, 255, 0.9), 8px 8px 16px rgba(0, 0, 0, 0.05);
   background-color: var(--color-surface);
 }
 
 .neumorphic-pressed {
-  box-shadow: var(--shadow-neumorphic-pressed);
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.9), inset 4px 4px 8px rgba(0, 0, 0, 0.05);
   background-color: var(--color-surface);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
 }
 
 /* React Day Picker Overrides */

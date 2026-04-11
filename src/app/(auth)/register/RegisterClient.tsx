@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, User, Mail, Lock, RefreshCw, Wallet, Star } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock, RefreshCw, Wallet, Star, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { RegisterSchema } from "@/types/database.types";
 
@@ -169,9 +169,16 @@ export default function RegisterClient() {
               disabled={isSubmitting}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold py-4 rounded-full shadow-sm mt-4 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
             >
-              {isSubmitting ? "Đang tạo tài khoản..." : "Tạo tài khoản"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  <span>Đang tạo tài khoản...</span>
+                </>
+              ) : (
+                "Tạo tài khoản"
+              )}
             </motion.button>
           </form>
 
