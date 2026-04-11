@@ -70,14 +70,14 @@ export default function RegisterClient() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="neumorphic p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] w-full max-w-md flex flex-col items-center relative z-10"
+          className="neumorphic p-6 sm:p-10 rounded-[32px] lg:rounded-large w-full max-w-md flex flex-col items-center relative z-10"
         >
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--color-surface)] rounded-2xl shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.8)] flex items-center justify-center mb-4 sm:mb-6">
             <Wallet size={20} className="text-[var(--color-primary)] sm:w-6 sm:h-6" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center text-[var(--color-on-surface)] tracking-tight">Bắt đầu hành trình mới</h2>
-          <p className="text-[var(--color-on-surface-variant)] font-semibold mb-8 sm:mb-10 text-center text-sm sm:text-base px-2">
+          <h2 className="text-2xl lg:text-3xl font-black lg:font-extrabold mb-2 text-center text-[var(--color-on-surface)] tracking-tight">Bắt đầu hành trình mới</h2>
+          <p className="text-[var(--color-on-surface-variant)] font-semibold lg:font-medium mb-8 sm:mb-10 text-center text-sm sm:text-base px-2 opacity-90">
             Tạo tài khoản Pesse chỉ trong vài giây
           </p>
 
@@ -169,7 +169,7 @@ export default function RegisterClient() {
               disabled={isSubmitting}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-5 rounded-full shadow-xl mt-6 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer text-base"
+              className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black lg:font-extrabold py-5 lg:py-4.5 rounded-full shadow-xl mt-6 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer text-base lg:text-sm"
             >
               {isSubmitting ? (
                 <>

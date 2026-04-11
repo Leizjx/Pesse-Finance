@@ -66,8 +66,8 @@ export default function LoginPageContent() {
           <h1 className="text-2xl sm:text-3xl font-black tracking-tighter text-[var(--color-on-surface)]">Pesse</h1>
         </div>
 
-        <h2 className="text-4xl sm:text-5xl font-black mb-3 text-center text-[var(--color-on-surface)] tracking-tighter leading-none">Chào mừng trở lại</h2>
-        <p className="text-lg sm:text-xl text-[var(--color-on-surface-variant)] font-bold mb-10 sm:mb-14 text-center px-6 leading-relaxed opacity-90">
+        <h2 className="text-3xl lg:text-4xl font-black lg:font-extrabold mb-3 text-center text-[var(--color-on-surface)] tracking-tighter leading-none">Chào mừng trở lại</h2>
+        <p className="text-base lg:text-lg text-[var(--color-on-surface-variant)] font-bold lg:font-semibold mb-10 sm:mb-12 text-center px-6 leading-relaxed opacity-90">
           Đăng nhập để tiếp tục quản lý tài chính
         </p>
 
@@ -134,11 +134,11 @@ export default function LoginPageContent() {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black py-6 rounded-[2.5rem] shadow-2xl mt-8 mb-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-4 text-xl"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-surface)] font-black lg:font-extrabold py-5 lg:py-4.5 rounded-[2.5rem] lg:rounded-large shadow-2xl mt-8 mb-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-4 text-lg lg:text-base"
           >
             {isSubmitting ? (
               <>
-                <Loader2 size={28} className="animate-spin" />
+                <Loader2 size={24} className="animate-spin" />
                 <span>Đang xử lý...</span>
               </>
             ) : (

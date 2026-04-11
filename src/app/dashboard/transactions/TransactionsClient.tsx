@@ -123,7 +123,7 @@ export default function TransactionsClient() {
     <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-28 lg:pb-10 relative">
       <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-2">
         <div className="flex items-center justify-between w-full xl:w-auto px-1 mt-2">
-          <h1 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tighter">Giao dịch</h1>
+          <h1 className="text-2xl lg:text-3xl font-black lg:font-extrabold text-[var(--color-on-surface)] tracking-tighter">Giao dịch</h1>
           <div className="flex xl:hidden items-center gap-5">
             <NotificationBell />
             <UserMenu />
@@ -131,14 +131,14 @@ export default function TransactionsClient() {
         </div>
         
         <div className="flex flex-wrap items-center gap-4 px-1">
-          <div className="flex items-center px-6 py-4 rounded-full neumorphic-pressed w-full md:w-80 flex-1 md:flex-none shadow-inner">
-            <Search size={22} className="text-[var(--color-on-surface-variant)] mr-4 shrink-0 stroke-[2.5]" />
+          <div className="flex items-center px-6 py-3.5 rounded-full neumorphic-pressed w-full md:w-80 flex-1 md:flex-none shadow-inner border border-white/5">
+            <Search size={20} className="text-[var(--color-on-surface-variant)] mr-3 shrink-0 stroke-[2.5] opacity-60" />
             <input 
               type="text" 
               placeholder="Tìm kiếm giao dịch..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none text-base font-bold w-full text-[var(--color-on-surface)] placeholder:text-[var(--color-on-surface-variant)] placeholder:opacity-50"
+              className="bg-transparent border-none outline-none text-sm lg:text-base font-bold w-full text-[var(--color-on-surface)] placeholder:text-[var(--color-on-surface-variant)] placeholder:opacity-50"
             />
           </div>
           
@@ -199,23 +199,23 @@ export default function TransactionsClient() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0 px-1">
-        <div className="neumorphic p-8 rounded-large flex items-center gap-8 border border-white/5 shadow-lg">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#22c55e25', color: '#22c55e' }}>
-            <TrendingUp size={32} className="stroke-[3]" />
+        <div className="neumorphic p-6 lg:p-7 rounded-[2rem] lg:rounded-large flex items-center gap-6 lg:gap-8 border border-white/5 shadow-lg">
+          <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#22c55e25', color: '#22c55e' }}>
+            <TrendingUp size={28} className="stroke-[3]" />
           </div>
           <div>
-            <span className="text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-2 opacity-60">THU NHẬP TỔNG</span>
-            <h2 className="text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">{formatCurrency(transactions.totalIncome)}</h2>
+            <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-1 opacity-60">THU NHẬP TỔNG</span>
+            <h2 className="text-2xl lg:text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">{formatCurrency(transactions.totalIncome)}</h2>
           </div>
         </div>
         
-        <div className="neumorphic p-8 rounded-large flex items-center gap-8 border border-white/5 shadow-lg">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#ef444425', color: '#ef4444' }}>
-            <TrendingDown size={32} className="stroke-[3]" />
+        <div className="neumorphic p-6 lg:p-7 rounded-[2rem] lg:rounded-large flex items-center gap-6 lg:gap-8 border border-white/5 shadow-lg">
+          <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#ef444425', color: '#ef4444' }}>
+            <TrendingDown size={28} className="stroke-[3]" />
           </div>
           <div>
-            <span className="text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-2 opacity-60">CHI TIÊU TỔNG</span>
-            <h2 className="text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">{formatCurrency(transactions.totalExpenses)}</h2>
+            <span className="text-[10px] lg:text-xs font-black text-[var(--color-on-surface-variant)] uppercase tracking-widest block mb-1 opacity-60">CHI TIÊU TỔNG</span>
+            <h2 className="text-2xl lg:text-3xl font-black text-[var(--color-on-surface)] tracking-tighter">{formatCurrency(transactions.totalExpenses)}</h2>
           </div>
         </div>
       </div>

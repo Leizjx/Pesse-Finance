@@ -86,7 +86,7 @@ export const ExpenseAnalysisCard = () => {
 
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[300px]">
-      <h3 className="font-black text-xl mb-6 text-on-surface flex items-center gap-3">
+      <h3 className="font-black lg:font-bold text-xl lg:text-lg mb-6 lg:mb-4 text-on-surface flex items-center gap-3">
         <LucidePieChart size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
         Phân tích Chi tiêu
       </h3>
@@ -125,9 +125,9 @@ export const ExpenseAnalysisCard = () => {
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-4 rounded-full shadow-inner shrink-0" style={{ backgroundColor: item.color }}></div>
-                    <span className="text-base font-bold text-[var(--color-on-surface-variant)] truncate max-w-[140px] tracking-tight">{item.name}</span>
+                    <span className="text-sm lg:text-base font-bold text-[var(--color-on-surface-variant)] truncate max-w-[140px] tracking-tight">{item.name}</span>
                   </div>
-                  <span className="text-base font-black text-[var(--color-on-surface)] ml-4">{item.value}%</span>
+                  <span className="text-sm lg:text-base font-black lg:font-extrabold text-[var(--color-on-surface)] ml-4">{item.value}%</span>
                 </div>
               ))}
             </div>
