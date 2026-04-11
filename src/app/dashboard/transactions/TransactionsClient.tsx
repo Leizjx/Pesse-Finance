@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, Filter, Download, 
   ShoppingBag, Zap, Utensils, Car, 
@@ -122,7 +122,7 @@ export default function TransactionsClient() {
   return (
     <div className="flex-1 flex flex-col gap-6 h-full overflow-y-auto pr-2 pb-28 lg:pb-10 relative">
       <header className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 shrink-0 mt-2">
-        <div className="flex items-center justify-between w-full xl:w-auto px-1 mt-4 sm:mt-6">
+        <div className="flex items-center justify-between w-full xl:w-auto px-1 mt-2">
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--color-on-surface)] tracking-tighter">Giao dịch</h1>
           <div className="flex xl:hidden items-center gap-5">
             <NotificationBell />
@@ -198,7 +198,7 @@ export default function TransactionsClient() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0 px-1 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0 px-1">
         <div className="neumorphic p-8 rounded-large flex items-center gap-8 border border-white/5 shadow-lg">
           <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#22c55e25', color: '#22c55e' }}>
             <TrendingUp size={32} className="stroke-[3]" />
@@ -219,7 +219,6 @@ export default function TransactionsClient() {
           </div>
         </div>
       </div>
-      </div>
 
       <motion.div 
         layout
@@ -232,7 +231,7 @@ export default function TransactionsClient() {
             }
           }
         }}
-        className="flex flex-col gap-8 mt-4"
+        className="flex flex-col gap-8"
       >
         {isLoading ? (
            <div className="text-center text-sm font-medium text-[var(--color-on-surface-variant)] animate-pulse">Đang tải...</div>
