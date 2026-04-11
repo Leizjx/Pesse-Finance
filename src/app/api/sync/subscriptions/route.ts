@@ -118,7 +118,7 @@ export async function POST(req: Request) {
 
       const parsed = parseSubscriptionEmail(subject, bodyData);
       if (parsed) {
-        parsedRecords.push({ ...parsed, _msgId: fullMessage.id });
+        parsedRecords.push({ ...parsed, _msgId: fullMessage.id! });
       }
     }
 
