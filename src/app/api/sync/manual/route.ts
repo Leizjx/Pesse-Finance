@@ -46,6 +46,9 @@ export async function POST(request: Request) {
       mb:  '(mbbank VND) newer_than:7d',
       tpb: '(tpbank VND) newer_than:7d',
       acb: '(acb.com.vn VND) newer_than:7d',
+      vib: '(vib VND) newer_than:7d',
+      ctg: '(vietinbank VND) newer_than:7d',
+      bidv: '(bidv VND) newer_than:7d',
     };
 
     const gmailService = new GmailSyncService({
@@ -113,6 +116,9 @@ export async function POST(request: Request) {
                 mbbank:      'mb',
                 tpbank:      'tpb',
                 'acb.com':   'acb',
+                'vib.com.vn': 'vib',
+                vietinbank: 'ctg',
+                bidv:       'bidv',
               };
               
               const matchedBankId = Object.entries(FROM_BANK_MAP).find(([kw]) => 

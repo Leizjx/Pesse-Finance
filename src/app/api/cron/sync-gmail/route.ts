@@ -29,6 +29,9 @@ const BANK_QUERY_MAP: Record<string, string> = {
   mb:  '(mbbank VND) newer_than:1d',
   tpb: '(tpbank VND) newer_than:1d',
   acb: '(acb.com VND) newer_than:1d',
+  vib: '(vib VND) newer_than:1d',
+  ctg: '(vietinbank VND) newer_than:1d',
+  bidv: '(bidv VND) newer_than:1d',
 };
 
 const FROM_BANK_MAP: Record<string, string> = {
@@ -37,6 +40,9 @@ const FROM_BANK_MAP: Record<string, string> = {
   mbbank:      'mb',
   tpbank:      'tpb',
   'acb.com':   'acb',
+  'vib.com.vn': 'vib',
+  vietinbank: 'ctg',
+  bidv:       'bidv',
 };
 
 export async function GET(request: Request) {
