@@ -62,8 +62,8 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }
         {isLoadingUser ? (
           <div className="h-[48px] w-64 bg-[var(--color-surface)] neumorphic-pressed rounded-xl animate-pulse mb-4"></div>
         ) : (
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[var(--color-on-surface)] mb-4 sm:mb-6 tracking-tighter leading-tight truncate">
-            {totalBalance.toLocaleString('vi-VN')} <span className="text-xl sm:text-2xl font-black opacity-50">VND</span>
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-black lg:font-extrabold text-[var(--color-on-surface)] mb-4 sm:mb-6 tracking-tighter leading-tight truncate">
+            {totalBalance.toLocaleString('vi-VN')} <span className="text-lg lg:text-xl font-black lg:font-bold opacity-50">VND</span>
           </h2>
         )}
 
@@ -83,9 +83,9 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }
           onClick={() => setActiveTab('reports')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] px-8 py-4.5 rounded-[2rem] font-black flex items-center justify-center gap-3 shadow-xl flex-1 cursor-pointer text-base sm:text-lg transition-transform"
+          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] px-6 lg:px-8 py-3.5 lg:py-3 rounded-[2rem] font-black lg:font-extrabold flex items-center justify-center gap-3 shadow-xl flex-1 cursor-pointer text-sm lg:text-base transition-transform"
         >
-          <PieChart size={24} className="stroke-[2.5]" />
+          <PieChart size={20} className="stroke-[2.5]" />
           <span>Xem báo cáo</span>
         </motion.button>
         
@@ -93,9 +93,9 @@ export const MainBalanceCard: React.FC<MainBalanceCardProps> = ({ setActiveTab }
           onClick={() => setActiveTab('transactions')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="neumorphic text-[var(--color-on-surface)] px-8 py-4.5 rounded-[2rem] font-black flex items-center justify-center gap-3 flex-1 cursor-pointer hover:text-[var(--color-primary)] transition-all text-base sm:text-lg"
+          className="neumorphic text-[var(--color-on-surface)] px-6 lg:px-8 py-3.5 lg:py-3 rounded-[2rem] font-black lg:font-extrabold flex items-center justify-center gap-3 flex-1 cursor-pointer hover:text-[var(--color-primary)] transition-all text-sm lg:text-base"
         >
-          <FileText size={24} className="stroke-[2.5]" />
+          <FileText size={20} className="stroke-[2.5]" />
           <span>Giao dịch</span>
         </motion.button>
       </div>

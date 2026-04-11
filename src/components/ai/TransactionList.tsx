@@ -82,7 +82,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col relative">
       <div className="flex justify-between items-center mb-10">
-        <h2 className="font-black text-xl text-[var(--color-on-surface)] tracking-tight">
+        <h2 className="font-black lg:font-extrabold text-lg lg:text-base text-[var(--color-on-surface)] tracking-tight">
           Giao dịch {timeFilter !== 'Tất cả' ? `(${timeFilter})` : 'gần đây'}
         </h2>
         <div className="relative" ref={filterRef}>
@@ -168,16 +168,16 @@ export const TransactionList: React.FC<TransactionListProps> = ({ setActiveTab }
               className="flex items-center justify-between p-4 rounded-standard neumorphic-pressed gap-4 border border-transparent hover:border-[var(--color-primary)]/10 transition-all"
             >
               <div className="flex items-center gap-4 min-w-0 flex-1">
-                <div className="w-12 h-12 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0 shadow-sm">
-                  <IconComponent size={22} className="stroke-[2.5]" />
+                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full neumorphic flex items-center justify-center text-[var(--color-on-surface)] shrink-0 shadow-sm">
+                  <IconComponent size={20} className="stroke-[2.5]" />
                 </div>
                 <div className="overflow-hidden min-w-0">
-                  <h4 className="font-black text-base text-[var(--color-on-surface)] truncate tracking-tight mb-0.5">{displayTitle}</h4>
-                  <p className="text-xs font-bold text-[var(--color-on-surface-variant)] opacity-70 uppercase tracking-widest">{formattedDate}</p>
+                  <h4 className="font-black lg:font-bold text-sm lg:text-[13px] text-[var(--color-on-surface)] truncate tracking-tight mb-0.5">{displayTitle}</h4>
+                  <p className="text-[10px] lg:text-[11px] font-bold text-[var(--color-on-surface-variant)] opacity-70 uppercase tracking-widest">{formattedDate}</p>
                 </div>
               </div>
-              <span className={`font-black text-base whitespace-nowrap shrink-0 ${tx.type === 'income' ? 'text-[var(--color-success)]' : 'text-[var(--color-on-surface)]'}`}>
-                {tx.type === 'income' ? '+' : '-'}{tx.amount.toLocaleString('vi-VN')} <span className="text-[10px] opacity-50 uppercase">VND</span>
+              <span className={`font-black lg:font-extrabold text-sm lg:text-base whitespace-nowrap shrink-0 ${tx.type === 'income' ? 'text-[var(--color-success)]' : 'text-[var(--color-on-surface)]'}`}>
+                {tx.type === 'income' ? '+' : '-'}{tx.amount.toLocaleString('vi-VN')} <span className="text-[9px] lg:text-[10px] opacity-50 uppercase">VND</span>
               </span>
             </motion.div>
           );

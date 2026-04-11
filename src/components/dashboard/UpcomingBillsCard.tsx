@@ -91,8 +91,8 @@ export const UpcomingBillsCard = () => {
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[250px]">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="font-black text-xl text-[var(--color-on-surface)] flex items-center gap-3">
-          <CalendarClock size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
+        <h3 className="font-black lg:font-extrabold text-lg lg:text-base text-[var(--color-on-surface)] flex items-center gap-3">
+          <CalendarClock size={20} className="text-[var(--color-primary)] stroke-[2.5]" />
           Hóa đơn sắp tới
         </h3>
         {upcomingBills.length > 0 && (
@@ -144,7 +144,7 @@ export const UpcomingBillsCard = () => {
                       <CreditCard size={22} className="text-[var(--color-on-surface-variant)]" />
                     </div>
                     <div>
-                      <h4 className="text-base font-black text-[var(--color-on-surface)] truncate max-w-[140px] tracking-tight">
+                      <h4 className="text-sm lg:text-[13px] font-black lg:font-bold text-[var(--color-on-surface)] truncate max-w-[140px] tracking-tight">
                         {bill.service_name}
                       </h4>
                       <p className="text-xs text-[var(--color-on-surface-variant)] font-bold uppercase opacity-70">
@@ -153,7 +153,7 @@ export const UpcomingBillsCard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-base font-black text-[var(--color-on-surface)]">
+                    <p className="text-sm lg:text-base font-black lg:font-extrabold text-[var(--color-on-surface)]">
                       {formatCurrency(bill.amount)}
                     </p>
                     <p className={`text-xs uppercase tracking-tighter mt-1 ${statusColor}`}>

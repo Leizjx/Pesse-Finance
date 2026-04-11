@@ -30,8 +30,8 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({ title, spent, total, ico
       
       <div>
         <div className="flex justify-between items-end mb-3">
-          <span className="font-black text-2xl text-[var(--color-on-surface)]">{spent.toLocaleString('vi-VN')} <span className="text-sm opacity-50">VND</span></span>
-          <span className="text-sm font-bold text-on-surface-variant opacity-70">/ {total.toLocaleString('vi-VN')}</span>
+          <span className="font-black lg:font-extrabold text-xl lg:text-lg text-[var(--color-on-surface)]">{spent.toLocaleString('vi-VN')} <span className="text-[10px] lg:text-xs opacity-50">VND</span></span>
+          <span className="text-xs lg:text-[11px] font-bold text-on-surface-variant opacity-70">/ {total.toLocaleString('vi-VN')}</span>
         </div>
         <div className="h-3 w-full bg-surface rounded-full neumorphic-pressed overflow-hidden">
           <motion.div 
