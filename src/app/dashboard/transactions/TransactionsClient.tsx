@@ -154,7 +154,34 @@ export default function TransactionsClient() {
 
           <motion.button 
             onClick={() => {
-              // ... CSV logic unchanged ...
+              if (user?.plan_type !== 'premium') {
+                setIsPremiumModalOpen(true);
+                return;
+              }
+              if (!transactions.all || transactions.all.length === 0) return;
+              
+              const headers = ["Ngày", "Loại", "Hạng mục", "Số tiền (VND)", "Ghi chú"];
+              const rows = transactions.all.map(tx => {
+                const catKey = (tx.category || '').toLowerCase();
+                const meta = CATEGORY_META[catKey] || { label: 'Khác' };
+                return [
+                  tx.date,
+                  tx.type === 'income' ? 'Thu nhập' : 'Chi tiêu',
+                  meta.label,
+                  tx.amount.toLocaleString('vi-VN'),
+                  (tx.note || '').replace(/,/g, ';') 
+                ].join(',');
+              });
+              
+              const csvContent = "\ufeff" + [headers.join(','), ...rows].join('\n');
+              const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.setAttribute("href", url);
+              link.setAttribute("download", `PesseFinance_GiaoDich_${new Date().toISOString().split('T')[0]}.csv`);
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -171,8 +198,7 @@ export default function TransactionsClient() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0 px-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 shrink-0 px-1 mt-6">
         <div className="neumorphic p-8 rounded-large flex items-center gap-8 border border-white/5 shadow-lg">
           <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-inner" style={{ backgroundColor: '#22c55e25', color: '#22c55e' }}>
             <TrendingUp size={32} className="stroke-[3]" />
