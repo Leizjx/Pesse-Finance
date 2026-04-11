@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useTransactions } from '@/hooks/useTransactions';
+import { PieChart as LucidePieChart } from 'lucide-react';
 
 // Define a map for category names to display labels and colors
 const CATEGORY_META: Record<string, { label: string; color: string }> = {
@@ -86,7 +87,7 @@ export const ExpenseAnalysisCard = () => {
   return (
     <div className="neumorphic p-6 rounded-large h-full flex flex-col min-h-[300px]">
       <h3 className="font-black text-xl mb-6 text-on-surface flex items-center gap-3">
-        <PieChart size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
+        <LucidePieChart size={24} className="text-[var(--color-primary)] stroke-[2.5]" />
         Phân tích Chi tiêu
       </h3>
       <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-6 mt-4">
