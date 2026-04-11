@@ -195,9 +195,13 @@ export default function ReportsClient() {
           >
             <Download size={18} />
           </motion.button>
-          
-          <div className="hidden xl:flex items-center gap-4 ml-2">
-            <NotificationBell />
+        </div>
+        
+        <div className="hidden xl:flex items-center gap-4 ml-2">
+          <NotificationBell />
+          <UserMenu />
+        </div>
+      </header>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 shrink-0 px-1">
         <div className="neumorphic p-5 sm:p-6 rounded-large flex flex-col justify-between h-36 sm:h-40">
           <div className="flex justify-between items-start mb-2 sm:mb-4">
@@ -231,11 +235,6 @@ export default function ReportsClient() {
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-on-surface)]">
               {formatCurrency(Math.max(0, currentMonthStats.totalIncome - currentMonthStats.totalExpenses))}
-            </h2>
-          </div>
-        </div>
-      </div>
-nthStats.totalExpenses))}
             </h2>
           </div>
         </div>

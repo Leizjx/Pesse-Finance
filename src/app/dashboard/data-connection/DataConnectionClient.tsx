@@ -26,14 +26,14 @@ const banks = [
 
 export default function DataConnectionClient() {
   const { user, isLoading: isLoadingUser } = useAuth();
-  const router = useRouter(); 
+  const router = useRouter();
   const { data: connectedEmails, isLoading, deleteConnection, updateBanks } = useDataConnections();
 
   const [bankStates, setBankStates] = useState(banks);
   const [togglingBankId, setTogglingBankId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
-  
+
   const [initialProvider, setInitialProvider] = useState('gmail');
   const [initialName, setInitialName] = useState('');
   const [initialSelectedBanks, setInitialSelectedBanks] = useState<string[]>([]);
@@ -54,9 +54,9 @@ export default function DataConnectionClient() {
   if (isLoadingUser || !user) {
     return (
       <div className="flex-1 flex flex-col gap-6 h-full p-4 animate-pulse pt-8 pr-4">
-         <div className="h-20 bg-black/10 rounded-full w-full"></div>
-         <div className="h-48 bg-black/10 rounded-[2rem] w-full mt-6"></div>
-         <div className="h-64 bg-black/10 rounded-[2rem] w-full mt-6"></div>
+        <div className="h-20 bg-black/10 rounded-full w-full"></div>
+        <div className="h-48 bg-black/10 rounded-[2rem] w-full mt-6"></div>
+        <div className="h-64 bg-black/10 rounded-[2rem] w-full mt-6"></div>
       </div>
     );
   }
@@ -65,10 +65,10 @@ export default function DataConnectionClient() {
   if (user.plan_type !== 'premium') {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 h-full min-h-[500px]">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="neumorphic p-8 md:p-12 rounded-[2rem] max-w-xl text-center flex flex-col items-center gap-6"
+          className="neumorphic p-6 sm:p-8 md:p-12 rounded-[2rem] max-w-xl text-center flex flex-col items-center gap-6 mx-1"
         >
           <div className="w-20 h-20 rounded-full bg-[var(--color-primary)] text-black flex items-center justify-center mb-2 shadow-lg">
             <Lock size={40} />
@@ -133,7 +133,7 @@ export default function DataConnectionClient() {
       }
     }
   };
-  
+
   const handleDisconnect = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (confirm('Bạn có chắc chắn muốn ngắt kết nối email này?')) {
@@ -142,10 +142,10 @@ export default function DataConnectionClient() {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-y-auto pr-2 pb-24 lg:pb-10 relative">
+    <div className="flex-1 flex flex-col h-full overflow-y-auto pr-1 sm:pr-2 pb-24 lg:pb-10 relative">
       {/* Mobile Header */}
-      <div className="flex xl:hidden items-center justify-between w-full mb-6 mt-2">
-        <h1 className="text-2xl font-bold text-[var(--color-on-surface)]">Kết nối dữ liệu</h1>
+      <div className="flex xl:hidden items-center justify-between w-full mb-6 mt-1 sm:mt-2 px-1">
+        <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-on-surface)]">Kết nối dữ liệu</h1>
         <div className="flex items-center gap-4">
           <NotificationBell />
           <div className="w-10 h-10 rounded-full neumorphic flex items-center justify-center overflow-hidden border-2 border-[var(--color-surface)] shrink-0">
@@ -187,7 +187,7 @@ export default function DataConnectionClient() {
                 connectedEmails?.map((conn) => {
                   const isGmail = conn.provider === 'gmail';
                   return (
-                    <div key={conn.id} onClick={() => openEditModal(conn)} className="neumorphic p-6 rounded-large flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-black/5 cursor-pointer transition-colors relative group">
+                    <div key={conn.id} onClick={() => openEditModal(conn)} className="neumorphic p-5 sm:p-6 rounded-large flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-black/5 cursor-pointer transition-colors relative group mx-1">
                       <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isGmail ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'} shadow-inner shrink-0`}>
                           <Mail size={20} />
@@ -197,14 +197,14 @@ export default function DataConnectionClient() {
                             {conn.nickname || conn.email_address}
                           </h3>
                           <p className="text-xs text-[var(--color-on-surface-variant)] mt-1">
-                            {conn.email_address} 
-                            {conn.sync_status === 'syncing' ? ' • Đang đồng bộ...' : 
-                             conn.last_sync_at ? ` • Đồng bộ ${formatDistanceToNow(new Date(conn.last_sync_at), { addSuffix: true, locale: vi })}` : ''}
+                            {conn.email_address}
+                            {conn.sync_status === 'syncing' ? ' • Đang đồng bộ...' :
+                              conn.last_sync_at ? ` • Đồng bộ ${formatDistanceToNow(new Date(conn.last_sync_at), { addSuffix: true, locale: vi })}` : ''}
                           </p>
                         </div>
                       </div>
-                      <button 
-                        onClick={(e) => handleDisconnect(e, conn.id)} 
+                      <button
+                        onClick={(e) => handleDisconnect(e, conn.id)}
                         className="text-sm font-medium text-red-500 hover:underline self-start sm:self-auto cursor-pointer"
                       >
                         Ngắt kết nối
@@ -224,22 +224,21 @@ export default function DataConnectionClient() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {bankStates.map((bank) => (
-                <div key={bank.id} className="neumorphic p-8 rounded-large flex flex-col items-center justify-center gap-6">
+                <div key={bank.id} className="neumorphic p-6 sm:p-8 rounded-large flex flex-col items-center justify-center gap-6 mx-1">
                   <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${bank.bg} ${bank.color} shadow-inner font-extrabold text-xl`}>
                     {bank.logo}
                   </div>
                   <h3 className="font-bold text-[var(--color-on-surface)] text-lg">{bank.name}</h3>
-                  
+
                   {/* Toggle Switch với loading state */}
                   <div className="flex flex-col items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => toggleBank(bank.id)}
                       disabled={togglingBankId === bank.id}
-                      className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors duration-300 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed ${
-                        bank.active ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-surface)] neumorphic-pressed'
-                      }`}
+                      className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors duration-300 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed ${bank.active ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-surface)] neumorphic-pressed'
+                        }`}
                     >
-                      <motion.div 
+                      <motion.div
                         layout
                         className="w-6 h-6 bg-white rounded-full shadow-sm flex items-center justify-center"
                         animate={{ x: bank.active ? 24 : 0 }}
@@ -253,9 +252,8 @@ export default function DataConnectionClient() {
                         Đang lưu...
                       </span>
                     ) : (
-                      <span className={`text-xs font-semibold ${
-                        bank.active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)]'
-                      }`}>
+                      <span className={`text-xs font-semibold ${bank.active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)]'
+                        }`}>
                         {bank.active ? 'Đang quét' : 'Tắt'}
                       </span>
                     )}
@@ -266,10 +264,10 @@ export default function DataConnectionClient() {
           </section>
         </div>
 
-        {/* Right Column: Sidebar */}
+
         <div className="w-full xl:w-80 flex flex-col gap-6 shrink-0">
           {/* Security Card */}
-          <div className="neumorphic p-8 rounded-[32px] flex flex-col gap-6">
+          <div className="neumorphic p-6 sm:p-8 rounded-[32px] flex flex-col gap-6 mx-1">
             <div className="w-14 h-14 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-surface)] shadow-md">
               <Shield size={24} />
             </div>
@@ -302,17 +300,17 @@ export default function DataConnectionClient() {
 
       {/* Floating Add Button */}
       <div className="fixed bottom-32 right-4 xl:bottom-10 xl:right-10 z-40">
-        <motion.button 
+        <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={openAddModal}
-          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold px-8 py-4 rounded-full shadow-lg flex items-center gap-2 hover:shadow-xl transition-shadow cursor-pointer"
+          className="bg-[var(--color-primary)] text-[var(--color-on-surface)] font-bold px-6 sm:px-8 py-3.5 sm:py-4 rounded-full shadow-lg flex items-center gap-2 hover:shadow-xl transition-shadow cursor-pointer text-sm sm:text-base"
         >
           <Plus size={20} />
           Thêm nguồn dữ liệu mới
         </motion.button>
       </div>
-      <DataConnectionModal 
+      <DataConnectionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         banks={banks}
